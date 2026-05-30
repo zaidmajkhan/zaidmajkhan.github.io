@@ -1,384 +1,898 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zaid Khan | Engineering + Business</title>
-
-    <!-- Modern serif -->
+    <title>Zaid Khan</title>
+    <meta name="description" content="Engineering student, founder, and systems thinker. Building AI automation for small businesses. Long game: healthcare systems." />
+    <meta name="theme-color" content="#2A2825" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-
   <body>
-    <!-- Header -->
-    <header class="site-header">
-      <div class="container header-inner">
-        <div class="logo">Zaid Khan</div>
 
-        <nav class="nav">
+    <div class="page-mesh" aria-hidden="true"></div>
+    <div class="page-grain" aria-hidden="true"></div>
+    <canvas id="bgCanvas"></canvas>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- ── Header ── -->
+    <header class="site-header" id="siteHeader">
+      <div class="container header-inner">
+        <a class="logo" href="#hero">ZK</a>
+        <nav class="nav" id="nav">
           <a href="#about">About</a>
-          <a href="#focus">Focus</a>
-          <a href="#journey">Journey</a>
-          <a href="#projects">Projects</a>
-          <a href="#skills">Skills</a>
-          <a href="#values">Values</a>
           <a href="#experience">Experience</a>
-          <a href="#certifications">Certifications</a>
+          <a href="#services">Services</a>
+          <a href="#projects">Projects</a>
+          <a href="#credentials">Credentials</a>
           <a href="#contact">Contact</a>
         </nav>
+        <a href="#contact" class="header-cta">Let's work together</a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </header>
 
-    <!-- Hero -->
-    <section class="hero reveal">
-      <div class="container hero-inner">
-        <div>
-          <p class="kicker">Student • Builder • Future Founder</p>
-          <h1>Engineering + Business, focused on real-world health impact.</h1>
-          <p class="muted">
-            I’m an Electrical Engineering student at Texas A&amp;M (Engineering Academy pathway),
-            combining engineering fundamentals with healthcare experience and a business-building mindset.
-            My long-term goal is to create technologies that improve health outcomes and expand independence
-            for people with disabilities.
-          </p>
+    <!-- ── Mobile Nav ── -->
+    <div class="mobile-nav" id="mobileNav">
+      <div class="container">
+        <a href="#contact" class="mobile-cta">Let's work together</a>
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#credentials">Credentials</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
 
-          <div class="hero-buttons">
-            <a class="btn primary" href="#projects">See my work</a>
-            <a class="btn" href="#contact">Contact</a>
+    <main>
+
+      <!-- ── HERO ── -->
+      <section class="section hero" id="hero">
+        <div class="container">
+
+          <div class="hero-top">
+            <div class="hero-status">
+              <span class="status-dot"></span>
+              Available for internships &amp; client work
+            </div>
+            <div class="hero-location">McKinney, TX &nbsp;·&nbsp; Texas A&amp;M Engineering Academy</div>
+          </div>
+
+          <h1 class="hero-name">
+            <div class="clip-wrap"><span class="clip-inner">Zaid</span></div>
+            <div class="clip-wrap"><span class="clip-inner">Khan</span></div>
+          </h1>
+
+          <div class="hero-rule"></div>
+
+          <div class="hero-bottom">
+            <div class="hero-bottom-left">
+              <p class="hero-tagline">Engineering Student. Founder. Systems Thinker.</p>
+              <div class="hero-stat-row">
+                <div class="hero-stat">
+                  <span class="hero-stat-val">4.0</span>
+                  <span class="hero-stat-label">GPA</span>
+                </div>
+                <div class="hero-stat">
+                  <span class="hero-stat-val">Top 6%</span>
+                  <span class="hero-stat-label">Wharton</span>
+                </div>
+                <div class="hero-stat">
+                  <span class="hero-stat-val">ISE</span>
+                  <span class="hero-stat-label">Target</span>
+                </div>
+              </div>
+              <p class="hero-desc">
+                Freshman at Texas A&amp;M Engineering Academy, targeting Industrial &amp;
+                Systems Engineering. Building AI automation for small businesses through
+                Aevix. Long game: healthcare systems.
+              </p>
+              <div class="hero-actions">
+                <a href="#services" class="btn primary">View Services</a>
+                <a href="#contact" class="btn ghost">Get in Touch</a>
+              </div>
+            </div>
+
+            <div class="hero-bottom-right">
+              <div class="hero-cards">
+                <div class="hero-card">
+                  <div class="hero-card-label">Currently building</div>
+                  <div class="hero-card-val">AI Automation Agency</div>
+                  <div class="hero-card-sub">Make.com + Claude API</div>
+                </div>
+                <div class="hero-card alt">
+                  <div class="hero-card-label">Long game</div>
+                  <div class="hero-card-val">Healthcare Systems</div>
+                  <div class="hero-card-sub">ISE + Entrepreneurship</div>
+                </div>
+                <div class="hero-card">
+                  <div class="hero-card-label">Next milestone</div>
+                  <div class="hero-card-val">Texas A&amp;M College Station</div>
+                  <div class="hero-card-sub">Transfer Fall 2026</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-scroll-hint" aria-hidden="true">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── FOCUS STRIP ── -->
+      <div class="focus-strip" aria-label="Current focus">
+        <div class="container focus-strip-inner">
+          <div class="focus-item">
+            <span class="focus-label">Studying</span>
+            <span class="focus-val">Industrial &amp; Systems Engineering</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-label">Building</span>
+            <span class="focus-val">Aevix — AI automation agency</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-label">Background</span>
+            <span class="focus-val">Licensed CPhT · healthcare ops</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-label">Target</span>
+            <span class="focus-val">TAMU College Station · Fall 2026</span>
           </div>
         </div>
-
-        <aside class="hero-card">
-          <p class="small-label">Currently</p>
-          <ul>
-            <li>Engineering Academy → Texas A&amp;M</li>
-            <li>Electrical Engineering direction</li>
-            <li>Healthcare operations experience</li>
-            <li>Business-minded problem solver</li>
-          </ul>
-          <p class="muted small" style="margin-top: 12px">
-            I’m building skills that translate into real systems, real products, and real impact.
-          </p>
-        </aside>
       </div>
-    </section>
 
-    <!-- About -->
-    <section id="about" class="section reveal is-hidden">
-      <div class="container">
-        <p class="kicker">Mission</p>
-        <h2>Dedicated to Human Health + Technology</h2>
-        <p class="muted">
-          I’m passionate about building engineering solutions that improve health outcomes and support
-          people with disabilities. I care about real systems: what works under pressure, what scales,
-          and what people can actually use.
-        </p>
-        <p class="muted">
-          I’m also intentional about the business side—because the best idea in the world doesn’t help
-          anyone if it never becomes accessible.
-        </p>
-      </div>
-    </section>
+      <!-- ── ABOUT ── -->
+      <section class="section" id="about">
+        <div class="container">
 
-    <!-- Focus -->
-    <section id="focus" class="section alt reveal is-hidden">
-      <div class="container">
-        <p class="kicker">Focus</p>
-        <h2>What I’m Building Toward</h2>
+          <div class="section-intro">
+            <span class="section-label">01 — About</span>
+            <div class="section-rule"></div>
+          </div>
 
-        <div class="grid">
-          <article class="card">
-            <h3>Electrical + Systems</h3>
-            <p>Circuits, computing, and systems thinking—built to solve real constraints.</p>
-            <span class="chip chip-blue">Engineering</span>
-          </article>
+          <div class="about-body">
+            <div class="about-left">
+              <blockquote class="about-quote">
+                <div class="clip-wrap"><span class="clip-inner">"The system isn't broken.</span></div>
+                <div class="clip-wrap"><span class="clip-inner">It's just not</span></div>
+                <div class="clip-wrap"><span class="clip-inner">engineered yet."</span></div>
+              </blockquote>
+              <div class="about-stack">
+                <span class="stack-item">Industrial &amp; Systems Eng.</span>
+                <span class="stack-item">AI Automation</span>
+                <span class="stack-item">Healthcare Systems</span>
+              </div>
 
-          <article class="card">
-            <h3>Healthcare Accuracy</h3>
-            <p>Patient safety, precision, and speed under pressure—because details matter.</p>
-            <span class="chip chip-green">Healthcare</span>
-          </article>
+              <div class="about-currently">
+                <span class="about-currently-label">Currently</span>
+                <div class="about-currently-item">
+                  <span class="ac-key">Building</span>
+                  <span class="ac-val">Aevix — AI automation workflows</span>
+                </div>
+                <div class="about-currently-item">
+                  <span class="ac-key">Studying</span>
+                  <span class="ac-val">Engineering fundamentals at TAMEA</span>
+                </div>
+                <div class="about-currently-item">
+                  <span class="ac-key">Stack</span>
+                  <span class="ac-val">Make.com · Claude API · n8n</span>
+                </div>
+                <div class="about-currently-item">
+                  <span class="ac-key">Based in</span>
+                  <span class="ac-val">McKinney, TX</span>
+                </div>
+              </div>
+            </div>
 
-          <article class="card">
-            <h3>Business Mindset</h3>
-            <p>Turning technical solutions into real products people can access and trust.</p>
-            <span class="chip chip-purple">Business</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Journey -->
-    <section id="journey" class="section reveal is-hidden">
-      <div class="container">
-        <p class="kicker">Journey</p>
-        <h2>My Path So Far</h2>
-
-        <div class="timeline">
-          <div class="t-item">
-            <div class="t-dot"></div>
-            <div class="t-body">
-              <h3>Engineering Academy → Texas A&amp;M</h3>
-              <p class="muted">
-                Building the fundamentals while staying focused on practical, real-world impact.
+            <div class="about-right">
+              <h2 class="reveal-up">About</h2>
+              <p class="reveal-up">
+                I grew up watching my family navigate a healthcare system that felt designed
+                to lose people in the cracks. Complex processes, poor information flow, broken
+                hand-offs. An engineer looks at that and sees fixable problems.
+              </p>
+              <p class="reveal-up">
+                I'm studying Industrial and Systems Engineering at Texas A&amp;M because ISE is
+                specifically about making complex systems work — reducing waste, improving flow,
+                designing processes that scale. That's what healthcare needs.
+              </p>
+              <p class="reveal-up">
+                In the meantime, I apply those same principles to small businesses through AI
+                automation. Every client is practice for thinking in systems. Every process I
+                redesign teaches me something about how things actually break down.
+              </p>
+              <p class="about-mission reveal-up">
+                Mission: build a healthcare systems company that actually moves the needle.
               </p>
             </div>
           </div>
 
-          <div class="t-item">
-            <div class="t-dot"></div>
-            <div class="t-body">
-              <h3>Healthcare Experience (Pharmacy)</h3>
-              <p class="muted">
-                Learning what high-stakes systems look like when real people depend on them.
-              </p>
+          <div class="about-stats reveal-up">
+            <div class="astat">
+              <span class="astat-val">4.0</span>
+              <span class="astat-label">GPA</span>
+            </div>
+            <div class="astat">
+              <span class="astat-val">Top 6%</span>
+              <span class="astat-label">Wharton Global</span>
+            </div>
+            <div class="astat">
+              <span class="astat-val">CPhT</span>
+              <span class="astat-label">Licensed</span>
+            </div>
+            <div class="astat">
+              <span class="astat-val">ISE</span>
+              <span class="astat-label">→ TAMU</span>
             </div>
           </div>
 
-          <div class="t-item">
-            <div class="t-dot"></div>
-            <div class="t-body">
-              <h3>Founder Direction</h3>
-              <p class="muted">
-                Combining engineering + business to build assistive/health technologies that scale.
-              </p>
+          <div class="skills-block reveal-up">
+            <div class="skills-head">
+              <span class="skills-title">Tools &amp; stack</span>
+              <span class="skills-note">What I build with day to day</span>
+            </div>
+            <div class="skills-grid">
+              <span class="skill-chip">Make.com</span>
+              <span class="skill-chip">Claude API</span>
+              <span class="skill-chip">n8n</span>
+              <span class="skill-chip">Airtable</span>
+              <span class="skill-chip">Google Workspace</span>
+              <span class="skill-chip">Twilio / SMS</span>
+              <span class="skill-chip">Process mapping</span>
             </div>
           </div>
+
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Projects -->
-    <section id="projects" class="section alt reveal is-hidden">
-      <div class="container">
-        <p class="kicker">Work</p>
-        <h2>Projects & Involvement</h2>
-        <p class="muted">
-          A few areas where I’ve built responsibility, systems thinking, and real-world execution.
-        </p>
+      <!-- ── EXPERIENCE ── -->
+      <section class="section alt" id="experience">
+        <div class="container">
 
-        <div class="grid">
-          <article class="card">
-            <h3>Pharmacy Workflow & Accuracy</h3>
-            <p>
-              Supported high-volume prescription operations, prioritizing safety, precision, and patient
-              care in a fast-paced environment.
+          <div class="section-intro">
+            <span class="section-label">02 — Experience</span>
+            <div class="section-rule"></div>
+          </div>
+
+          <div class="experience-header">
+            <h2 class="experience-heading reveal-up">Where I've been building</h2>
+            <p class="experience-sub reveal-up">
+              Engineering school, licensed pharmacy work, and client automation — each
+              teaches me how real systems break down and how to fix them.
             </p>
-            <span class="chip chip-green">Healthcare Ops</span>
-          </article>
+          </div>
 
-          <article class="card">
-            <h3>Engineering Academy Coursework</h3>
-            <p>
-              Applying engineering fundamentals with a focus on electrical systems, computing, and strong
-              technical problem-solving habits.
-            </p>
-            <span class="chip chip-blue">Engineering</span>
-          </article>
+          <div class="timeline">
+            <article class="timeline-item reveal-up">
+              <div class="timeline-meta">
+                <span class="timeline-date">2025 — Present</span>
+                <span class="timeline-type">Education</span>
+              </div>
+              <div>
+                <h3>Texas A&amp;M Engineering Academy at Collin College</h3>
+                <p>
+                  Freshman engineering coursework with a 4.0 GPA. Targeting
+                  Industrial &amp; Systems Engineering at College Station — building the
+                  academic record and project work to back it up.
+                </p>
+              </div>
+            </article>
 
-          <article class="card">
-            <h3>Operations Leadership</h3>
-            <p>
-              Coordinated logistics and transitions for 200+ students weekly, supporting instructors and
-              smooth program flow.
-            </p>
-            <span class="chip chip-purple">Leadership</span>
-          </article>
+            <article class="timeline-item reveal-up">
+              <div class="timeline-meta">
+                <span class="timeline-date">2025 — Present</span>
+                <span class="timeline-type">Founder</span>
+              </div>
+              <div>
+                <h3>Aevix — AI Automation Agency</h3>
+                <p>
+                  Building Make.com + Claude workflows for small businesses: lead follow-up,
+                  appointment reminders, and on-site chat assistants. Every client engagement
+                  is practice in mapping processes and removing manual hand-offs.
+                </p>
+              </div>
+            </article>
 
-          <article class="card">
-            <h3>Investment Club (Founding)</h3>
-            <p>
-              Built a foundation for collaborative learning around markets, decision-making, and disciplined
-              long-term thinking.
-            </p>
-            <span class="chip chip-blue">Business</span>
-          </article>
+            <article class="timeline-item reveal-up">
+              <div class="timeline-meta">
+                <span class="timeline-date">2024 — 2025</span>
+                <span class="timeline-type">Healthcare</span>
+              </div>
+              <div>
+                <h3>Certified Pharmacy Technician (CPhT)</h3>
+                <p>
+                  State-licensed technician work — front-line view of prescription workflows,
+                  insurance friction, and patient communication gaps. Passed the PTCB exam
+                  independently while still in high school.
+                </p>
+              </div>
+            </article>
 
-          <article class="card">
-            <h3>Assistive Tech Direction</h3>
-            <p>
-              Exploring how electrical + software systems can create scalable solutions that improve independence
-              for people with disabilities.
-            </p>
-            <span class="chip chip-green">Impact</span>
-          </article>
+            <article class="timeline-item reveal-up">
+              <div class="timeline-meta">
+                <span class="timeline-date">2023</span>
+                <span class="timeline-type">Competition</span>
+              </div>
+              <div>
+                <h3>Wharton Global High School Investment Competition</h3>
+                <p>
+                  Top 6% globally (~4,000 teams, 100+ countries). Portfolio strategy,
+                  risk analysis, and presenting a coherent investment thesis under pressure.
+                </p>
+              </div>
+            </article>
+          </div>
 
-          <article class="card">
-            <h3>Student Development</h3>
-            <p>
-              Combining engineering training with business fundamentals to build toward launching a real product-driven company.
+          <div class="exp-thread reveal-up">
+            <span class="exp-thread-label">Common thread</span>
+            <p class="exp-thread-text">
+              Engineering school, licensed clinical work, global competition, client automation — every
+              role is practice in understanding how real systems behave under constraint. That's the
+              core skill ISE trains for, and the lens I bring to everything.
             </p>
-            <span class="chip chip-purple">Founder Path</span>
-          </article>
+          </div>
+
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Skills -->
-    <section id="skills" class="section reveal is-hidden">
-      <div class="container">
-        <p class="kicker">Skills</p>
-        <h2>Skills I’m Developing</h2>
+      <!-- ── SERVICES ── -->
+      <section class="section alt" id="services">
+        <div class="container">
 
-        <div class="pill-row">
-          <span class="pill">Problem Solving</span>
-          <span class="pill">Systems Thinking</span>
-          <span class="pill">Customer/Patient Focus</span>
-          <span class="pill">Operations &amp; Logistics</span>
-          <span class="pill">Communication</span>
-          <span class="pill">Leadership</span>
-          <span class="pill">Business Fundamentals</span>
+          <div class="section-intro">
+            <span class="section-label">03 — Services</span>
+            <div class="section-rule"></div>
+          </div>
+
+          <div class="services-header">
+            <h2 class="services-heading">
+              <div class="clip-wrap"><span class="clip-inner">AI</span></div>
+              <div class="clip-wrap"><span class="clip-inner">Automation</span></div>
+            </h2>
+            <div class="services-right reveal-up">
+              <p class="services-sub">
+                I build AI systems that replace manual, repetitive work in small business
+                operations. Faster follow-up, fewer no-shows, always-on support.
+              </p>
+              <a href="#contact" class="btn primary">Start a Project</a>
+              <div class="services-stack-note">// Make.com + Claude API</div>
+            </div>
+          </div>
+
+          <div class="service-list">
+
+            <div class="service-item reveal-up">
+              <div class="service-num">01</div>
+              <div class="service-content">
+                <div class="service-head">
+                  <h3>AI Lead Follow-Up</h3>
+                  <span class="service-tag">Lead conversion</span>
+                </div>
+                <p>
+                  Convert missed calls and form fills into booked appointments automatically.
+                  Personalized outreach sent within minutes of a new inquiry — no manual work
+                  required. Most businesses see response time drop to under 3 minutes.
+                </p>
+              </div>
+            </div>
+
+            <div class="service-item reveal-up">
+              <div class="service-num">02</div>
+              <div class="service-content">
+                <div class="service-head">
+                  <h3>Appointment Reminders</h3>
+                  <span class="service-tag">Retention</span>
+                </div>
+                <p>
+                  Reduce no-shows with automated reminders over SMS and email.
+                  Configurable timing, personalized messaging, and two-way confirmation.
+                  Setup takes under a day and runs without maintenance.
+                </p>
+              </div>
+            </div>
+
+            <div class="service-item reveal-up">
+              <div class="service-num">03</div>
+              <div class="service-content">
+                <div class="service-head">
+                  <h3>AI Chat Assistants</h3>
+                  <span class="service-tag">Always-on</span>
+                </div>
+                <p>
+                  Put an AI on your website that answers questions, qualifies leads, and
+                  books meetings — 24/7, no staff required. Trained specifically on your
+                  business's services, hours, and FAQs.
+                </p>
+              </div>
+            </div>
+
+            <div class="service-item reveal-up">
+              <div class="service-num">04</div>
+              <div class="service-content">
+                <div class="service-head">
+                  <h3>Workflow &amp; CRM Integration</h3>
+                  <span class="service-tag">Systems</span>
+                </div>
+                <p>
+                  Connect your existing tools — spreadsheets, CRMs, calendars — so data
+                  flows automatically between them. Fewer copy-paste steps, fewer things
+                  falling through the cracks.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="process-block reveal-up">
+            <div class="process-head">
+              <span class="process-title">How a project runs</span>
+              <p class="process-sub">Typical client engagement from first call to live automation.</p>
+            </div>
+            <div class="process-steps">
+              <div class="process-step">
+                <span class="process-num">01</span>
+                <h4>Map the process</h4>
+                <p>Walk through where leads, appointments, and follow-ups actually happen today.</p>
+              </div>
+              <div class="process-step">
+                <span class="process-num">02</span>
+                <h4>Build &amp; test</h4>
+                <p>Wire up Make.com + Claude flows, test edge cases, and tune messaging.</p>
+              </div>
+              <div class="process-step">
+                <span class="process-num">03</span>
+                <h4>Deploy &amp; hand off</h4>
+                <p>Go live with documentation so your team knows what runs automatically.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="clients-block reveal-up">
+            <span class="clients-label">Good fit for</span>
+            <div class="clients-chips">
+              <span>Auto dealerships</span>
+              <span>Local service businesses</span>
+              <span>Clinics &amp; practices</span>
+              <span>Solo founders</span>
+              <span>Ops-heavy small teams</span>
+            </div>
+          </div>
+
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Values -->
-    <section id="values" class="section alt reveal is-hidden">
-      <div class="container">
-        <p class="kicker">Values</p>
-        <h2>How I Work</h2>
+      <!-- ── PROJECTS ── -->
+      <section class="section" id="projects">
+        <div class="container">
 
-        <div class="grid">
-          <article class="card">
-            <h3>Precision</h3>
-            <p>
-              In healthcare and engineering, small mistakes become big problems. I don’t gamble with details.
-            </p>
-          </article>
+          <div class="section-intro">
+            <span class="section-label">04 — Projects</span>
+            <div class="section-rule"></div>
+          </div>
 
-          <article class="card">
-            <h3>Momentum</h3>
-            <p>
-              I focus on consistent progress—shipping improvements and learning fast.
-            </p>
-          </article>
+          <div class="projects-grid">
 
-          <article class="card">
-            <h3>Impact</h3>
-            <p>
-              Technology should improve real lives, not just look cool on paper.
-            </p>
-          </article>
+            <div class="project-card reveal-up">
+              <div class="project-header">
+                <span class="project-badge badge-live">Live</span>
+                <span class="project-num">01</span>
+              </div>
+              <h3>Automotive Lead Automation</h3>
+              <p>
+                AI-powered follow-up system for a family-owned car business. Automates
+                inquiry responses and appointment scheduling within minutes of a new lead.
+                Built on Make.com + Claude API.
+              </p>
+              <div class="project-meta">
+                <span>Aevix · 2025</span>
+                <span>·</span>
+                <span>Make.com + Claude API</span>
+              </div>
+              <div class="project-status live">↳ Case study documentation in progress</div>
+            </div>
+
+            <div class="project-card alt reveal-up">
+              <div class="project-header">
+                <span class="project-badge badge-future">Future</span>
+                <span class="project-num">02</span>
+              </div>
+              <h3>Healthcare Systems</h3>
+              <p>
+                Applying industrial engineering and systems design to healthcare access
+                problems — starting with process mapping and flow analysis. The long-term
+                mission that drives everything else.
+              </p>
+              <div class="project-meta">
+                <span>Personal research</span>
+                <span>·</span>
+                <span>ISE + Systems Design</span>
+              </div>
+              <div class="project-status future">↳ Research &amp; planning phase</div>
+            </div>
+
+            <div class="project-card reveal-up">
+              <div class="project-header">
+                <span class="project-badge badge-live">Research</span>
+                <span class="project-num">03</span>
+              </div>
+              <h3>Pharmacy Workflow Analysis</h3>
+              <p>
+                Documenting prescription and patient hand-off bottlenecks from licensed
+                CPhT experience — translating front-line friction into systems diagrams
+                and improvement hypotheses.
+              </p>
+              <div class="project-meta">
+                <span>Healthcare · 2024–25</span>
+                <span>·</span>
+                <span>Process mapping</span>
+              </div>
+              <div class="project-status live">↳ Ongoing documentation</div>
+            </div>
+
+            <div class="project-card alt reveal-up">
+              <div class="project-header">
+                <span class="project-badge badge-done">Completed</span>
+                <span class="project-num">04</span>
+              </div>
+              <h3>Wharton Investment Competition</h3>
+              <p>
+                Built and defended a global portfolio strategy against ~4,000 teams.
+                Top 6% finish — rigorous research, risk framing, and clear written
+                deliverables under deadline.
+              </p>
+              <div class="project-meta">
+                <span>Wharton · Dec 2023</span>
+                <span>·</span>
+                <span>Portfolio strategy</span>
+              </div>
+              <div class="project-status">↳ Top 6% globally</div>
+            </div>
+
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Experience -->
-    <section id="experience" class="section reveal is-hidden">
-      <div class="container">
-        <p class="kicker">Proof</p>
-        <h2>Experience</h2>
+      <!-- ── CREDENTIALS ── -->
+      <section class="section alt" id="credentials">
+        <div class="container">
 
-        <div class="grid">
-          <article class="card">
-            <h3>Healthcare / Pharmacy Operations</h3>
-            <p>
-              Worked in a high-volume environment where accuracy, safety, and teamwork matter.
-            </p>
-            <span class="chip chip-green">Healthcare</span>
-          </article>
+          <div class="section-intro">
+            <span class="section-label">05 — Credentials</span>
+            <div class="section-rule"></div>
+          </div>
 
-          <article class="card">
-            <h3>Operations Team (Education)</h3>
-            <p>
-              Supported classrooms, transitions, and weekly logistics—making programs run smoothly.
-            </p>
-            <span class="chip chip-purple">Operations</span>
-          </article>
+          <div class="cred-list">
 
-          <article class="card">
-            <h3>Engineering Coursework</h3>
-            <p>
-              Developing strong fundamentals and practical problem solving in engineering and computing.
-            </p>
-            <span class="chip chip-blue">Engineering</span>
-          </article>
+            <div class="cred-item reveal-up">
+              <div class="cred-year-col">
+                <span class="cred-year">2025</span>
+                <span class="cred-year-sub">Present</span>
+              </div>
+              <div class="cred-body">
+                <div class="cred-top">
+                  <span class="cred-title">4.0 GPA</span>
+                  <span class="cred-badge badge-active">Active</span>
+                </div>
+                <div class="cred-desc">Maintained across all engineering coursework — no exceptions.</div>
+                <div class="cred-issuer">Texas A&amp;M Engineering Academy at Collin College &nbsp;·&nbsp; 2025 – present</div>
+              </div>
+            </div>
+
+            <div class="cred-item reveal-up">
+              <div class="cred-year-col">
+                <span class="cred-year">Oct</span>
+                <span class="cred-year-sub">'25</span>
+              </div>
+              <div class="cred-body">
+                <div class="cred-top">
+                  <span class="cred-title">Certified Pharmacy Technician (CPhT)</span>
+                  <span class="cred-badge badge-certified">Certified</span>
+                </div>
+                <div class="cred-desc">State-licensed; passed the PTCB national exam independently in high school.</div>
+                <div class="cred-issuer">PTCB &nbsp;·&nbsp; Oct 2025</div>
+              </div>
+            </div>
+
+            <div class="cred-item reveal-up">
+              <div class="cred-year-col">
+                <span class="cred-year">Dec</span>
+                <span class="cred-year-sub">'23</span>
+              </div>
+              <div class="cred-body">
+                <div class="cred-top">
+                  <span class="cred-title">Wharton Global High School Investment Competition</span>
+                  <span class="cred-badge badge-top">Top 6%</span>
+                </div>
+                <div class="cred-desc">Competed against ~4,000 teams from 100+ countries in portfolio management.</div>
+                <div class="cred-issuer">Wharton School, University of Pennsylvania &nbsp;·&nbsp; Dec 2023</div>
+              </div>
+            </div>
+
+            <div class="cred-item reveal-up">
+              <div class="cred-year-col">
+                <span class="cred-year">2025</span>
+                <span class="cred-year-sub">ongoing</span>
+              </div>
+              <div class="cred-body">
+                <div class="cred-top">
+                  <span class="cred-title">Anthropic AI Certification</span>
+                  <span class="cred-badge badge-progress">In Progress</span>
+                </div>
+                <div class="cred-desc">Completing AI fundamentals, API usage, and responsible deployment modules.</div>
+                <div class="cred-issuer">Anthropic &nbsp;·&nbsp; 2025</div>
+              </div>
+            </div>
+
+            <div class="cred-item reveal-up">
+              <div class="cred-year-col">
+                <span class="cred-year">2026</span>
+                <span class="cred-year-sub">Fall</span>
+              </div>
+              <div class="cred-body">
+                <div class="cred-top">
+                  <span class="cred-title">Texas A&amp;M College Station — ISE Transfer</span>
+                  <span class="cred-badge badge-pending">Planned</span>
+                </div>
+                <div class="cred-desc">Targeting Industrial &amp; Systems Engineering at College Station — the long-game degree for healthcare systems work.</div>
+                <div class="cred-issuer">Industrial &amp; Systems Engineering &nbsp;·&nbsp; Transfer Fall 2026</div>
+              </div>
+            </div>
+
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Certifications -->
-    <section id="certifications" class="section alt reveal is-hidden">
-      <div class="container">
-        <p class="kicker">Credentials</p>
-        <h2>Certifications</h2>
-        <ul class="bullets">
-          <li>Google: Foundations of User Experience (UX) Design</li>
-          <li>Any other certifications you want to add</li>
-        </ul>
-      </div>
-    </section>
+      <!-- ── CONTACT ── -->
+      <section class="section" id="contact">
+        <div class="container">
 
-    <!-- Contact -->
-    <section id="contact" class="section reveal is-hidden">
-      <div class="container">
-        <p class="kicker">Connect</p>
-        <h2>Contact</h2>
-        <p class="muted">
-          Want to collaborate, connect, or talk ideas? Reach out.
-        </p>
+          <div class="section-intro">
+            <span class="section-label">06 — Contact</span>
+            <div class="section-rule"></div>
+          </div>
 
-        <div class="contact-row">
-          <a class="btn primary" href="mailto:zaidmajkhan@gmail.com">Email me</a>
-          <!-- Replace this with your real LinkedIn URL -->
-          <a class="btn" href="#" target="_blank" rel="noreferrer">LinkedIn</a>
+          <h2 class="contact-heading">
+            <div class="clip-wrap"><span class="clip-inner">Let's build</span></div>
+            <div class="clip-wrap"><span class="clip-inner">something.</span></div>
+          </h2>
+
+          <div class="contact-body">
+            <div class="contact-left reveal-up">
+              <p class="contact-sub">
+                Whether you're a small business looking to automate operations, or a
+                recruiter at a company I'd genuinely want to work for — reach out.
+                I respond within 24 hours on weekdays.
+              </p>
+              <div class="contact-types">
+                <div class="contact-type-card">
+                  <span class="contact-type-label">For businesses</span>
+                  <p>Describe your current follow-up or scheduling pain points — I'll reply with what automation could look like.</p>
+                </div>
+                <div class="contact-type-card">
+                  <span class="contact-type-label">For recruiters</span>
+                  <p>Internships in ISE, healthcare ops, or technical program roles. Include team, location, and what you'd want me working on.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-right reveal-up">
+              <div class="contact-links">
+                <a href="mailto:zaidmajkhan@gmail.com" class="contact-link">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m2 7 10 7 10-7"/>
+                  </svg>
+                  zaidmajkhan@gmail.com
+                  <span class="contact-link-arrow">↗</span>
+                </a>
+                <a href="https://linkedin.com/in/zaidmajkhan" target="_blank" rel="noreferrer" class="contact-link">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                    <rect x="2" y="9" width="4" height="12"/>
+                    <circle cx="4" cy="4" r="2"/>
+                  </svg>
+                  linkedin.com/in/zaidmajkhan
+                  <span class="contact-link-arrow">↗</span>
+                </a>
+              </div>
+
+              <div class="availability-card">
+                <div class="avail-label">Availability</div>
+                <div class="avail-text">
+                  Open to: Internships
+                  <span class="avail-sep"> &nbsp;·&nbsp; </span>
+                  Client Work
+                  <span class="avail-sep"> &nbsp;·&nbsp; </span>
+                  Collaborations
+                </div>
+              </div>
+
+              <div class="fp-footer-note">
+                <p class="muted small">© <span id="year"></span> Zaid Khan</p>
+                <p class="muted small">Aevix &nbsp;·&nbsp; Texas A&amp;M ISE</p>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Footer -->
+    </main>
+
     <footer class="site-footer">
-      <div class="container">
-        <p class="muted small">
-          © <span id="year"></span> Zaid Khan. Built with HTML + CSS.
-        </p>
+      <div class="container footer-inner">
+        <a class="footer-logo" href="#hero">Zaid Khan</a>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="#about">About</a>
+          <a href="#experience">Experience</a>
+          <a href="#services">Services</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <p class="footer-copy muted small">© <span id="yearFooter"></span> Zaid Khan · Aevix · McKinney, TX</p>
       </div>
     </footer>
 
-    <!-- Reveal + year script -->
+    <!-- ── GSAP ── -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+
     <script>
-      window.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("year").textContent = new Date().getFullYear();
+      var y = new Date().getFullYear();
+      document.getElementById("year").textContent = y;
+      document.getElementById("yearFooter").textContent = y;
 
-        const revealEls = Array.from(document.querySelectorAll(".reveal")).filter(
-          (el) => !el.classList.contains("hero")
-        );
-
-        // Stagger so multiple sections don't pop at once
-        revealEls.forEach((el, i) => {
-          el.style.setProperty("--reveal-delay", `${(i % 6) * 90}ms`);
-        });
-
-        if (!("IntersectionObserver" in window)) {
-          revealEls.forEach((el) => {
-            el.classList.add("is-visible");
-            el.classList.remove("is-hidden");
-          });
-          return;
-        }
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
-                entry.target.classList.remove("is-hidden");
-                observer.unobserve(entry.target);
+      /* ── Particle network ── */
+      (function () {
+        const canvas = document.getElementById("bgCanvas");
+        const ctx    = canvas.getContext("2d");
+        function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+        resize();
+        window.addEventListener("resize", resize);
+        const N = 40;
+        const pts = Array.from({ length: N }, () => ({
+          x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+          vx: (Math.random() - 0.5) * 0.24, vy: (Math.random() - 0.5) * 0.24,
+          r: Math.random() * 1.0 + 0.3,
+        }));
+        function frame() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for (let i = 0; i < N; i++) {
+            const p = pts[i];
+            for (let j = i + 1; j < N; j++) {
+              const q = pts[j];
+              const d = Math.hypot(p.x - q.x, p.y - q.y);
+              if (d < 160) {
+                ctx.strokeStyle = `rgba(240,212,138,${0.28 * (1 - d / 160)})`;
+                ctx.lineWidth = 0.6;
+                ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
               }
-            });
-          },
-          { threshold: 0.12, rootMargin: "0px 0px -20% 0px" }
-        );
+            }
+            ctx.fillStyle = "rgba(240,212,138,0.55)";
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
+            if (p.y < 0 || p.y > canvas.height)  p.vy *= -1;
+          }
+          requestAnimationFrame(frame);
+        }
+        frame();
+      })();
 
-        revealEls.forEach((el) => observer.observe(el));
+      /* ── GSAP Setup ── */
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+      /* ── Hero entrance ── */
+      var heroTl = gsap.timeline({ defaults: { ease: "power4.out" } });
+      heroTl
+        .from(".hero-status",           { opacity: 0, y: 16, duration: 0.6 }, 0.15)
+        .from(".hero-location",         { opacity: 0, duration: 0.5 }, 0.15)
+        .from(".hero-name .clip-inner", { yPercent: 110, duration: 1.1, stagger: 0.08 }, 0.4)
+        .from(".hero-rule",             { scaleX: 0, duration: 1.0, ease: "power3.inOut", transformOrigin: "left" }, 0.85)
+        .from(".hero-tagline",          { opacity: 0, y: 20, duration: 0.6 }, 1.05)
+        .from(".hero-desc",             { opacity: 0, y: 20, duration: 0.6 }, 1.15)
+        .from(".hero-actions",          { opacity: 0, y: 20, duration: 0.55 }, 1.25)
+        .from(".hero-stat",             { opacity: 0, y: 14, duration: 0.45, stagger: 0.07 }, 1.0)
+        .from(".hero-card",             { opacity: 0, y: 24, duration: 0.55, stagger: 0.09 }, 1.1)
+        .from(".hero-scroll-hint",      { opacity: 0, y: 10, duration: 0.5 }, 1.4);
+
+      /* ── Section rule expand ── */
+      gsap.utils.toArray(".section-rule").forEach(function(rule) {
+        gsap.from(rule, {
+          scaleX: 0, duration: 1.1, ease: "power3.inOut", transformOrigin: "left",
+          scrollTrigger: { trigger: rule, start: "top 88%" }
+        });
+      });
+
+      /* ── Section labels ── */
+      gsap.utils.toArray(".section-label").forEach(function(el) {
+        gsap.from(el, {
+          opacity: 0, x: -14, duration: 0.6, ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 88%" }
+        });
+      });
+
+      /* ── Clip reveals ── */
+      gsap.utils.toArray(".section .clip-inner").forEach(function(el) {
+        gsap.from(el, {
+          yPercent: 110, duration: 1.05, ease: "power4.out",
+          scrollTrigger: { trigger: el.closest(".clip-wrap") || el, start: "top 88%" }
+        });
+      });
+
+      /* ── Focus strip ── */
+      gsap.from(".focus-item", {
+        opacity: 0, y: 16, duration: 0.6, stagger: 0.06, ease: "power3.out",
+        scrollTrigger: { trigger: ".focus-strip", start: "top 92%" }
+      });
+
+      /* ── Generic reveal-up ── */
+      gsap.utils.toArray(".reveal-up").forEach(function(el) {
+        gsap.from(el, {
+          opacity: 0, y: 30, duration: 0.8, ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 88%" }
+        });
+      });
+
+      /* ── Scroll progress bar ── */
+      var bar = document.getElementById("scrollProgress");
+      window.addEventListener("scroll", function() {
+        var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+        bar.style.width = Math.min(pct, 100) + "%";
+      }, { passive: true });
+
+      /* ── Header on scroll ── */
+      ScrollTrigger.create({
+        start: "top -60", end: "max",
+        onUpdate: function(self) {
+          document.getElementById("siteHeader").classList.toggle("scrolled", self.progress > 0);
+        }
+      });
+
+      /* ── Active nav tracking ── */
+      var sections = document.querySelectorAll(".section[id]");
+      function setActiveNav(id) {
+        document.querySelectorAll(".nav a, .mobile-nav a").forEach(function(a) {
+          a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+        });
+      }
+      sections.forEach(function(section) {
+        ScrollTrigger.create({
+          trigger: section, start: "top 55%", end: "bottom 55%",
+          onEnter:     function() { setActiveNav(section.id); },
+          onEnterBack: function() { setActiveNav(section.id); }
+        });
+      });
+
+      /* ── Smooth anchor scroll ── */
+      document.querySelectorAll("a[href^='#']").forEach(function(a) {
+        a.addEventListener("click", function(e) {
+          var hash   = a.getAttribute("href").slice(1);
+          var target = document.getElementById(hash);
+          if (!target) return;
+          e.preventDefault();
+          gsap.to(window, { scrollTo: { y: target, offsetY: 80 }, duration: 1.2, ease: "power3.inOut" });
+          document.getElementById("hamburger").classList.remove("open");
+          document.getElementById("mobileNav").classList.remove("open");
+        });
+      });
+
+      /* ── Hamburger ── */
+      var hamburger = document.getElementById("hamburger");
+      var mobileNav = document.getElementById("mobileNav");
+      hamburger.addEventListener("click", function() {
+        hamburger.classList.toggle("open");
+        mobileNav.classList.toggle("open");
       });
     </script>
   </body>
