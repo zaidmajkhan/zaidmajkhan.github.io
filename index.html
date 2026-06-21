@@ -5,17 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zaid Khan</title>
     <meta name="description" content="Engineering student, founder, and systems thinker. Building AI automation for small businesses. Long game: healthcare systems." />
-    <meta name="theme-color" content="#09090F" />
+    <meta name="theme-color" content="#0E100F" />
+    <script>
+      try { if (sessionStorage.getItem("introSeen")) document.documentElement.classList.add("intro-seen"); } catch (e) {}
+      /* Progressive enhancement only: applies a previously chosen theme before
+         first paint. With JS disabled, CSS falls back to system preference. */
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.classList.add("theme-" + t);
+      } catch (e) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
 
-    <div class="page-mesh" aria-hidden="true"></div>
+    <div class="intro-overlay" id="introOverlay" aria-hidden="true">
+      <span class="intro-mark">ZK</span>
+      <div class="intro-foot">
+        <span class="intro-label">Zaid Khan — Portfolio</span>
+        <span class="intro-count"><span id="introCount">0</span><i>%</i></span>
+      </div>
+      <div class="intro-bar"><span id="introBar"></span></div>
+    </div>
     <div class="page-grain" aria-hidden="true"></div>
-    <canvas id="bgCanvas"></canvas>
     <div class="scroll-progress" id="scrollProgress"></div>
 
     <!-- ── Header ── -->
@@ -23,14 +38,18 @@
       <div class="container header-inner">
         <a class="logo" href="#hero">ZK</a>
         <nav class="nav" id="nav">
-          <a href="#about">About</a>
-          <a href="#experience">Experience</a>
-          <a href="#services">Services</a>
-          <a href="#projects">Projects</a>
-          <a href="#credentials">Credentials</a>
-          <a href="#contact">Contact</a>
+          <a href="#about" data-label="About"><span>About</span></a>
+          <a href="#experience" data-label="Experience"><span>Experience</span></a>
+          <a href="#services" data-label="Services"><span>Services</span></a>
+          <a href="#projects" data-label="Projects"><span>Projects</span></a>
+          <a href="#credentials" data-label="Credentials"><span>Credentials</span></a>
+          <a href="#contact" data-label="Contact"><span>Contact</span></a>
         </nav>
         <a href="#contact" class="header-cta">Let's work together</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle light or dark theme" aria-pressed="false">
+          <span class="tt-icon tt-sun" aria-hidden="true">☀</span>
+          <span class="tt-icon tt-moon" aria-hidden="true">☾</span>
+        </button>
         <button class="hamburger" id="hamburger" aria-label="Open menu">
           <span></span><span></span><span></span>
         </button>
@@ -160,8 +179,6 @@
             <span class="scroll-hint-text">Scroll</span>
             <div class="scroll-hint-line"></div>
           </div>
-
-          <div class="hero-watermark" aria-hidden="true">ZK</div>
 
         </div>
       </section>
@@ -421,11 +438,11 @@
                   <h3>AI Lead Follow-Up</h3>
                   <span class="service-tag">Lead conversion</span>
                 </div>
-                <p>
+                <p><span>
                   Convert missed calls and form fills into booked appointments automatically.
                   Personalized outreach sent within minutes of a new inquiry — no manual work
                   required. Most businesses see response time drop to under 3 minutes.
-                </p>
+                </span></p>
               </div>
             </div>
 
@@ -436,11 +453,11 @@
                   <h3>Appointment Reminders</h3>
                   <span class="service-tag">Retention</span>
                 </div>
-                <p>
+                <p><span>
                   Reduce no-shows with automated reminders over SMS and email.
                   Configurable timing, personalized messaging, and two-way confirmation.
                   Setup takes under a day and runs without maintenance.
-                </p>
+                </span></p>
               </div>
             </div>
 
@@ -451,11 +468,11 @@
                   <h3>AI Chat Assistants</h3>
                   <span class="service-tag">Always-on</span>
                 </div>
-                <p>
+                <p><span>
                   Put an AI on your website that answers questions, qualifies leads, and
                   books meetings — 24/7, no staff required. Trained specifically on your
                   business's services, hours, and FAQs.
-                </p>
+                </span></p>
               </div>
             </div>
 
@@ -466,11 +483,11 @@
                   <h3>Workflow &amp; CRM Integration</h3>
                   <span class="service-tag">Systems</span>
                 </div>
-                <p>
+                <p><span>
                   Connect your existing tools — spreadsheets, CRMs, calendars — so data
                   flows automatically between them. Fewer copy-paste steps, fewer things
                   falling through the cracks.
-                </p>
+                </span></p>
               </div>
             </div>
 
@@ -523,85 +540,51 @@
             <div class="section-rule"></div>
           </div>
 
-          <div class="projects-grid">
+          <div class="project-index" id="projectIndex">
 
-            <div class="project-card reveal-up">
-              <div class="project-header">
-                <span class="project-badge badge-live">Live</span>
-                <span class="project-num">01</span>
-              </div>
-              <h3>Automotive Lead Automation</h3>
-              <p>
-                AI-powered follow-up system for a family-owned car business. Automates
-                inquiry responses and appointment scheduling within minutes of a new lead.
-                Built on Make.com + Claude API.
-              </p>
-              <div class="project-meta">
-                <span>Majeed · 2025</span>
-                <span>·</span>
-                <span>Make.com + Claude API</span>
-              </div>
-              <div class="project-status live">↳ Case study documentation in progress</div>
+            <div class="project-row reveal-up" tabindex="0"
+                 data-title="Automotive Lead Automation" data-sub="Make.com + Claude API">
+              <span class="pr-num">01</span>
+              <span class="pr-title">Automotive Lead Automation</span>
+              <span class="pr-cat">Lead Automation</span>
+              <span class="pr-year">2025</span>
+              <span class="pr-flag flag-live">Live</span>
             </div>
 
-            <div class="project-card alt reveal-up">
-              <div class="project-header">
-                <span class="project-badge badge-future">Future</span>
-                <span class="project-num">02</span>
-              </div>
-              <h3>Healthcare Systems</h3>
-              <p>
-                Applying industrial engineering and systems design to healthcare access
-                problems — starting with process mapping and flow analysis. The long-term
-                mission that drives everything else.
-              </p>
-              <div class="project-meta">
-                <span>Personal research</span>
-                <span>·</span>
-                <span>ISE + Systems Design</span>
-              </div>
-              <div class="project-status future">↳ Research &amp; planning phase</div>
+            <div class="project-row reveal-up" tabindex="0"
+                 data-title="Healthcare Systems" data-sub="ISE + Systems Design">
+              <span class="pr-num">02</span>
+              <span class="pr-title">Healthcare Systems</span>
+              <span class="pr-cat">Systems Design</span>
+              <span class="pr-year">2026</span>
+              <span class="pr-flag flag-future">Future</span>
             </div>
 
-            <div class="project-card reveal-up">
-              <div class="project-header">
-                <span class="project-badge badge-live">Research</span>
-                <span class="project-num">03</span>
-              </div>
-              <h3>Pharmacy Workflow Analysis</h3>
-              <p>
-                Documenting prescription and patient hand-off bottlenecks from licensed
-                CPhT experience — translating front-line friction into systems diagrams
-                and improvement hypotheses.
-              </p>
-              <div class="project-meta">
-                <span>Healthcare · 2024–25</span>
-                <span>·</span>
-                <span>Process mapping</span>
-              </div>
-              <div class="project-status live">↳ Ongoing documentation</div>
+            <div class="project-row reveal-up" tabindex="0"
+                 data-title="Pharmacy Workflow Analysis" data-sub="Process Mapping · CPhT">
+              <span class="pr-num">03</span>
+              <span class="pr-title">Pharmacy Workflow Analysis</span>
+              <span class="pr-cat">Process Mapping</span>
+              <span class="pr-year">2024</span>
+              <span class="pr-flag flag-live">Research</span>
             </div>
 
-            <div class="project-card alt reveal-up">
-              <div class="project-header">
-                <span class="project-badge badge-done">Completed</span>
-                <span class="project-num">04</span>
-              </div>
-              <h3>Wharton Investment Competition</h3>
-              <p>
-                Built and defended a global portfolio strategy against ~4,000 teams.
-                Top 6% finish — rigorous research, risk framing, and clear written
-                deliverables under deadline.
-              </p>
-              <div class="project-meta">
-                <span>Wharton · Dec 2023</span>
-                <span>·</span>
-                <span>Portfolio strategy</span>
-              </div>
-              <div class="project-status">↳ Top 6% globally</div>
+            <div class="project-row reveal-up" tabindex="0"
+                 data-title="Wharton Investment Competition" data-sub="Portfolio Strategy · Top 6%">
+              <span class="pr-num">04</span>
+              <span class="pr-title">Wharton Investment Competition</span>
+              <span class="pr-cat">Portfolio Strategy</span>
+              <span class="pr-year">2023</span>
+              <span class="pr-flag flag-done">Top 6%</span>
             </div>
 
           </div>
+        </div>
+
+        <div class="project-preview" id="projectPreview" aria-hidden="true">
+          <span class="pp-num"></span>
+          <span class="pp-title"></span>
+          <span class="pp-sub"></span>
         </div>
       </section>
 
@@ -773,16 +756,49 @@
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-inner">
-        <a class="footer-logo" href="#hero">Zaid Khan</a>
-        <nav class="footer-nav" aria-label="Footer">
-          <a href="#about">About</a>
-          <a href="#experience">Experience</a>
-          <a href="#services">Services</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <p class="footer-copy muted small">© <span id="yearFooter"></span> Zaid Khan · Majeed · Texas A&amp;M ISEN</p>
+      <div class="container">
+
+        <div class="footer-cta">
+          <span class="footer-eyebrow">Have something in mind?</span>
+          <a href="#contact" class="footer-bigline">
+            <span class="clip-wrap"><span class="clip-inner">Let's work</span></span>
+            <span class="clip-wrap"><span class="clip-inner">together <i class="fb-arrow">↗</i></span></span>
+          </a>
+        </div>
+
+        <div class="footer-grid">
+          <div class="footer-col">
+            <span class="footer-col-label">Sitemap</span>
+            <nav class="footer-links" aria-label="Footer">
+              <a href="#about">About</a>
+              <a href="#experience">Experience</a>
+              <a href="#services">Services</a>
+              <a href="#projects">Projects</a>
+              <a href="#contact">Contact</a>
+            </nav>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-label">Contact</span>
+            <div class="footer-links">
+              <a href="mailto:zaidmajkhan@gmail.com">zaidmajkhan@gmail.com</a>
+              <a href="https://linkedin.com/in/zaidmajkhan" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-label">Based in</span>
+            <div class="footer-links">
+              <span>McKinney, TX</span>
+              <span>Texas A&amp;M · ISEN</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-base">
+          <a class="footer-logo" href="#hero">Zaid Khan</a>
+          <p class="footer-copy muted small">© <span id="yearFooter"></span> Zaid Khan — Majeed</p>
+          <a href="#hero" class="footer-top">Back to top ↑</a>
+        </div>
+
       </div>
     </footer>
 
@@ -796,55 +812,36 @@
       document.getElementById("year").textContent = y;
       document.getElementById("yearFooter").textContent = y;
 
-      /* ── Particle network ── */
-      (function () {
-        const canvas = document.getElementById("bgCanvas");
-        const ctx    = canvas.getContext("2d");
-        function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
-        resize();
-        window.addEventListener("resize", resize);
-        const N = 40;
-        const pts = Array.from({ length: N }, () => ({
-          x: Math.random() * innerWidth, y: Math.random() * innerHeight,
-          vx: (Math.random() - 0.5) * 0.24, vy: (Math.random() - 0.5) * 0.24,
-          r: Math.random() * 1.0 + 0.3,
-        }));
-        function frame() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          for (let i = 0; i < N; i++) {
-            const p = pts[i];
-            for (let j = i + 1; j < N; j++) {
-              const q = pts[j];
-              const d = Math.hypot(p.x - q.x, p.y - q.y);
-              if (d < 160) {
-                ctx.strokeStyle = `rgba(200,168,76,${0.30 * (1 - d / 160)})`;
-                ctx.lineWidth = 0.6;
-                ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
-              }
-            }
-            ctx.fillStyle = "rgba(200,168,76,0.60)";
-            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
-            p.x += p.vx; p.y += p.vy;
-            if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
-            if (p.y < 0 || p.y > canvas.height)  p.vy *= -1;
-          }
-          requestAnimationFrame(frame);
-        }
-        frame();
-      })();
-
       /* ── GSAP Setup ── */
       gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-      /* ── Hero entrance ── */
-      var heroTl = gsap.timeline({ defaults: { ease: "power4.out" } });
+      /* ── Intro plays once per session ── */
+      var introSeen = document.documentElement.classList.contains("intro-seen");
+      try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
+
+      /* ── Preloader counter (cosmetic; CSS handles the reveal) ── */
+      if (!introSeen) {
+        var countEl = document.getElementById("introCount");
+        var barEl   = document.getElementById("introBar");
+        gsap.to({ v: 0 }, {
+          v: 100, duration: 1.3, ease: "power2.inOut",
+          onUpdate: function () {
+            var v = Math.round(this.targets()[0].v);
+            if (countEl) countEl.textContent = v;
+            if (barEl)   barEl.style.width = v + "%";
+          }
+        });
+      }
+
+      /* ── Hero entrance (synced to lift of intro overlay) ── */
+      var heroTl = gsap.timeline({ delay: introSeen ? 0.15 : 1.95, defaults: { ease: "expo.out" } });
       heroTl
-        .from(".hero-status",           { opacity: 0, y: 16, duration: 0.6 }, 0.15)
-        .from(".hero-location",         { opacity: 0, duration: 0.5 }, 0.15)
-        .from(".hero-name .clip-inner", { yPercent: 110, duration: 1.1, stagger: 0.08 }, 0.4)
-        .from(".hero-rule",             { scaleX: 0, duration: 1.0, ease: "power3.inOut", transformOrigin: "left" }, 0.85)
-        .from(".hero-card",             { opacity: 0, y: 24, duration: 0.55, stagger: 0.09 }, 1.1)
-        .from(".hero-scroll-hint",      { opacity: 0, y: 10, duration: 0.5 }, 1.4);
+        .from(".hero-status",           { opacity: 0, y: 16, duration: 0.7 }, 0)
+        .from(".hero-location",         { opacity: 0, duration: 0.6 }, 0)
+        .from(".hero-name .clip-inner", { yPercent: 115, duration: 1.2, stagger: 0.1 }, 0.1)
+        .from(".hero-rule",             { scaleX: 0, duration: 1.1, ease: "power3.inOut", transformOrigin: "left" }, 0.5)
+        .from(".hero-card",             { opacity: 0, y: 28, duration: 0.6, stagger: 0.1 }, 0.7)
+        .from(".hero-scroll-hint",      { opacity: 0, y: 10, duration: 0.5 }, 1.0);
 
       /* ── Section rule expand ── */
       gsap.utils.toArray(".section-rule").forEach(function(rule) {
@@ -869,9 +866,9 @@
       /* ── Clip reveals ── */
       gsap.utils.toArray(".section .clip-inner").forEach(function(el) {
         gsap.fromTo(el,
-          { yPercent: 110 },
-          { yPercent: 0, duration: 1.05, ease: "power4.out",
-            scrollTrigger: { trigger: el.closest(".clip-wrap") || el, start: "top 88%", toggleActions: "play none none reverse" }
+          { yPercent: 115 },
+          { yPercent: 0, duration: 1.2, ease: "expo.out",
+            scrollTrigger: { trigger: el.closest(".clip-wrap") || el, start: "top 90%", toggleActions: "play none none reverse" }
           }
         );
       });
@@ -887,9 +884,9 @@
       /* ── Generic reveal-up ── */
       gsap.utils.toArray(".reveal-up").forEach(function(el) {
         gsap.fromTo(el,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none reverse" }
+          { opacity: 0, y: 38 },
+          { opacity: 1, y: 0, duration: 0.95, ease: "expo.out",
+            scrollTrigger: { trigger: el, start: "top 90%", toggleActions: "play none none reverse" }
           }
         );
       });
@@ -936,6 +933,70 @@
           document.getElementById("mobileNav").classList.remove("open");
         });
       });
+
+      /* ── Projects: cursor-follow preview ── */
+      (function () {
+        var index = document.getElementById("projectIndex");
+        var prev  = document.getElementById("projectPreview");
+        if (!index || !prev) return;
+        if (!window.matchMedia("(pointer: fine)").matches) return;
+
+        var ppNum   = prev.querySelector(".pp-num");
+        var ppTitle = prev.querySelector(".pp-title");
+        var ppSub   = prev.querySelector(".pp-sub");
+        var cx = innerWidth / 2, cy = innerHeight / 2, tx = cx, ty = cy;
+
+        index.querySelectorAll(".project-row").forEach(function (row) {
+          row.addEventListener("mouseenter", function () {
+            ppNum.textContent   = row.querySelector(".pr-num").textContent;
+            ppTitle.textContent = row.getAttribute("data-title");
+            ppSub.textContent   = row.getAttribute("data-sub");
+            prev.classList.add("show");
+          });
+          row.addEventListener("mouseleave", function () { prev.classList.remove("show"); });
+        });
+
+        window.addEventListener("mousemove", function (e) { cx = e.clientX; cy = e.clientY; }, { passive: true });
+        (function loop() {
+          tx += (cx - tx) * 0.15; ty += (cy - ty) * 0.15;
+          prev.style.left = tx + "px"; prev.style.top = ty + "px";
+          requestAnimationFrame(loop);
+        })();
+      })();
+
+      /* ── Services: click to pin open (touch-friendly) ── */
+      document.querySelectorAll(".service-item").forEach(function (item) {
+        item.addEventListener("click", function () { item.classList.toggle("open"); });
+      });
+
+      /* ── Theme toggle (runtime override; CSS handles the no-JS default) ── */
+      (function () {
+        var root   = document.documentElement;
+        var toggle = document.getElementById("themeToggle");
+        var meta   = document.querySelector('meta[name="theme-color"]');
+        var mq     = window.matchMedia("(prefers-color-scheme: light)");
+        function effective() {
+          if (root.classList.contains("theme-light")) return "light";
+          if (root.classList.contains("theme-dark"))  return "dark";
+          return mq.matches ? "light" : "dark";
+        }
+        function sync() {
+          var t = effective();
+          if (toggle) toggle.setAttribute("aria-pressed", t === "light");
+          if (meta)   meta.setAttribute("content", t === "light" ? "#E9EBE7" : "#0E100F");
+        }
+        if (toggle) {
+          toggle.addEventListener("click", function () {
+            var next = effective() === "light" ? "dark" : "light";
+            root.classList.remove("theme-light", "theme-dark");
+            root.classList.add("theme-" + next);
+            try { localStorage.setItem("theme", next); } catch (e) {}
+            sync();
+          });
+        }
+        if (mq.addEventListener) mq.addEventListener("change", sync);
+        sync();
+      })();
 
       /* ── Hamburger ── */
       var hamburger = document.getElementById("hamburger");
