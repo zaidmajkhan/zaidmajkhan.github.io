@@ -380,10 +380,14 @@ html.intro-seen .intro-overlay { display: none; }
   grid-area: 1 / 1; font-size: 14px; line-height: 1;
   transition: transform 0.3s var(--ease-out), opacity 0.25s ease;
 }
-.tt-sun  { opacity: 0; transform: translateY(100%); }
-.tt-moon { opacity: 1; transform: translateY(0); }
-:root.theme-light .tt-moon { opacity: 0; transform: translateY(-100%); }
-:root.theme-light .tt-sun  { opacity: 1; transform: translateY(0); }
+.tt-sun  { opacity: 1; transform: translateY(0); }
+.tt-moon { opacity: 0; transform: translateY(100%); }
+:root.theme-dark .tt-sun  { opacity: 0; transform: translateY(-100%); }
+:root.theme-dark .tt-moon { opacity: 1; transform: translateY(0); }
+@media (prefers-color-scheme: dark) {
+  :root:not(.theme-light):not(.theme-dark) .tt-sun  { opacity: 0; transform: translateY(-100%); }
+  :root:not(.theme-light):not(.theme-dark) .tt-moon { opacity: 1; transform: translateY(0); }
+}
 
 /* ============================================================
    Hamburger
