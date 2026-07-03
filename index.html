@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zaid Khan</title>
     <meta name="description" content="Engineering student, founder, and systems thinker. Building AI automation for small businesses. Long game: healthcare systems." />
-    <meta name="theme-color" content="#0E100F" />
+    <meta name="theme-color" content="#FAFAFA" />
     <script>
       try { if (sessionStorage.getItem("introSeen")) document.documentElement.classList.add("intro-seen"); } catch (e) {}
-      /* Progressive enhancement only: applies a previously chosen theme before
-         first paint. With JS disabled, CSS falls back to system preference. */
       try {
         var t = localStorage.getItem("theme");
         if (t === "light" || t === "dark") document.documentElement.classList.add("theme-" + t);
@@ -17,7 +15,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -30,13 +28,6 @@
       </div>
       <div class="intro-bar"><span id="introBar"></span></div>
     </div>
-    <div class="ambient-bg" aria-hidden="true">
-      <div class="ambient-grid"></div>
-      <div class="ambient-orb ambient-orb--1"></div>
-      <div class="ambient-orb ambient-orb--2"></div>
-      <div class="ambient-orb ambient-orb--3"></div>
-    </div>
-    <div class="page-grain" aria-hidden="true"></div>
     <div class="scroll-progress" id="scrollProgress"></div>
 
     <!-- ── Header ── -->
@@ -91,40 +82,9 @@
 
           <div class="hero-name-row">
             <h1 class="hero-name">
-              <div class="clip-wrap"><span class="clip-inner">Zaid</span></div>
-              <div class="clip-wrap"><span class="clip-inner">Khan</span></div>
+              <div class="clip-wrap"><span class="clip-inner">Zaid Khan</span></div>
             </h1>
-            <div class="hero-name-aside">
-              <div class="hna-item">
-                <span class="hna-num">01</span>
-                <div class="hna-body">
-                  <span class="hna-title">Engineering</span>
-                  <span class="hna-sub">Texas A&amp;M · ISEN</span>
-                </div>
-              </div>
-              <div class="hna-item">
-                <span class="hna-num">02</span>
-                <div class="hna-body">
-                  <span class="hna-title">AI Automation</span>
-                  <span class="hna-sub">Majeed · Make.com</span>
-                </div>
-              </div>
-              <div class="hna-item">
-                <span class="hna-num">03</span>
-                <div class="hna-body">
-                  <span class="hna-title">Healthcare</span>
-                  <span class="hna-sub">Systems · Long Game</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="hero-descriptor">
-            <span class="hd-item">Engineering Student</span>
-            <span class="hd-sep">·</span>
-            <span class="hd-item">Founder</span>
-            <span class="hd-sep">·</span>
-            <span class="hd-item">AI Builder</span>
+            <p class="hero-role reveal-up">Industrial Systems Engineering · AI Automation · Healthcare</p>
           </div>
 
           <div class="hero-rule"></div>
@@ -161,27 +121,21 @@
             </div>
 
             <div class="hero-bottom-right">
-              <div class="hero-bento">
-                <div class="hero-card glass-card bento-span-2">
-                  <div class="hero-card-glow" aria-hidden="true"></div>
-                  <div class="hero-card-label">Currently building</div>
-                  <div class="hero-card-val">AI Automation Agency</div>
-                  <div class="hero-card-sub">Make.com + Claude API</div>
-                </div>
-                <div class="hero-card glass-card alt">
-                  <div class="hero-card-label">Long game</div>
-                  <div class="hero-card-val">Healthcare Systems</div>
-                  <div class="hero-card-sub">ISEN + Entrepreneurship</div>
+              <div class="hero-cards">
+                <div class="hero-card glass-card">
+                  <div class="hero-card-label">Building</div>
+                  <div class="hero-card-val">Majeed — AI Automation</div>
+                  <div class="hero-card-sub">Make.com · Claude API</div>
                 </div>
                 <div class="hero-card glass-card">
-                  <div class="hero-card-label">Next milestone</div>
-                  <div class="hero-card-val">Texas A&amp;M College Station</div>
+                  <div class="hero-card-label">Studying</div>
+                  <div class="hero-card-val">Texas A&amp;M ISEN</div>
                   <div class="hero-card-sub">Transfer Fall 2026</div>
                 </div>
-                <div class="hero-card glass-card bento-accent">
+                <div class="hero-card glass-card">
                   <div class="hero-card-label">Focus</div>
-                  <div class="hero-card-val">Systems that scale</div>
-                  <div class="hero-card-sub">Process · Flow · Outcomes</div>
+                  <div class="hero-card-val">Healthcare Systems</div>
+                  <div class="hero-card-sub">Process design at scale</div>
                 </div>
               </div>
             </div>
@@ -847,14 +801,17 @@
       }
 
       /* ── Hero entrance (synced to lift of intro overlay) ── */
-      var heroTl = gsap.timeline({ delay: introSeen ? 0.15 : 1.95, defaults: { ease: "expo.out" } });
+      var heroTl = gsap.timeline({ delay: introSeen ? 0.1 : 1.2, defaults: { ease: "power3.out" } });
       heroTl
-        .from(".hero-status",           { opacity: 0, y: 16, duration: 0.7 }, 0)
-        .from(".hero-location",         { opacity: 0, duration: 0.6 }, 0)
-        .from(".hero-name .clip-inner", { yPercent: 115, duration: 1.2, stagger: 0.1 }, 0.1)
-        .from(".hero-rule",             { scaleX: 0, duration: 1.1, ease: "power3.inOut", transformOrigin: "left" }, 0.5)
-        .from(".hero-card",             { opacity: 0, y: 28, duration: 0.6, stagger: 0.1 }, 0.7)
-        .from(".hero-scroll-hint",      { opacity: 0, y: 10, duration: 0.5 }, 1.0);
+        .from(".hero-status",           { opacity: 0, y: 12, duration: 0.5 }, 0)
+        .from(".hero-location",         { opacity: 0, duration: 0.45 }, 0)
+        .from(".hero-name .clip-inner", { yPercent: 100, duration: 0.8 }, 0.08)
+        .from(".hero-role",             { opacity: 0, y: 14, duration: 0.55 }, 0.2)
+        .from(".hero-rule",             { scaleX: 0, duration: 0.7, ease: "power2.inOut", transformOrigin: "left" }, 0.35)
+        .from(".hero-stat",             { opacity: 0, y: 16, duration: 0.45, stagger: 0.06 }, 0.45)
+        .from(".hero-desc",             { opacity: 0, y: 14, duration: 0.45 }, 0.55)
+        .from(".hero-actions .btn",     { opacity: 0, y: 12, duration: 0.4, stagger: 0.08 }, 0.62)
+        .from(".hero-card",             { opacity: 0, y: 18, duration: 0.45, stagger: 0.07 }, 0.5);
 
       /* ── Section rule expand ── */
       gsap.utils.toArray(".section-rule").forEach(function(rule) {
@@ -897,9 +854,9 @@
       /* ── Generic reveal-up ── */
       gsap.utils.toArray(".reveal-up").forEach(function(el) {
         gsap.fromTo(el,
-          { opacity: 0, y: 38 },
-          { opacity: 1, y: 0, duration: 0.95, ease: "expo.out",
-            scrollTrigger: { trigger: el, start: "top 90%", toggleActions: "play none none reverse" }
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.65, ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 92%", toggleActions: "play none none reverse" }
           }
         );
       });
@@ -991,12 +948,12 @@
         function effective() {
           if (root.classList.contains("theme-light")) return "light";
           if (root.classList.contains("theme-dark"))  return "dark";
-          return mq.matches ? "light" : "dark";
+          return mq.matches ? "dark" : "light";
         }
         function sync() {
           var t = effective();
           if (toggle) toggle.setAttribute("aria-pressed", t === "light");
-          if (meta)   meta.setAttribute("content", t === "light" ? "#E9EBE7" : "#0E100F");
+          if (meta)   meta.setAttribute("content", t === "light" ? "#FAFAFA" : "#09090B");
         }
         if (toggle) {
           toggle.addEventListener("click", function () {
