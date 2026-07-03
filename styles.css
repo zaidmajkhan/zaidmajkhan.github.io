@@ -19,9 +19,9 @@
   --zinc-900: #18181B;
   --zinc-950: #09090B;
 
-  --sans:    "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display: "Space Grotesk", var(--sans);
-  --mono:    "JetBrains Mono", ui-monospace, monospace;
+  --sans:    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --display: var(--sans);
+  --mono:    var(--sans);
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -211,16 +211,18 @@ ul { list-style: none; margin: 0; padding: 0; }
 p  { margin: 0 0 16px; }
 p:last-child { margin-bottom: 0; }
 
-h1, h2, h3,
-.logo,
-.hero-stat-val,
-.page-num,
-.mobile-nav a {
-  font-family: var(--display);
+button, input, textarea, select {
+  font-family: inherit;
+}
+
+/* Inter everywhere — calm sans, no serif fallbacks */
+body,
+h1, h2, h3, h4, h5, h6,
+p, a, li, span, label, button {
+  font-family: var(--sans);
 }
 
 .about-quote {
-  font-family: var(--display);
   font-weight: 500;
 }
 
@@ -257,7 +259,7 @@ h1, h2, h3,
 html.intro-seen .intro-overlay { display: none; }
 .intro-mark {
   font-family: var(--display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(48px, 10vw, 96px);
   color: var(--text); line-height: 1;
   letter-spacing: -0.04em;
@@ -321,7 +323,7 @@ html.intro-seen .intro-overlay { display: none; }
 
 .logo {
   font-family: var(--display);
-  font-size: 18px; font-weight: 700;
+  font-size: 18px; font-weight: 600;
   letter-spacing: -0.03em; color: var(--text);
   flex-shrink: 0; transition: color 0.18s; z-index: 1;
 }
@@ -525,10 +527,9 @@ main { position: relative; z-index: 1; }
 .hero-name-row { margin-bottom: 8px; }
 .hero-name { margin: 0; line-height: 1; }
 .hero-name .clip-inner {
-  font-family: var(--display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(48px, 9vw, 96px);
-  letter-spacing: -0.04em; color: var(--text); display: block;
+  letter-spacing: -0.03em; color: var(--text); display: block;
 }
 .hero-role {
   font-family: var(--sans);
@@ -671,10 +672,9 @@ main { position: relative; z-index: 1; }
 
 .about-right { padding-top: 4px; }
 .about-right h2 {
-  font-family: var(--display);
-  font-style: normal; font-weight: 700;
+  font-weight: 600;
   font-size: clamp(32px, 4.5vw, 52px);
-  letter-spacing: -0.03em; margin-bottom: 22px; color: var(--text);
+  letter-spacing: -0.025em; margin-bottom: 22px; color: var(--text);
 }
 .about-right p { font-size: 15px; color: var(--muted); line-height: 1.88; }
 .about-mission {
@@ -698,7 +698,7 @@ main { position: relative; z-index: 1; }
 }
 .astat-val {
   display: block; font-family: var(--display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(22px, 2.6vw, 28px);
   color: var(--text);
   line-height: 1; margin-bottom: 2px;
@@ -733,7 +733,7 @@ main { position: relative; z-index: 1; }
 .skills-title {
   font-family: var(--display);
   font-size: clamp(22px, 3vw, 32px);
-  font-weight: 700; color: var(--text);
+  font-weight: 600; color: var(--text);
   letter-spacing: -0.02em;
 }
 .skills-note {
@@ -769,10 +769,9 @@ main { position: relative; z-index: 1; }
   margin-bottom: clamp(32px, 4vw, 48px);
 }
 .experience-heading {
-  font-family: var(--display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(28px, 4vw, 44px);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   margin: 0; color: var(--text);
 }
 .experience-sub {
@@ -830,7 +829,7 @@ main { position: relative; z-index: 1; }
 }
 .timeline-item h3 {
   font-family: var(--display);
-  font-weight: 700; font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 600; font-size: clamp(18px, 2.2vw, 22px);
   margin: 0 0 10px; color: var(--text);
   letter-spacing: -0.02em;
 }
@@ -859,7 +858,7 @@ main { position: relative; z-index: 1; }
 }
 .exp-thread-text {
   font-size: 15px; color: var(--muted);
-  line-height: 1.82; margin: 0; font-style: italic;
+  line-height: 1.82; margin: 0;
 }
 
 /* ============================================================
@@ -872,7 +871,7 @@ main { position: relative; z-index: 1; }
 }
 .services-heading {
   font-family: var(--display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(36px, 5vw, 56px);
   letter-spacing: -0.03em; line-height: 1.05; color: var(--text); margin: 0;
 }
@@ -922,7 +921,7 @@ main { position: relative; z-index: 1; }
 }
 .service-head h3 {
   font-family: var(--display);
-  font-size: clamp(20px, 2.6vw, 30px); font-weight: 700; font-style: normal;
+  font-size: clamp(20px, 2.6vw, 30px); font-weight: 600; font-style: normal;
   margin: 0; letter-spacing: -0.02em; color: var(--text);
   transition: color 0.2s;
 }
@@ -958,7 +957,7 @@ main { position: relative; z-index: 1; }
   display: block;
   font-family: var(--display);
   font-size: clamp(22px, 3vw, 32px);
-  font-weight: 700; color: var(--text);
+  font-weight: 600; color: var(--text);
   margin-bottom: 8px;
   letter-spacing: -0.02em;
 }
@@ -989,7 +988,7 @@ main { position: relative; z-index: 1; }
 }
 .process-step h4 {
   font-family: var(--display);
-  font-size: 18px; font-weight: 700;
+  font-size: 18px; font-weight: 600;
   margin: 0 0 10px; color: var(--text);
   letter-spacing: -0.02em;
 }
@@ -1066,7 +1065,7 @@ main { position: relative; z-index: 1; }
 }
 .pr-title {
   font-family: var(--display);
-  font-weight: 700; font-style: normal;
+  font-weight: 600; font-style: normal;
   font-size: clamp(24px, 4vw, 50px);
   letter-spacing: -0.03em; line-height: 1; color: var(--text);
   transition: color 0.3s, transform 0.45s var(--ease-spring);
@@ -1115,7 +1114,7 @@ main { position: relative; z-index: 1; }
   font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--gold-lit);
 }
 .pp-title {
-  font-family: var(--display); font-weight: 700;
+  font-family: var(--display); font-weight: 600;
   font-size: 24px; line-height: 1.05; color: var(--color-text);
   letter-spacing: -0.02em;
 }
@@ -1155,8 +1154,7 @@ main { position: relative; z-index: 1; }
   padding-top: 2px; gap: 2px;
 }
 .cred-year {
-  font-family: var(--display);
-  font-style: italic; font-weight: 700;
+  font-weight: 600;
   font-size: clamp(18px, 2vw, 24px); color: var(--gold-lit);
   line-height: 1;
 }
@@ -1173,7 +1171,7 @@ main { position: relative; z-index: 1; }
   gap: 10px; margin-bottom: 2px;
 }
 .cred-title {
-  font-family: var(--display); font-weight: 700; font-style: normal;
+  font-family: var(--display); font-weight: 600; font-style: normal;
   font-size: 16px; color: var(--text); transition: color 0.2s;
   letter-spacing: -0.01em;
 }
@@ -1197,7 +1195,7 @@ main { position: relative; z-index: 1; }
    ============================================================ */
 .contact-heading {
   font-family: var(--display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(40px, 7vw, 72px);
   letter-spacing: -0.03em; line-height: 1.05;
   color: var(--text); margin: 0 0 clamp(40px, 6vw, 72px);
@@ -1346,7 +1344,7 @@ main { position: relative; z-index: 1; }
 .footer-bigline {
   display: inline-block;
   font-family: var(--display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(32px, 6vw, 64px);
   line-height: 1.05; letter-spacing: -0.03em; color: var(--text);
 }
@@ -1380,8 +1378,7 @@ main { position: relative; z-index: 1; }
   padding-top: 28px; border-top: 1px solid var(--border);
 }
 .footer-logo {
-  font-family: var(--display);
-  font-style: italic; font-weight: 700;
+  font-weight: 600;
   font-size: 18px; color: var(--text);
   transition: color 0.18s;
 }
