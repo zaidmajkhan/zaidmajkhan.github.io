@@ -616,6 +616,23 @@ main { position: relative; z-index: 1; }
   font-size: 16px; font-weight: 700; font-style: italic;
   color: var(--text); margin-bottom: 4px;
 }
+.hero-stat-label {
+  font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+.hero-stat-row .hero-stat { background: var(--color-surface); }
+.hero-stat-row .hero-stat:hover { border-color: var(--border-h); }
+
+.hero-cards { display: flex; flex-direction: column; gap: 10px; }
+.hero-card {
+  position: relative; padding: 18px 20px; cursor: default;
+}
+.hero-card:hover { transform: translateY(-2px); }
+.hero-card-label {
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+}
 .hero-card-sub {
   font-family: var(--sans);
   font-size: 13px; color: var(--muted);
