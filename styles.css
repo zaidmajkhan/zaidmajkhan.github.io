@@ -200,11 +200,11 @@ html { scrollbar-color: var(--zinc-400) var(--bg); scrollbar-width: thin; }
 html { scroll-behavior: auto; }
 html, body { margin: 0; }
 body {
-  font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.7;
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.65;
   color: var(--text);
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
   background: var(--gradient-page);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
@@ -223,97 +223,58 @@ button, input, textarea, select {
   font-family: inherit;
 }
 
-/* Times New Roman — editorial headline moments */
+/* Times New Roman — site-wide editorial typography */
+h1, h2, h3, h4, h5, h6,
+p, a, li, span, label,
+.logo,
 .hero-name .clip-inner,
+.hero-role,
+.hero-stat-val,
+.hero-card-val,
+.hero-card-label,
+.hero-card-sub,
+.hero-stat-label,
+.astat-val,
+.astat-note,
+.astat-label,
+.mobile-nav a,
 .about-quote,
 .about-quote .clip-inner,
 .about-right h2,
 .experience-heading,
 .skills-title,
+.skills-note,
+.services-heading,
 .services-heading .clip-inner,
+.contact-heading,
 .contact-heading .clip-inner,
 .process-title,
 .pr-title,
 .pp-title,
-.timeline-item h3,
-.service-head h3,
-.process-step h4,
-.cred-title,
 .footer-bigline,
 .footer-bigline .clip-inner,
-.intro-mark,
-.mobile-nav a {
-  font-family: var(--serif);
-}
-
-.about-quote,
-.intro-mark {
-  font-style: italic;
-}
-
-/* Plus Jakarta Sans — navigation, UI, card titles */
-.logo,
 .footer-logo,
-.hero-role,
-.hero-stat-val,
-.hero-card-val,
-.astat-val,
-.cred-year,
-.nav a,
-.header-cta,
-.btn,
-.mobile-cta,
-.contact-link,
-.intro-count {
-  font-family: var(--ui);
-}
-
-/* Softer weight on headings — less sharp than bold sans */
-.experience-heading,
-.about-right h2,
-.skills-title,
-.process-title,
-.timeline-item h3,
-.service-head h3,
-.process-step h4,
+.intro-mark,
 .cred-title,
-.pr-title,
-.pp-title,
-.hero-name .clip-inner,
-.services-heading .clip-inner,
-.contact-heading .clip-inner {
-  font-weight: 600;
-}
-
-.experience-heading,
-.services-heading .clip-inner,
-.pr-title,
-.contact-heading .clip-inner {
-  letter-spacing: -0.015em;
-}
-
+.cred-desc,
+.cred-issuer,
 .timeline-item h3,
 .service-head h3,
 .process-step h4,
-.cred-title {
-  letter-spacing: -0.01em;
-}
-
-.footer-logo {
-  font-style: italic;
-  font-weight: 700;
-}
-
-/* JetBrains Mono — labels, metadata, chips */
+.nav a,
+.btn,
+.header-cta,
+.mobile-cta,
 .section-label,
-.hero-status,
-.hero-location,
-.hero-card-label,
-.hero-stat-label,
-.hero-card-sub,
 .skill-chip,
 .mq-item,
+.footer-links a,
+.footer-col-label,
+.footer-top,
+.footer-eyebrow,
+.contact-link,
 .intro-label,
+.intro-count,
 .timeline-date,
 .timeline-type,
 .service-num,
@@ -325,43 +286,36 @@ button, input, textarea, select {
 .pr-flag,
 .pp-num,
 .pp-sub,
+.cred-year,
 .cred-year-sub,
 .cred-badge,
-.cred-issuer,
 .process-num,
 .avail-label,
 .contact-type-label,
-.footer-eyebrow,
-.footer-col-label,
-.footer-top,
 .clients-label,
 .exp-thread-label,
 .about-currently-label,
 .ac-key,
 .stack-item,
-.astat-note,
-.astat-label,
-.skills-note {
-  font-family: var(--mono);
+.hero-status,
+.hero-location,
+.visual-caption {
+  font-family: var(--serif);
+}
+
+.about-quote,
+.intro-mark,
+.footer-logo {
+  font-style: italic;
+}
+
+.about-quote {
+  font-weight: 400;
 }
 
 .container {
   width: min(1240px, 90%);
   margin: 0 auto;
-}
-
-/* ============================================================
-   Page accent — subtle grid + depth (editorial, not flashy)
-   ============================================================ */
-.page-accent {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background-image:
-    linear-gradient(var(--color-border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse 85% 75% at 50% 15%, black 10%, transparent 72%);
-  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 15%, black 10%, transparent 72%);
-  opacity: 0.45;
 }
 
 /* ============================================================
@@ -742,8 +696,9 @@ main { position: relative; z-index: 1; }
 .hero-name { margin: 0; line-height: 0.92; }
 .hero-name .clip-inner {
   font-style: italic;
+  font-weight: 700;
   font-size: clamp(52px, 10vw, 108px);
-  letter-spacing: -0.015em; color: var(--text); display: block;
+  letter-spacing: -0.02em; color: var(--text); display: block;
 }
 .hero-role {
   font-size: clamp(16px, 2.2vw, 20px);
@@ -879,9 +834,9 @@ main { position: relative; z-index: 1; }
 
 .about-right { padding-top: 4px; }
 .about-right h2 {
-  font-style: italic;
+  font-style: italic; font-weight: 700;
   font-size: clamp(32px, 4.5vw, 52px);
-  letter-spacing: -0.015em; margin-bottom: 22px; color: var(--text);
+  letter-spacing: -0.02em; margin-bottom: 22px; color: var(--text);
 }
 .about-right p { font-size: 15px; color: var(--muted); line-height: 1.88; }
 .about-mission {
@@ -940,7 +895,7 @@ main { position: relative; z-index: 1; }
 .skills-title {
   font-style: italic;
   font-size: clamp(22px, 3vw, 32px);
-  color: var(--text);
+  font-weight: 700; color: var(--text);
 }
 .skills-note {
   font-size: 10px; color: var(--muted); letter-spacing: 0.08em;
@@ -974,8 +929,9 @@ main { position: relative; z-index: 1; }
 }
 .experience-heading {
   font-style: italic;
+  font-weight: 700;
   font-size: clamp(28px, 4vw, 44px);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.03em;
   margin: 0; color: var(--text);
 }
 .experience-sub {
@@ -1030,9 +986,9 @@ main { position: relative; z-index: 1; }
   width: fit-content; color: var(--muted);
 }
 .timeline-item h3 {
-  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 700; font-size: clamp(18px, 2.2vw, 22px);
   margin: 0 0 10px; color: var(--text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 .timeline-item p {
   font-size: 14px; color: var(--muted);
@@ -1070,8 +1026,9 @@ main { position: relative; z-index: 1; }
   margin-bottom: clamp(36px, 5vw, 64px);
 }
 .services-heading {
+  font-weight: 700;
   font-size: clamp(36px, 5vw, 56px);
-  letter-spacing: -0.015em; line-height: 1.05; color: var(--text); margin: 0;
+  letter-spacing: -0.03em; line-height: 1.05; color: var(--text); margin: 0;
 }
 .services-right { padding-bottom: 8px; }
 .services-sub { font-size: 15px; color: var(--muted); line-height: 1.78; margin-bottom: 24px; }
@@ -1116,8 +1073,8 @@ main { position: relative; z-index: 1; }
   justify-content: flex-start; gap: 16px; padding-right: 44px;
 }
 .service-head h3 {
-  font-size: clamp(20px, 2.6vw, 30px); font-style: normal;
-  margin: 0; letter-spacing: -0.01em; color: var(--text);
+  font-size: clamp(20px, 2.6vw, 30px); font-weight: 700; font-style: normal;
+  margin: 0; letter-spacing: -0.02em; color: var(--text);
   transition: color 0.2s;
 }
 .service-item:hover .service-head h3,
@@ -1150,9 +1107,9 @@ main { position: relative; z-index: 1; }
 .process-title {
   display: block;
   font-size: clamp(22px, 3vw, 32px);
-  color: var(--text);
+  font-weight: 700; color: var(--text);
   margin-bottom: 8px;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
 }
 .process-sub { font-size: 14px; color: var(--muted); margin: 0; }
 .process-steps {
@@ -1179,9 +1136,9 @@ main { position: relative; z-index: 1; }
   margin-bottom: 12px;
 }
 .process-step h4 {
-  font-size: 18px;
+  font-size: 18px; font-weight: 700;
   margin: 0 0 10px; color: var(--text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 .process-step p { font-size: 13.5px; color: var(--muted); line-height: 1.7; margin: 0; }
 
@@ -1276,9 +1233,9 @@ main { position: relative; z-index: 1; }
   transform: scale(1.06);
 }
 .pr-title {
-  font-style: normal;
+  font-weight: 700; font-style: normal;
   font-size: clamp(24px, 4vw, 50px);
-  letter-spacing: -0.015em; line-height: 1; color: var(--text);
+  letter-spacing: -0.03em; line-height: 1; color: var(--text);
   transition: color 0.3s, transform 0.45s var(--ease-spring);
 }
 .project-row:hover .pr-title,
@@ -1350,8 +1307,9 @@ main { position: relative; z-index: 1; }
   font-size: 11px; letter-spacing: 0.1em; color: var(--gold-lit);
 }
 .pp-title {
+  font-weight: 700;
   font-size: 24px; line-height: 1.05; color: var(--color-text);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
 }
 .pp-sub {
   font-size: 10px; letter-spacing: 0.12em;
@@ -1405,7 +1363,7 @@ main { position: relative; z-index: 1; }
   gap: 10px; margin-bottom: 2px;
 }
 .cred-title {
-  font-style: normal;
+  font-weight: 700; font-style: normal;
   font-size: 16px; color: var(--text); transition: color 0.2s;
   letter-spacing: -0.01em;
 }
@@ -1427,8 +1385,9 @@ main { position: relative; z-index: 1; }
    Contact
    ============================================================ */
 .contact-heading {
+  font-weight: 700;
   font-size: clamp(40px, 7vw, 72px);
-  letter-spacing: -0.015em; line-height: 1.05;
+  letter-spacing: -0.03em; line-height: 1.05;
   color: var(--text); margin: 0 0 clamp(40px, 6vw, 72px);
 }
 .contact-body {
