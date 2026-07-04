@@ -561,6 +561,16 @@ html.intro-seen .intro-overlay { display: none; }
   margin-bottom: 28px;
 }
 .mobile-cta:hover { background: var(--gold-lit); color: var(--on-gold) !important; }
+.mobile-cta-book {
+  background: transparent !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  margin-bottom: 8px;
+}
+.mobile-cta-book:hover {
+  border-color: var(--border-h) !important;
+  color: var(--gold-lit) !important;
+}
 
 /* ============================================================
    GSAP clip pattern
