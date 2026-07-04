@@ -16,9 +16,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=calm-inter-1" />
+    <link rel="stylesheet" href="styles.css?v=visual-polish-1" />
   </head>
   <body>
+
+    <div class="ambient-bg" aria-hidden="true">
+      <div class="ambient-orb ambient-orb--1"></div>
+      <div class="ambient-orb ambient-orb--2"></div>
+      <div class="ambient-orb ambient-orb--3"></div>
+    </div>
 
     <div class="intro-overlay" id="introOverlay" aria-hidden="true">
       <span class="intro-mark">ZK</span>
@@ -82,7 +88,8 @@
 
           <div class="hero-name-row">
             <h1 class="hero-name">
-              <div class="clip-wrap"><span class="clip-inner">Zaid Khan</span></div>
+              <div class="clip-wrap"><span class="clip-inner">Zaid</span></div>
+              <div class="clip-wrap"><span class="clip-inner clip-inner--accent">Khan</span></div>
             </h1>
             <p class="hero-role reveal-up">ISEN Major · AI Automation · Healthcare Systems</p>
           </div>
@@ -385,7 +392,7 @@
           <div class="services-header">
             <h2 class="services-heading">
               <div class="clip-wrap"><span class="clip-inner">AI</span></div>
-              <div class="clip-wrap"><span class="clip-inner">Automation</span></div>
+              <div class="clip-wrap"><span class="clip-inner clip-inner--accent">Automation</span></div>
             </h2>
             <div class="services-right reveal-up">
               <p class="services-sub">
@@ -657,7 +664,7 @@
 
           <h2 class="contact-heading">
             <div class="clip-wrap"><span class="clip-inner">Let's build</span></div>
-            <div class="clip-wrap"><span class="clip-inner">something.</span></div>
+            <div class="clip-wrap"><span class="clip-inner clip-inner--accent">something.</span></div>
           </h2>
 
           <div class="contact-body">
@@ -730,7 +737,7 @@
           <span class="footer-eyebrow">Have something in mind?</span>
           <a href="#contact" class="footer-bigline">
             <span class="clip-wrap"><span class="clip-inner">Let's work</span></span>
-            <span class="clip-wrap"><span class="clip-inner">together <i class="fb-arrow">↗</i></span></span>
+            <span class="clip-wrap"><span class="clip-inner clip-inner--accent">together <i class="fb-arrow">↗</i></span></span>
           </a>
         </div>
 
@@ -812,7 +819,8 @@
         .from(".hero-stat",             { opacity: 0, y: 16, duration: 0.45, stagger: 0.06 }, 0.45)
         .from(".hero-desc",             { opacity: 0, y: 14, duration: 0.45 }, 0.55)
         .from(".hero-actions .btn",     { opacity: 0, y: 12, duration: 0.4, stagger: 0.08 }, 0.62)
-        .from(".hero-card",             { opacity: 0, y: 18, duration: 0.45, stagger: 0.07 }, 0.5);
+        .from(".hero-card",             { opacity: 0, y: 18, duration: 0.45, stagger: 0.07 }, 0.5)
+        .from(".hero-scroll-hint",      { opacity: 0, y: 10, duration: 0.45 }, 0.65);
 
       /* ── Section rule expand ── */
       gsap.utils.toArray(".section-rule").forEach(function(rule) {
