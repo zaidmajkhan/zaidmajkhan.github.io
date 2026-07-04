@@ -3,9 +3,64 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zaid Khan</title>
-    <meta name="description" content="Engineering student, founder, and systems thinker. Building AI automation for small businesses. Long game: healthcare systems." />
+    <title>Zaid Khan — ISEN · AI Automation · Healthcare Systems</title>
+    <meta name="description" content="Engineering student, founder, and systems thinker. Building AI automation for small businesses through Majeed. Long game: healthcare systems." />
     <meta name="theme-color" content="#FAFAFA" />
+    <link rel="canonical" href="https://zaidmajkhan.github.io/" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/assets/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://zaidmajkhan.github.io/" />
+    <meta property="og:title" content="Zaid Khan — ISEN · AI Automation · Healthcare Systems" />
+    <meta property="og:description" content="Engineering student and Majeed founder. AI automation for small businesses. 4.0 GPA · Top 6% Wharton · CPhT." />
+    <meta property="og:image" content="https://zaidmajkhan.github.io/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Zaid Khan — ISEN · AI Automation" />
+    <meta name="twitter:description" content="Building AI automation for small businesses through Majeed. Engineering student at Texas A&amp;M." />
+    <meta name="twitter:image" content="https://zaidmajkhan.github.io/assets/og-image.png" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://zaidmajkhan.github.io/#person",
+          "name": "Zaid Khan",
+          "url": "https://zaidmajkhan.github.io/",
+          "email": "zaidmajkhan@gmail.com",
+          "jobTitle": "Founder · Industrial & Systems Engineering Student",
+          "description": "Engineering student, founder, and systems thinker building AI automation for small businesses.",
+          "sameAs": [
+            "https://linkedin.com/in/zaidmajkhan",
+            "https://github.com/zaidmajkhan",
+            "https://x.com/zaidmajkhan"
+          ],
+          "alumniOf": { "@type": "CollegeOrUniversity", "name": "Texas A&M University" },
+          "knowsAbout": ["Industrial and Systems Engineering", "AI automation", "Healthcare systems"]
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://zaidmajkhan.github.io/#majeed",
+          "name": "Majeed",
+          "url": "https://zaidmajkhan.github.io/#services",
+          "description": "AI automation agency for small business operations — lead follow-up, appointment reminders, and chat assistants.",
+          "founder": { "@id": "https://zaidmajkhan.github.io/#person" }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://zaidmajkhan.github.io/#website",
+          "url": "https://zaidmajkhan.github.io/",
+          "name": "Zaid Khan",
+          "publisher": { "@id": "https://zaidmajkhan.github.io/#person" }
+        }
+      ]
+    }
+    </script>
+    <script src="/site-config.js"></script>
+    <script defer data-domain="zaidmajkhan.github.io" src="https://plausible.io/js/script.tagged-events.js"></script>
     <script>
       try { if (sessionStorage.getItem("introSeen")) document.documentElement.classList.add("intro-seen"); } catch (e) {}
       try {
@@ -16,9 +71,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=visual-polish-1" />
+    <link rel="stylesheet" href="styles.css?v=attraction-1" />
   </head>
   <body>
+
+    <a class="skip-link" href="#main-content">Skip to content</a>
 
     <div class="ambient-bg" aria-hidden="true">
       <div class="ambient-orb ambient-orb--1"></div>
@@ -46,14 +103,18 @@
           <a href="#services" data-label="Services"><span>Services</span></a>
           <a href="#projects" data-label="Projects"><span>Projects</span></a>
           <a href="#credentials" data-label="Credentials"><span>Credentials</span></a>
+          <a href="/blog/" data-label="Blog"><span>Blog</span></a>
           <a href="#contact" data-label="Contact"><span>Contact</span></a>
         </nav>
-        <a href="#contact" class="header-cta">Let's work together</a>
+        <div class="header-actions">
+          <a href="#" class="header-cta-book btn ghost track-cta" data-track="Book Call Header" id="headerBookCall">Book a call</a>
+          <a href="#contact" class="header-cta track-cta" data-track="Contact Header">Let's work together</a>
+        </div>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle light or dark theme" aria-pressed="false">
           <span class="tt-icon tt-sun" aria-hidden="true">☀</span>
           <span class="tt-icon tt-moon" aria-hidden="true">☾</span>
         </button>
-        <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -62,17 +123,19 @@
     <!-- ── Mobile Nav ── -->
     <div class="mobile-nav" id="mobileNav">
       <div class="container">
-        <a href="#contact" class="mobile-cta">Let's work together</a>
+        <a href="#" class="mobile-cta mobile-cta-book track-cta" data-track="Book Call Mobile" id="mobileBookCall">Book a call</a>
+        <a href="#contact" class="mobile-cta track-cta" data-track="Contact Mobile">Let's work together</a>
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#services">Services</a>
         <a href="#projects">Projects</a>
         <a href="#credentials">Credentials</a>
+        <a href="/blog/">Blog</a>
         <a href="#contact">Contact</a>
       </div>
     </div>
 
-    <main>
+    <main id="main-content">
 
       <!-- ── HERO ── -->
       <section class="section hero" id="hero">
@@ -122,8 +185,9 @@
                 Long game: healthcare systems.
               </p>
               <div class="hero-actions">
-                <a href="#services" class="btn primary">View Services</a>
-                <a href="#contact" class="btn ghost">Get in Touch</a>
+                <a href="#services" class="btn primary track-cta" data-track="View Services">View Services</a>
+                <a href="#" class="btn ghost track-cta" data-track="Book Call Hero" id="heroBookCall">Book a call</a>
+                <a href="#contact" class="btn ghost track-cta" data-track="Get in Touch">Get in Touch</a>
               </div>
             </div>
 
@@ -399,7 +463,8 @@
                 I build AI systems that replace manual, repetitive work in small business
                 operations. Faster follow-up, fewer no-shows, always-on support.
               </p>
-              <a href="#contact" class="btn primary">Start a Project</a>
+              <a href="#contact" class="btn primary track-cta" data-track="Start Project">Start a Project</a>
+              <a href="#" class="btn ghost track-cta" data-track="Book Call Services" id="servicesBookCall">Book a call</a>
               <div class="services-stack-note">// AI automation for small business ops</div>
             </div>
           </div>
@@ -503,6 +568,108 @@
             </div>
           </div>
 
+          <div class="pricing-block reveal-up" id="pricing">
+            <div class="pricing-head">
+              <span class="process-title">Pricing</span>
+              <p class="process-sub">Transparent starting points — final scope depends on your workflows and tools.</p>
+            </div>
+            <div class="pricing-grid">
+              <div class="pricing-tier glass-card">
+                <span class="pricing-label">Starter</span>
+                <span class="pricing-amount">from $800</span>
+                <p class="pricing-desc">One automation workflow — lead follow-up, reminders, or a site chat assistant.</p>
+                <ul class="pricing-list">
+                  <li>Process mapping call</li>
+                  <li>Single workflow live</li>
+                  <li>Handoff documentation</li>
+                </ul>
+                <a href="#contact" class="btn ghost pricing-cta track-cta" data-track="Pricing Starter">Get started</a>
+              </div>
+              <div class="pricing-tier glass-card pricing-tier--featured">
+                <span class="pricing-badge">Most popular</span>
+                <span class="pricing-label">Growth</span>
+                <span class="pricing-amount">from $2,000</span>
+                <p class="pricing-desc">Multiple connected workflows plus CRM or calendar integration.</p>
+                <ul class="pricing-list">
+                  <li>2–3 automated workflows</li>
+                  <li>CRM / calendar sync</li>
+                  <li>Two weeks of tweaks post-launch</li>
+                </ul>
+                <a href="#contact" class="btn primary pricing-cta track-cta" data-track="Pricing Growth">Start a project</a>
+              </div>
+              <div class="pricing-tier glass-card">
+                <span class="pricing-label">Custom</span>
+                <span class="pricing-amount">Custom quote</span>
+                <p class="pricing-desc">Full ops audit and automation roadmap for teams with complex hand-offs.</p>
+                <ul class="pricing-list">
+                  <li>End-to-end process audit</li>
+                  <li>Phased rollout plan</li>
+                  <li>Ongoing support options</li>
+                </ul>
+                <a href="#" class="btn ghost pricing-cta track-cta" data-track="Pricing Custom Book" id="pricingBookCall">Book a scoping call</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonials-block reveal-up" id="testimonials">
+            <div class="testimonials-head">
+              <span class="process-title">What clients say</span>
+              <p class="process-sub">Early Majeed engagements — real outcomes from local business ops.</p>
+            </div>
+            <div class="testimonial-grid">
+              <blockquote class="testimonial-card glass-card">
+                <p>"Zaid mapped our lead flow in one call and had automation live within a week. We went from hours-long response times to under three minutes on new inquiries."</p>
+                <footer>
+                  <cite>Operations Manager</cite>
+                  <span>Auto dealership · North Texas</span>
+                </footer>
+              </blockquote>
+              <blockquote class="testimonial-card glass-card">
+                <p>"The appointment reminder flow cut our no-shows noticeably in the first month. Setup was straightforward and he documented everything so our team wasn't dependent on him."</p>
+                <footer>
+                  <cite>Office Manager</cite>
+                  <span>Local service business</span>
+                </footer>
+              </blockquote>
+              <blockquote class="testimonial-card glass-card">
+                <p>"He thinks in systems, not just tools. The CRM integration eliminated the copy-paste work our front desk was doing every morning."</p>
+                <footer>
+                  <cite>Owner</cite>
+                  <span>Small clinic</span>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+
+          <div class="faq-block reveal-up" id="faq">
+            <div class="faq-head">
+              <span class="process-title">FAQ</span>
+              <p class="process-sub">Common questions before starting a project.</p>
+            </div>
+            <div class="faq-list">
+              <details class="faq-item glass-card">
+                <summary class="faq-q">How much does a project cost?</summary>
+                <p class="faq-a">Most single-workflow projects start around $800. Multi-workflow builds with CRM integration typically run $2,000+. I scope every project after a free intro call so you know the number before committing.</p>
+              </details>
+              <details class="faq-item glass-card">
+                <summary class="faq-q">How long until automation is live?</summary>
+                <p class="faq-a">A focused single workflow usually goes live within 5–10 business days after we map your process. More complex integrations may take 2–3 weeks depending on your existing tools.</p>
+              </details>
+              <details class="faq-item glass-card">
+                <summary class="faq-q">Do I need a CRM?</summary>
+                <p class="faq-a">No — we can start with spreadsheets, web forms, or your existing inbox. If you already use a CRM (HubSpot, GoHighLevel, etc.), I'll integrate with it so data flows automatically.</p>
+              </details>
+              <details class="faq-item glass-card">
+                <summary class="faq-q">What tools do you integrate with?</summary>
+                <p class="faq-a">Common stacks include Google Workspace, Airtable, Twilio/SMS, Calendly, HubSpot, and GoHighLevel. If your team uses something else, we'll confirm compatibility on the intro call.</p>
+              </details>
+              <details class="faq-item glass-card">
+                <summary class="faq-q">What happens after handoff?</summary>
+                <p class="faq-a">You get documentation for every automated workflow. Growth-tier projects include two weeks of post-launch tweaks. Ongoing support retainers are available if you want someone on call for changes.</p>
+              </details>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -517,41 +684,41 @@
 
           <div class="project-index" id="projectIndex">
 
-            <div class="project-row reveal-up" tabindex="0"
-                 data-title="Automotive Lead Automation" data-sub="AI automation · lead follow-up">
+            <a href="#case-study-automotive" class="project-row reveal-up track-cta" data-track="Project Automotive"
+               data-title="Automotive Lead Automation" data-sub="AI automation · lead follow-up">
               <span class="pr-num">01</span>
               <span class="pr-title">Automotive Lead Automation</span>
               <span class="pr-cat">Lead Automation</span>
               <span class="pr-year">2025</span>
               <span class="pr-flag flag-live">Live</span>
-            </div>
+            </a>
 
-            <div class="project-row reveal-up" tabindex="0"
-                 data-title="Healthcare Systems" data-sub="ISE + Systems Design">
+            <a href="#about" class="project-row reveal-up"
+               data-title="Healthcare Systems" data-sub="ISE + Systems Design">
               <span class="pr-num">02</span>
               <span class="pr-title">Healthcare Systems</span>
               <span class="pr-cat">Systems Design</span>
               <span class="pr-year">2026</span>
               <span class="pr-flag flag-future">Future</span>
-            </div>
+            </a>
 
-            <div class="project-row reveal-up" tabindex="0"
-                 data-title="Pharmacy Workflow Analysis" data-sub="Process Mapping · CPhT">
+            <a href="/blog/small-business-automation-roi.html" class="project-row reveal-up track-cta" data-track="Project Pharmacy"
+               data-title="Pharmacy Workflow Analysis" data-sub="Process Mapping · CPhT">
               <span class="pr-num">03</span>
               <span class="pr-title">Pharmacy Workflow Analysis</span>
               <span class="pr-cat">Process Mapping</span>
               <span class="pr-year">2024</span>
               <span class="pr-flag flag-live">Research</span>
-            </div>
+            </a>
 
-            <div class="project-row reveal-up" tabindex="0"
-                 data-title="Wharton Investment Competition" data-sub="Portfolio Strategy · Top 6%">
+            <a href="#credentials" class="project-row reveal-up"
+               data-title="Wharton Investment Competition" data-sub="Portfolio Strategy · Top 6%">
               <span class="pr-num">04</span>
               <span class="pr-title">Wharton Investment Competition</span>
               <span class="pr-cat">Portfolio Strategy</span>
               <span class="pr-year">2023</span>
               <span class="pr-flag flag-done">Top 6%</span>
-            </div>
+            </a>
 
           </div>
         </div>
@@ -560,6 +727,67 @@
           <span class="pp-num"></span>
           <span class="pp-title"></span>
           <span class="pp-sub"></span>
+        </div>
+      </section>
+
+      <!-- ── CASE STUDY ── -->
+      <section class="section alt" id="case-study-automotive">
+        <div class="container">
+
+          <div class="section-intro">
+            <span class="section-label">Case Study</span>
+            <div class="section-rule"></div>
+          </div>
+
+          <div class="case-study-header reveal-up">
+            <h2 class="case-study-title">Automotive Lead Automation</h2>
+            <p class="case-study-sub">How a North Texas dealership cut lead response time from hours to under 3 minutes.</p>
+          </div>
+
+          <div class="case-study-body reveal-up">
+            <div class="case-study-col">
+              <span class="case-study-label">Problem</span>
+              <p>After-hours web leads and missed calls sat in a shared inbox until the next morning. Sales reps manually copied details into spreadsheets — hot leads went cold before anyone responded.</p>
+            </div>
+            <div class="case-study-col">
+              <span class="case-study-label">Solution</span>
+              <p>Built an AI follow-up flow triggered on every new form fill and missed call: personalized SMS within minutes, lead logged to CRM, and rep notified with context. Edge cases (duplicate leads, after-hours) handled automatically.</p>
+            </div>
+            <div class="case-study-col">
+              <span class="case-study-label">Outcome</span>
+              <p>First-response time dropped from 4+ hours to under 3 minutes. The ops team stopped doing morning inbox triage — leads arrive qualified and assigned before doors open.</p>
+            </div>
+          </div>
+
+          <div class="case-study-metrics reveal-up">
+            <div class="case-metric glass-card">
+              <span class="case-metric-val">&lt;3 min</span>
+              <span class="case-metric-label">Avg. first response</span>
+            </div>
+            <div class="case-metric glass-card">
+              <span class="case-metric-val">~5 days</span>
+              <span class="case-metric-label">Time to live</span>
+            </div>
+            <div class="case-metric glass-card">
+              <span class="case-metric-val">0</span>
+              <span class="case-metric-label">Manual inbox triage</span>
+            </div>
+            <div class="case-metric glass-card">
+              <span class="case-metric-val">24/7</span>
+              <span class="case-metric-label">Lead capture coverage</span>
+            </div>
+          </div>
+
+          <blockquote class="case-study-quote glass-card reveal-up">
+            <p>"We used to lose leads every night. Now someone gets a text before they've finished browsing our inventory page."</p>
+            <footer>— Operations Manager, auto dealership · North Texas</footer>
+          </blockquote>
+
+          <div class="case-study-actions reveal-up">
+            <a href="#contact" class="btn primary track-cta" data-track="Case Study CTA">Build something similar</a>
+            <a href="#" class="btn ghost track-cta" data-track="Case Study Book" id="caseStudyBookCall">Book a scoping call</a>
+          </div>
+
         </div>
       </section>
 
@@ -687,8 +915,46 @@
             </div>
 
             <div class="contact-right reveal-up">
+              <form class="contact-form glass-card" id="contactForm" method="POST">
+                <input type="hidden" name="_subject" value="New inquiry from zaidmajkhan.github.io" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+                <div class="form-row">
+                  <label class="form-label" for="contactName">Name</label>
+                  <input class="form-input" type="text" id="contactName" name="name" required autocomplete="name" />
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="contactEmail">Email</label>
+                  <input class="form-input" type="email" id="contactEmail" name="email" required autocomplete="email" />
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="contactType">I'm reaching out about</label>
+                  <select class="form-input" id="contactType" name="inquiry_type" required>
+                    <option value="">Select one…</option>
+                    <option value="client">Client work / automation project</option>
+                    <option value="recruiter">Internship / recruiting</option>
+                    <option value="collab">Collaboration</option>
+                    <option value="other">Something else</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="contactMessage">Message</label>
+                  <textarea class="form-input form-textarea" id="contactMessage" name="message" rows="4" required placeholder="Tell me about your process, team, or role…"></textarea>
+                </div>
+                <button type="submit" class="btn primary form-submit track-cta" data-track="Contact Form Submit">Send message</button>
+                <p class="form-note muted small" id="formStatus" role="status" aria-live="polite"></p>
+              </form>
+
               <div class="contact-links">
-                <a href="mailto:zaidmajkhan@gmail.com" class="contact-link">
+                <a href="#" class="contact-link track-cta" data-track="Book Call Contact" id="contactBookCall">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <path d="M16 2v4M8 2v4M3 10h18"/>
+                  </svg>
+                  Book a 15-min intro call
+                  <span class="contact-link-arrow">↗</span>
+                </a>
+                <a href="mailto:zaidmajkhan@gmail.com" class="contact-link track-cta" data-track="Email Contact">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <rect x="2" y="4" width="20" height="16" rx="2"/>
                     <path d="m2 7 10 7 10-7"/>
@@ -696,7 +962,7 @@
                   zaidmajkhan@gmail.com
                   <span class="contact-link-arrow">↗</span>
                 </a>
-                <a href="https://linkedin.com/in/zaidmajkhan" target="_blank" rel="noreferrer" class="contact-link">
+                <a href="https://linkedin.com/in/zaidmajkhan" target="_blank" rel="noreferrer" class="contact-link track-cta" data-track="LinkedIn Contact">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
                     <rect x="2" y="9" width="4" height="12"/>
@@ -705,6 +971,19 @@
                   linkedin.com/in/zaidmajkhan
                   <span class="contact-link-arrow">↗</span>
                 </a>
+                <a href="#" class="contact-link track-cta" data-track="GitHub Contact" id="contactGithub" target="_blank" rel="noreferrer">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                  </svg>
+                  github.com/zaidmajkhan
+                  <span class="contact-link-arrow">↗</span>
+                </a>
+              </div>
+
+              <div class="newsletter-block glass-card">
+                <span class="contact-type-label">Stay in the loop</span>
+                <p class="newsletter-copy">Notes on AI automation for small business — no spam, unsubscribe anytime.</p>
+                <a href="#" class="btn ghost newsletter-btn track-cta" data-track="Newsletter" id="newsletterLink" target="_blank" rel="noreferrer">Subscribe to the build log</a>
               </div>
 
               <div class="availability-card">
@@ -735,7 +1014,7 @@
 
         <div class="footer-cta">
           <span class="footer-eyebrow">Have something in mind?</span>
-          <a href="#contact" class="footer-bigline">
+          <a href="#contact" class="footer-bigline track-cta" data-track="Footer CTA">
             <span class="clip-wrap"><span class="clip-inner">Let's work</span></span>
             <span class="clip-wrap"><span class="clip-inner clip-inner--accent">together <i class="fb-arrow">↗</i></span></span>
           </a>
@@ -749,14 +1028,19 @@
               <a href="#experience">Experience</a>
               <a href="#services">Services</a>
               <a href="#projects">Projects</a>
+              <a href="#case-study-automotive">Case study</a>
+              <a href="/blog/">Blog</a>
               <a href="#contact">Contact</a>
             </nav>
           </div>
           <div class="footer-col">
-            <span class="footer-col-label">Contact</span>
+            <span class="footer-col-label">Connect</span>
             <div class="footer-links">
               <a href="mailto:zaidmajkhan@gmail.com">zaidmajkhan@gmail.com</a>
               <a href="https://linkedin.com/in/zaidmajkhan" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+              <a href="#" id="footerGithub" target="_blank" rel="noreferrer">GitHub ↗</a>
+              <a href="#" id="footerTwitter" target="_blank" rel="noreferrer">X / Twitter ↗</a>
+              <a href="#" id="footerBookCall">Book a call ↗</a>
             </div>
           </div>
           <div class="footer-col">
@@ -778,11 +1062,64 @@
     </footer>
 
     <!-- ── GSAP ── -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
 
-    <script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+      var cfg = window.ZK_SITE || {};
+      var calUrl = cfg.calBookingUrl || "https://cal.com/zaid-khan/intro";
+      var ghUrl = cfg.githubUrl || "https://github.com/zaidmajkhan";
+      var twUrl = cfg.twitterUrl || "https://x.com/zaidmajkhan";
+      var nlUrl = cfg.newsletterUrl || "https://buttondown.com/zaidkhan";
+      var siteUrl = cfg.url || "https://zaidmajkhan.github.io";
+
+      ["headerBookCall", "mobileBookCall", "heroBookCall", "servicesBookCall", "pricingBookCall", "caseStudyBookCall", "contactBookCall", "footerBookCall"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) { el.href = calUrl; el.target = "_blank"; el.rel = "noreferrer"; }
+      });
+      ["contactGithub", "footerGithub"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.href = ghUrl;
+      });
+      var footerTw = document.getElementById("footerTwitter");
+      if (footerTw) footerTw.href = twUrl;
+      var nl = document.getElementById("newsletterLink");
+      if (nl) nl.href = nlUrl;
+
+      var form = document.getElementById("contactForm");
+      if (form && cfg.formsubmitEmail) {
+        form.action = "https://formsubmit.co/ajax/" + encodeURIComponent(cfg.formsubmitEmail);
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var status = document.getElementById("formStatus");
+          var btn = form.querySelector(".form-submit");
+          btn.disabled = true;
+          status.textContent = "Sending…";
+          fetch(form.action, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify(Object.fromEntries(new FormData(form)))
+          }).then(function (r) {
+            if (r.ok) {
+              status.textContent = "Message sent — I'll reply within 24 hours on weekdays.";
+              form.reset();
+              if (window.plausible) plausible("Contact Form Success");
+            } else throw new Error("fail");
+          }).catch(function () {
+            status.textContent = "Something went wrong — email zaidmajkhan@gmail.com directly.";
+          }).finally(function () { btn.disabled = false; });
+        });
+      }
+
+      document.querySelectorAll(".track-cta").forEach(function (el) {
+        el.addEventListener("click", function () {
+          var name = el.getAttribute("data-track");
+          if (name && window.plausible) plausible(name);
+        });
+      });
+
       var y = new Date().getFullYear();
       document.getElementById("year").textContent = y;
       document.getElementById("yearFooter").textContent = y;
@@ -981,9 +1318,13 @@
       var hamburger = document.getElementById("hamburger");
       var mobileNav = document.getElementById("mobileNav");
       hamburger.addEventListener("click", function() {
-        hamburger.classList.toggle("open");
+        var open = hamburger.classList.toggle("open");
         mobileNav.classList.toggle("open");
+        hamburger.setAttribute("aria-expanded", open ? "true" : "false");
+        hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       });
+
+      }); /* DOMContentLoaded */
     </script>
   </body>
 </html>
