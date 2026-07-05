@@ -1346,6 +1346,7 @@ a.project-row {
 }
 .flag-live   { color: var(--gold-lit); background: var(--gold-dim); border: 1px solid var(--border-h); }
 .flag-future { color: var(--muted); background: transparent; border: 1px solid var(--border); }
+.flag-progress { color: var(--muted); background: transparent; border: 1px solid var(--border); }
 .flag-done   { color: var(--muted); background: var(--bg-card); border: 1px solid var(--border); }
 
 /* Floating preview that follows the cursor */
@@ -1557,6 +1558,17 @@ a.project-row {
 .skip-link:focus {
   position: fixed; left: 16px; top: 16px;
   width: auto; height: auto;
+}
+
+.placeholder-note {
+  margin-top: 28px;
+  padding: 22px 24px;
+}
+.placeholder-note p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 8px 0 0;
 }
 
 /* ============================================================
