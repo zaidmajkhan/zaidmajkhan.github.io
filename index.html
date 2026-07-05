@@ -559,9 +559,18 @@
               <span class="pr-flag flag-progress">In progress</span>
             </a>
 
+            <a href="#building" id="todoAppProjectRow" class="project-row reveal-up track-cta" data-track="Project Todo App"
+               data-title="AI Todo App" data-sub="FastAPI · SQLite · Claude API">
+              <span class="pr-num">03</span>
+              <span class="pr-title">AI Todo App</span>
+              <span class="pr-cat">Full-stack</span>
+              <span class="pr-year">2026</span>
+              <span class="pr-flag flag-progress" id="todoAppProjectFlag">Deploying</span>
+            </a>
+
             <a href="#experience" class="project-row reveal-up track-cta" data-track="Project CVS"
                data-title="CVS Pharmacy Workflow" data-sub="Process Mapping · 47% wait ↓">
-              <span class="pr-num">03</span>
+              <span class="pr-num">04</span>
               <span class="pr-title">CVS Pharmacy Workflow</span>
               <span class="pr-cat">Process Improvement</span>
               <span class="pr-year">2025</span>
@@ -570,7 +579,7 @@
 
             <a href="#credentials" class="project-row reveal-up"
                data-title="Wharton Investment Competition" data-sub="Portfolio Strategy · Top 6%">
-              <span class="pr-num">04</span>
+              <span class="pr-num">05</span>
               <span class="pr-title">Wharton Investment Competition</span>
               <span class="pr-cat">Portfolio Strategy</span>
               <span class="pr-year">2023</span>
@@ -876,6 +885,23 @@
       document.querySelectorAll(".resume-link").forEach(function (el) {
         el.href = resumeUrl;
       });
+
+      var todoUrl = cfg.todoAppUrl;
+      if (todoUrl) {
+        var todoLink = document.getElementById("todoAppLink");
+        var todoSoon = document.getElementById("todoAppSoon");
+        var todoTag = document.getElementById("todoAppTag");
+        var todoRow = document.getElementById("todoAppProjectRow");
+        var todoFlag = document.getElementById("todoAppProjectFlag");
+        if (todoLink) {
+          todoLink.href = todoUrl;
+          todoLink.hidden = false;
+        }
+        if (todoSoon) todoSoon.hidden = true;
+        if (todoTag) { todoTag.textContent = "Live"; todoTag.className = "service-tag"; }
+        if (todoRow) { todoRow.href = todoUrl; todoRow.target = "_blank"; todoRow.rel = "noreferrer"; }
+        if (todoFlag) { todoFlag.textContent = "Live"; todoFlag.className = "pr-flag flag-live"; }
+      }
 
       ["contactGithub", "footerGithub"].forEach(function (id) {
         var el = document.getElementById(id);

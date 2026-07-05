@@ -1571,6 +1571,26 @@ a.project-row {
   margin: 8px 0 0;
 }
 
+.building-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold-lit);
+  transition: color 0.2s;
+}
+.building-link:hover { color: var(--gold); }
+
+.building-soon {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
 /* ============================================================
    Pricing
    ============================================================ */
