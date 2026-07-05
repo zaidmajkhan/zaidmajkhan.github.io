@@ -27,7 +27,7 @@ Freshman at Texas A&M Engineering Academy targeting Industrial & Systems Enginee
 ├── site-config.js      # URLs, analytics domain, form email, booking link
 ├── robots.txt
 ├── sitemap.xml
-├── assets/             # Favicon, OG image, icons
+├── assets/             # Favicon, OG image, resume PDF, icons
 └── blog/               # Build log (3 starter posts)
 ```
 
@@ -65,3 +65,4 @@ Edit [`site-config.js`](site-config.js) to connect your accounts:
 - `v2.2` — Cleaned repo, removed editor config folders
 - `v2.3` — Updated README
 - `v3.0` — Attraction layer: SEO/OG, analytics, case study, testimonials, FAQ, pricing, contact form, booking CTAs, blog, newsletter
+- `v3.1` — Internship-first positioning: resume download, recruiter CTAs, resume-accurate experience, project reorder
