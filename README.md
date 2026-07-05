@@ -42,6 +42,9 @@ Edit [`site-config.js`](site-config.js) to connect your accounts:
 | `newsletterUrl` | Buttondown (or other) newsletter |
 | `githubUrl` / `twitterUrl` | Social profile links |
 | `resumeUrl` | Path to downloadable resume PDF |
+| `todoAppUrl` | Live todo app URL (Render/Railway) — card + project row link when set |
+
+**Architecture:** This site is static GitHub Pages only. Full-stack apps (FastAPI, SQLite, Claude API) deploy separately — never embed API keys in frontend JS. Set `todoAppUrl` in config when the todo app is live.
 
 ## Changelog
 
