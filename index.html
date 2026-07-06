@@ -63,7 +63,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=polish-3d-1" />
+    <link rel="stylesheet" href="styles.css?v=emerald-premium-1" />
   </head>
   <body>
 
@@ -75,6 +75,7 @@
       <div class="ambient-orb ambient-orb--3"></div>
     </div>
     <div class="film-grain" aria-hidden="true"></div>
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
     <div class="intro-overlay" id="introOverlay" aria-hidden="true">
       <span class="intro-mark">ZK</span>
@@ -132,6 +133,7 @@
 
       <!-- ── HERO ── -->
       <section class="section hero" id="hero">
+        <div class="hero-mesh" aria-hidden="true"></div>
         <div class="hero-3d" id="hero3d" aria-hidden="true"></div>
         <div class="container">
 
@@ -253,6 +255,22 @@
           <span class="mq-item">Engineering Academies</span><span class="mq-sep">✦</span>
           <span class="mq-item">AI Automation</span><span class="mq-sep">✦</span>
           <span class="mq-item">ISEN Major</span><span class="mq-sep">✦</span>
+        </div>
+      </div>
+
+      <!-- ── TRUST STRIP ── -->
+      <div class="trust-strip" aria-label="Affiliations and credentials">
+        <div class="container trust-strip-inner">
+          <span class="trust-label">Affiliations</span>
+          <span class="trust-divider" aria-hidden="true"></span>
+          <div class="trust-logos">
+            <span class="trust-logo">Texas A&amp;M University</span>
+            <span class="trust-logo">Engineering Academies</span>
+            <span class="trust-logo">CVS Health</span>
+            <span class="trust-logo">PTCB · CPhT</span>
+            <span class="trust-logo">Wharton Global</span>
+            <span class="trust-logo">Anthropic AI</span>
+          </div>
         </div>
       </div>
 
@@ -817,6 +835,8 @@
       </div>
     </footer>
 
+    <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top" hidden>↑</button>
+
     <!-- ── GSAP ── -->
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <script defer src="scene-3d.js"></script>
@@ -1096,6 +1116,39 @@
         hamburger.setAttribute("aria-expanded", open ? "true" : "false");
         hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       });
+
+      /* ── Back to top ── */
+      (function () {
+        var btn = document.getElementById("backToTop");
+        if (!btn) return;
+        function toggle() {
+          var show = window.scrollY > 480;
+          btn.classList.toggle("visible", show);
+          btn.hidden = !show;
+        }
+        window.addEventListener("scroll", toggle, { passive: true });
+        toggle();
+        btn.addEventListener("click", function () {
+          gsap.to(window, { scrollTo: { y: 0 }, duration: 1.0, ease: "power3.inOut" });
+        });
+      })();
+
+      /* ── Cursor glow (desktop) ── */
+      (function () {
+        var glow = document.getElementById("cursorGlow");
+        if (!glow || !window.matchMedia("(pointer: fine)").matches) return;
+        var cx = innerWidth / 2, cy = innerHeight / 2, tx = cx, ty = cy;
+        document.addEventListener("mouseenter", function () { glow.classList.add("active"); });
+        document.addEventListener("mouseleave", function () { glow.classList.remove("active"); });
+        window.addEventListener("mousemove", function (e) { cx = e.clientX; cy = e.clientY; }, { passive: true });
+        (function loop() {
+          tx += (cx - tx) * 0.08;
+          ty += (cy - ty) * 0.08;
+          glow.style.left = tx + "px";
+          glow.style.top = ty + "px";
+          requestAnimationFrame(loop);
+        })();
+      })();
 
       }); /* DOMContentLoaded */
     </script>
