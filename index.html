@@ -63,7 +63,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=emerald-premium-1" />
+    <link rel="stylesheet" href="styles.css?v=emerald-contact-1" />
   </head>
   <body>
 
@@ -544,7 +544,7 @@
 
           <div class="placeholder-note reveal-up glass-card">
             <span class="contact-type-label">Note</span>
-            <p>Static portfolio here; full-stack apps link out to their own hosts. Contact form uses Formsubmit — fine for email, not for app data. Project cards flip to live links once deployed.</p>
+            <p>Static portfolio here; full-stack apps link out to their own hosts. Project cards flip to live links once deployed.</p>
           </div>
 
         </div>
@@ -736,46 +736,107 @@
                 <h2 class="contact-panel-title">Let's connect</h2>
                 <p class="contact-panel-sub">
                   Open to internships in ISE, healthcare ops, and process design
-                  for Summer &amp; Fall 2026. Drop a note — I reply within 24 hours on weekdays.
+                  for Summer &amp; Fall 2026. Recruiters usually reach out on LinkedIn — I reply within 24 hours on weekdays.
                 </p>
-                <div class="contact-chips">
-                  <a href="/assets/zaid-khan-resume.pdf" class="contact-chip resume-link track-cta" data-track="Resume Contact" download="Zaid-Khan-Resume.pdf">Resume ↓</a>
-                  <a href="mailto:zaidmajkhan@gmail.com" class="contact-chip track-cta" data-track="Email Contact">Email</a>
-                  <a href="https://linkedin.com/in/zaidmajkhan" target="_blank" rel="noreferrer" class="contact-chip track-cta" data-track="LinkedIn Contact">LinkedIn</a>
+
+                <div class="contact-quick">
+                  <a href="https://linkedin.com/in/zaidmajkhan" id="contactLinkedinCard" target="_blank" rel="noreferrer" class="contact-quick-card contact-quick-card--primary track-cta" data-track="LinkedIn Contact Card">
+                    <span class="cqc-icon" aria-hidden="true">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 114.126 0 2.063 2.063 0 01-2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </span>
+                    <span class="cqc-body">
+                      <span class="cqc-label">Message on LinkedIn</span>
+                      <span class="cqc-hint">Best for recruiters</span>
+                    </span>
+                    <span class="cqc-arrow" aria-hidden="true">↗</span>
+                  </a>
+                  <a href="mailto:zaidmajkhan@gmail.com" id="contactMailto" class="contact-quick-card track-cta" data-track="Email Contact Card">
+                    <span class="cqc-icon" aria-hidden="true">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+                    </span>
+                    <span class="cqc-body">
+                      <span class="cqc-label">Email directly</span>
+                      <span class="cqc-hint">Pre-filled subject line</span>
+                    </span>
+                    <span class="cqc-arrow" aria-hidden="true">↗</span>
+                  </a>
+                  <a href="/assets/zaid-khan-resume.pdf" class="contact-quick-card resume-link track-cta" data-track="Resume Contact Card" download="Zaid-Khan-Resume.pdf">
+                    <span class="cqc-icon" aria-hidden="true">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 3v12m0 0l4-4m-4 4l-4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+                    </span>
+                    <span class="cqc-body">
+                      <span class="cqc-label">Download resume</span>
+                      <span class="cqc-hint">PDF · one click</span>
+                    </span>
+                    <span class="cqc-arrow" aria-hidden="true">↓</span>
+                  </a>
+                </div>
+
+                <div class="contact-direct">
+                  <button type="button" class="contact-copy-btn" id="copyEmailBtn">
+                    <span class="copy-label">Copy email</span>
+                    <span class="copy-value">zaidmajkhan@gmail.com</span>
+                  </button>
+                  <a href="#" class="contact-chip" id="contactPhoneChip" hidden></a>
                   <a href="#" class="contact-chip track-cta" data-track="GitHub Contact" id="contactGithubChip" target="_blank" rel="noreferrer">GitHub</a>
                 </div>
                 <p class="contact-meta">McKinney, TX · Texas A&amp;M Engineering Academies</p>
               </aside>
 
-              <form class="contact-form" id="contactForm" method="POST">
-                <input type="hidden" name="_subject" value="New inquiry from zaidmajkhan.github.io" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
-                <div class="form-row form-row--split">
-                  <div>
-                    <label class="form-label" for="contactName">Name</label>
-                    <input class="form-input" type="text" id="contactName" name="name" required autocomplete="name" placeholder="Your name" />
-                  </div>
-                  <div>
-                    <label class="form-label" for="contactEmail">Email</label>
-                    <input class="form-input" type="email" id="contactEmail" name="email" required autocomplete="email" placeholder="you@company.com" />
-                  </div>
+              <div class="contact-form-col">
+                <div class="contact-form-header">
+                  <span class="contact-form-eyebrow">Or send a message</span>
+                  <p class="contact-form-lead">Form goes straight to my inbox — no account needed on your end.</p>
                 </div>
-                <div class="form-row">
-                  <label class="form-label" for="contactType">Topic</label>
-                  <select class="form-input" id="contactType" name="inquiry_type" required>
-                    <option value="recruiter" selected>Internship / recruiting</option>
-                    <option value="collab">Collaboration / mentorship</option>
-                    <option value="other">Something else</option>
-                  </select>
+
+                <div class="contact-form-wrap" id="contactFormWrap">
+                  <form class="contact-form" id="contactForm" method="POST" novalidate>
+                    <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+                    <input type="hidden" id="contactType" name="inquiry_type" value="recruiter" />
+
+                    <div class="form-row form-row--split">
+                      <div class="form-field">
+                        <label class="form-label" for="contactName">Name</label>
+                        <input class="form-input" type="text" id="contactName" name="name" required autocomplete="name" placeholder="Your name" />
+                      </div>
+                      <div class="form-field">
+                        <label class="form-label" for="contactEmail">Email</label>
+                        <input class="form-input" type="email" id="contactEmail" name="email" required autocomplete="email" placeholder="you@company.com" />
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <span class="form-label">Topic</span>
+                      <div class="topic-pills" role="group" aria-label="Inquiry topic">
+                        <button type="button" class="topic-pill active" data-value="recruiter" aria-pressed="true">Internship / recruiting</button>
+                        <button type="button" class="topic-pill" data-value="collab" aria-pressed="false">Collaboration</button>
+                        <button type="button" class="topic-pill" data-value="other" aria-pressed="false">Other</button>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-label-row">
+                        <label class="form-label" for="contactMessage">Message</label>
+                        <span class="form-char-count" id="messageCharCount">0 / 1000</span>
+                      </div>
+                      <textarea class="form-input form-textarea" id="contactMessage" name="message" rows="4" required maxlength="1000" placeholder="Team, role, timeline — whatever helps me reply faster."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn primary form-submit track-cta" data-track="Contact Form Submit">
+                      <span class="btn-spinner" hidden aria-hidden="true"></span>
+                      <span class="btn-label">Send message</span>
+                    </button>
+                    <p class="form-note muted small" id="formStatus" role="status" aria-live="polite"></p>
+                  </form>
                 </div>
-                <div class="form-row">
-                  <label class="form-label" for="contactMessage">Message</label>
-                  <textarea class="form-input form-textarea" id="contactMessage" name="message" rows="4" required placeholder="Team, role, timeline…"></textarea>
+
+                <div class="contact-success" id="contactSuccess" hidden>
+                  <div class="contact-success-icon" aria-hidden="true">✓</div>
+                  <h3 class="contact-success-title">Message sent</h3>
+                  <p class="contact-success-text">Thanks — I'll get back to you within 24 hours on weekdays. For faster replies, LinkedIn works too.</p>
+                  <a href="https://linkedin.com/in/zaidmajkhan" target="_blank" rel="noreferrer" class="btn ghost track-cta" data-track="LinkedIn After Submit">Open LinkedIn ↗</a>
                 </div>
-                <button type="submit" class="btn primary form-submit track-cta" data-track="Contact Form Submit">Send message</button>
-                <p class="form-note muted small" id="formStatus" role="status" aria-live="polite"></p>
-              </form>
+              </div>
             </div>
           </div>
 
@@ -840,6 +901,7 @@
     <!-- ── GSAP ── -->
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <script defer src="scene-3d.js"></script>
+    <script defer src="contact-form.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
@@ -881,31 +943,6 @@
       if (footerTw) footerTw.href = twUrl;
       var nl = document.getElementById("newsletterLink");
       if (nl) nl.href = nlUrl;
-
-      var form = document.getElementById("contactForm");
-      if (form && cfg.formsubmitEmail) {
-        form.action = "https://formsubmit.co/ajax/" + encodeURIComponent(cfg.formsubmitEmail);
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
-          var status = document.getElementById("formStatus");
-          var btn = form.querySelector(".form-submit");
-          btn.disabled = true;
-          status.textContent = "Sending…";
-          fetch(form.action, {
-            method: "POST",
-            headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify(Object.fromEntries(new FormData(form)))
-          }).then(function (r) {
-            if (r.ok) {
-              status.textContent = "Message sent — I'll reply within 24 hours on weekdays.";
-              form.reset();
-              if (window.plausible) plausible("Contact Form Success");
-            } else throw new Error("fail");
-          }).catch(function () {
-            status.textContent = "Something went wrong — email zaidmajkhan@gmail.com directly.";
-          }).finally(function () { btn.disabled = false; });
-        });
-      }
 
       document.querySelectorAll(".track-cta").forEach(function (el) {
         el.addEventListener("click", function () {
