@@ -298,6 +298,130 @@ p, a, li, span, label, button {
 }
 
 /* ============================================================
+   Film grain + hero 3D
+   ============================================================ */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+.hero-3d {
+  position: absolute;
+  top: 8%;
+  right: -4%;
+  width: min(52vw, 520px);
+  height: min(52vw, 520px);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.9;
+}
+.hero-3d canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   Contact — clean panel
+   ============================================================ */
+.contact-section {
+  position: relative;
+}
+.contact-panel {
+  padding: clamp(28px, 4vw, 40px);
+  max-width: 920px;
+}
+.contact-panel-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(32px, 5vw, 48px);
+  align-items: start;
+}
+.contact-panel-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(26px, 3.5vw, 34px);
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin: 0 0 12px;
+}
+.contact-panel-sub {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+.contact-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  transition: color 0.2s, border-color 0.2s, transform 0.2s var(--ease-out), box-shadow 0.2s;
+}
+.contact-chip:hover {
+  color: var(--text);
+  border-color: var(--border-h);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+.contact-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+  opacity: 0.75;
+}
+
+.contact-form {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+.form-row--split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.form-input::placeholder {
+  color: var(--muted);
+  opacity: 0.55;
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--border-h);
+  box-shadow: 0 0 0 3px var(--color-accent-weak);
+}
+.form-submit { width: 100%; margin-top: 4px; }
+.form-note { margin: 0; min-height: 1.2em; }
+
+/* ============================================================
    Card system — glass-lite with accent edge
    ============================================================ */
 .glass-card {
@@ -2037,7 +2161,7 @@ a.project-row {
 .reveal-up { will-change: auto; }
 
 /* Ensure contact form is visible even if GSAP hasn't animated yet */
-.contact-form-wrap,
+.contact-panel,
 .contact-form,
 .contact-form .form-input,
 .contact-form .form-submit {
@@ -2053,6 +2177,8 @@ a.project-row {
   .ambient-orb { animation: none !important; }
   .status-dot { animation: none !important; }
   .scroll-hint-line::after { animation: none !important; }
+  .film-grain { display: none; }
+  .hero-3d { display: none; }
   .clip-inner { transform: none !important; }
   .section-rule, .hero-rule { transform: none !important; }
   .intro-overlay { display: none !important; }
@@ -2110,9 +2236,9 @@ a.project-row {
   .about-quote { font-size: clamp(20px, 5.5vw, 30px); }
   .about-currently-item { flex-direction: column; align-items: flex-start; gap: 2px; }
   .ac-val { text-align: left; }
-  .contact-body { grid-template-columns: 1fr; gap: 48px; }
-  .contact-right { order: -1; }
-  .contact-left { order: 1; }
+  .contact-panel-grid { grid-template-columns: 1fr; }
+  .form-row--split { grid-template-columns: 1fr; }
+  .hero-3d { display: none; }
   .footer-grid { grid-template-columns: 1fr; gap: 24px; }
   .footer-base { flex-direction: column; align-items: flex-start; gap: 10px; }
   .project-row { grid-template-columns: 1fr auto; gap: 14px; padding-left: 0; }
