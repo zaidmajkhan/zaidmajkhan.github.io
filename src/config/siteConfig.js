@@ -1,5 +1,5 @@
 /** Site-wide URLs and third-party IDs — update when connecting services. */
-window.ZK_SITE = {
+const siteConfig = {
   url: "https://zaidmajkhan.github.io",
   plausibleDomain: "zaidmajkhan.github.io",
   resumeUrl: "/assets/zaid-khan-resume.pdf",
@@ -22,3 +22,5 @@ window.ZK_SITE = {
   todoAppUrl: "",
   todoAppRepoUrl: "",
 };
+
+export default siteConfig;

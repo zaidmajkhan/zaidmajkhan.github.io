@@ -1,0 +1,23 @@
+{
+  "name": "zaid-portfolio",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.8",
+    "@vitejs/plugin-react": "^4.4.1",
+    "tailwindcss": "^4.1.8",
+    "vite": "^6.3.5"
+  }
+}
