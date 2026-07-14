@@ -1,4 +1,7 @@
+import { lazy, Suspense } from "react";
 import siteConfig from "../config/siteConfig.js";
+
+const RiveMark = lazy(() => import("./RiveMark.jsx"));
 
 export default function Building({ todoAppUrl }) {
   const projects = [
@@ -6,81 +9,94 @@ export default function Building({ todoAppUrl }) {
       num: "01",
       title: "AI Lead Follow-Up Agent",
       tag: "In progress",
-      body: "Python agent using Claude API + Gmail — ingests lead data, generates outreach, tracks sends. Still iterating on reliability.",
+      body: "Python + Claude API + Gmail. Lead ingest, outreach, send tracking.",
       href: "https://github.com/zaidmajkhan/lead-followup-agent",
     },
     {
       num: "02",
       title: "AI Todo App",
       tag: todoAppUrl ? "Live" : "Deploying",
-      body: "Full-stack FastAPI + SQLite + Claude API on the server only. This portfolio stays static; the app deploys separately.",
+      body: "FastAPI + SQLite + Claude on the server. Keys never hit the browser.",
       href: todoAppUrl || null,
     },
     {
       num: "03",
       title: "Healthcare Workflow Tools",
       tag: "Planned",
-      body: "Exploring process-mapping tools inspired by pharmacy ops — modeling hand-offs and bottlenecks in clinical workflows.",
+      body: "Process-mapping experiments from pharmacy ops — hand-offs and bottlenecks.",
       href: null,
     },
   ];
 
   return (
-    <section id="building" className="section-pad scroll-mt-24">
-      <div className="container-wide">
-        <div className="surface mx-auto max-w-[1320px] p-6 md:p-12 lg:p-16">
-          <div className="mx-auto max-w-4xl text-center">
-            <p className="eyebrow justify-center text-moss">03 — Building</p>
-            <h2 className="heading-xl mt-5 text-forest">Personal projects, shipped separately.</h2>
-            <p className="body-lg mx-auto mt-6 max-w-2xl text-muted">
-              Side projects exploring AI and full-stack tooling. No client work — cards flip to
-              live links when something ships.
+    <section id="building" className="section scroll-mt-24 border-t border-line">
+      <div className="wrap">
+        <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="eyebrow reveal">03 — Building</p>
+            <h2 className="pin-title display-lg mt-4 text-soft">
+              Off
+              <br />
+              <span className="text-green">track.</span>
+            </h2>
+            <p className="reveal body mt-6 max-w-lg">
+              Personal projects. No client theater. Cards flip to live links when something ships.
             </p>
           </div>
-
-          <div className="mt-14 grid border-y border-forest/15 md:grid-cols-3">
-            {projects.map((p, i) => (
-              <article
-                key={p.num}
-                className={`flex min-h-64 flex-col justify-between p-7 md:p-9 ${
-                  i < projects.length - 1 ? "md:border-r md:border-forest/15" : ""
-                } border-b border-forest/15 last:border-b-0 md:border-b-0`}
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-serif text-4xl tracking-[-0.05em] text-forest">{p.num}</span>
-                  <span className="rounded-full border border-forest/15 px-3 py-1 text-[0.65rem] font-extrabold tracking-[0.12em] text-moss uppercase">
-                    {p.tag}
-                  </span>
-                </div>
-                <div className="mt-10">
-                  <h3 className="font-serif text-2xl tracking-[-0.03em] text-forest">{p.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">{p.body}</p>
-                  {p.href ? (
-                    <a
-                      href={p.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-5 inline-flex items-center gap-2 border-b border-forest/30 pb-1 text-xs font-extrabold tracking-[0.12em] uppercase"
-                    >
-                      Open ↗
-                    </a>
-                  ) : null}
-                </div>
-              </article>
-            ))}
+          <div className="reveal relative hidden h-48 overflow-hidden border border-line bg-panel lg:block">
+            <Suspense fallback={null}>
+              <RiveMark src="/assets/vehicles.riv" className="absolute inset-0 h-full w-full" />
+            </Suspense>
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-void via-void/60 to-transparent p-4">
+              <p className="text-[0.65rem] font-semibold tracking-[0.14em] text-green uppercase">
+                Motion · Rive
+              </p>
+            </div>
           </div>
+        </div>
 
-          <div className="mt-10 flex justify-center">
-            <a
-              href={siteConfig.githubUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-forest track-cta"
-              data-track="GitHub Building"
+        <div className="mt-14 grid border-t border-line md:grid-cols-3">
+          {projects.map((p, i) => (
+            <article
+              key={p.num}
+              className={`reveal flex min-h-72 flex-col justify-between border-b border-line p-6 md:border-b-0 ${
+                i < 2 ? "md:border-r" : ""
+              }`}
             >
-              View GitHub
-            </a>
-          </div>
+              <div className="flex items-center justify-between">
+                <span className="font-display text-3xl font-bold text-soft">{p.num}</span>
+                <span className="chip">{p.tag}</span>
+              </div>
+              <div>
+                <h3 className="font-display text-2xl font-bold tracking-[-0.03em] uppercase text-soft">
+                  {p.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-mute">{p.body}</p>
+                {p.href ? (
+                  <a
+                    href={p.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-5 inline-block text-xs font-semibold tracking-[0.14em] text-green uppercase"
+                  >
+                    Open ↗
+                  </a>
+                ) : null}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="reveal mt-10">
+          <a
+            href={siteConfig.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn-green track-cta"
+            data-track="GitHub Building"
+          >
+            View GitHub
+          </a>
         </div>
       </div>
     </section>

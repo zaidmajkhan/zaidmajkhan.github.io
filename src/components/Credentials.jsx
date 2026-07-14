@@ -3,68 +3,79 @@ const CREDS = [
     year: "Fall '25",
     title: "Engineering Academies Resume Challenge",
     badge: "Winner",
-    desc: "Sole winner representing Collin College across all 13 TAMU Engineering Academy campuses.",
+    desc: "Sole winner across all 13 TAMU Engineering Academy campuses.",
   },
   {
     year: "2025",
     title: "4.0 GPA",
     badge: "Active",
-    desc: "Maintained across all engineering coursework — no exceptions.",
+    desc: "Maintained across all engineering coursework.",
   },
   {
     year: "Oct '25",
     title: "Certified Pharmacy Technician (CPhT)",
     badge: "Certified",
-    desc: "State-licensed; passed the PTCB national exam independently.",
+    desc: "PTCB national exam. State-licensed.",
   },
   {
     year: "Dec '23",
     title: "Wharton Global Investment Competition",
     badge: "Top 6%",
-    desc: "Competed against ~4,000 teams from 100+ countries in portfolio management.",
+    desc: "~4,000 teams · 100+ countries.",
   },
 ];
 
 export default function Credentials() {
   return (
-    <section id="credentials" className="section-pad scroll-mt-24">
-      <div className="container-wide">
+    <section id="credentials" className="section scroll-mt-24 border-t border-line">
+      <div className="wrap">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="eyebrow justify-center text-moss">05 — Credentials</p>
-          <h2 className="heading-lg mt-5 text-forest">Proof, not posture.</h2>
+          <p className="eyebrow reveal justify-center">05 — Proof</p>
+          <h2 className="pin-title display-lg mt-4 text-soft">
+            Numbers
+            <br />
+            <span className="text-green">don&apos;t lie.</span>
+          </h2>
         </div>
 
-        <div className="mx-auto mt-12 max-w-4xl overflow-hidden rounded-[1.5rem] border border-forest/15 bg-cream-soft">
-          <div className="grid border-b border-forest/15 md:grid-cols-4">
+        <div className="reveal mx-auto mt-12 max-w-5xl border border-line">
+          <div className="grid border-b border-line md:grid-cols-4">
             {[
-              { v: "4.0", l: "GPA" },
-              { v: "47%", l: "Wait ↓ at CVS" },
-              { v: "Top 6%", l: "Wharton Global" },
-              { v: "CPhT", l: "Licensed" },
-            ].map((m, i) => (
+              ["4.0", "GPA"],
+              ["47%", "Wait ↓ CVS"],
+              ["Top 6%", "Wharton"],
+              ["CPhT", "Licensed"],
+            ].map(([v, l], i) => (
               <div
-                key={m.l}
-                className={`metric-cell ${i < 3 ? "md:border-r md:border-forest/15" : ""} border-b border-forest/15 md:border-b-0`}
+                key={l}
+                className={`flex min-h-36 flex-col items-center justify-center border-b border-line p-6 text-center md:border-b-0 ${
+                  i < 3 ? "md:border-r" : ""
+                }`}
               >
-                <span className="font-serif text-5xl tracking-[-0.05em] text-forest md:text-6xl">
-                  {m.v}
+                <span className="font-display text-4xl font-extrabold tracking-[-0.05em] text-green md:text-5xl">
+                  {v}
                 </span>
-                <span className="mt-3 text-sm font-bold text-muted">{m.l}</span>
+                <span className="mt-2 text-[0.65rem] font-semibold tracking-[0.14em] text-mute uppercase">
+                  {l}
+                </span>
               </div>
             ))}
           </div>
 
-          <ul className="divide-y divide-forest/15">
+          <ul>
             {CREDS.map((c) => (
-              <li key={c.title} className="grid gap-3 p-6 md:grid-cols-[6rem_1fr_auto] md:items-start md:gap-6 md:p-7">
-                <span className="text-sm font-bold text-moss">{c.year}</span>
+              <li
+                key={c.title}
+                className="grid gap-3 border-b border-line p-5 last:border-b-0 md:grid-cols-[6rem_1fr_auto] md:items-center md:gap-6 md:p-6"
+              >
+                <span className="text-sm font-semibold text-green">{c.year}</span>
                 <div>
-                  <p className="font-serif text-xl tracking-[-0.03em] text-forest">{c.title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{c.desc}</p>
+                  <p className="font-display text-lg font-bold tracking-[-0.03em] uppercase text-soft">
+                    {c.title}
+                  </p>
+                  <p className="mt-1 text-sm text-mute">{c.desc}</p>
                 </div>
-                <span className="w-fit rounded-full border border-forest/15 px-3 py-1 text-[0.65rem] font-extrabold tracking-[0.1em] text-moss uppercase">
-                  {c.badge}
-                </span>
+                <span className="chip w-fit">{c.badge}</span>
               </li>
             ))}
           </ul>

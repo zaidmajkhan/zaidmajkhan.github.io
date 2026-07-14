@@ -6,11 +6,13 @@ Personal portfolio for **Zaid Khan** — ISEN @ Texas A&M.
 
 ## Stack
 
-- React 19 + Vite 6
-- Tailwind CSS v4
-- Figtree + Newsreader typography
-- Forest / cream visual system
-- GitHub Actions → Pages (`dist/`)
+- React 19 + Vite 6 + Tailwind CSS v4
+- **Lenis** — smooth scroll
+- **GSAP + ScrollTrigger** — scroll / entrance animations
+- **Three.js** — hero 3D wireframe
+- **Rive** — vector motion (swap `.riv` files in `public/assets/`)
+- Syne + Space Grotesk typography
+- Neutral dark base + electric green accent
 
 ## Develop
 
@@ -22,4 +24,8 @@ npm run build
 
 ## Config
 
-Edit [`src/config/siteConfig.js`](src/config/siteConfig.js) for resume/social/form/todo app URLs.
+Edit [`src/config/siteConfig.js`](src/config/siteConfig.js).
+
+Replace Rive files:
+- `public/assets/motion.riv` — hero mark
+- `public/assets/vehicles.riv` — building section showcase

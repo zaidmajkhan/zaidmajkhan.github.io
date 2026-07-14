@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import siteConfig from "../config/siteConfig.js";
 
 const TOPICS = [
-  { value: "recruiter", label: "Internship / recruiting" },
-  { value: "collab", label: "Collaboration" },
+  { value: "recruiter", label: "Internship" },
+  { value: "collab", label: "Collab" },
   { value: "other", label: "Other" },
 ];
 
@@ -18,9 +18,7 @@ export default function Contact() {
   const email = siteConfig.contactEmail || siteConfig.formsubmitEmail;
   const mailto = useMemo(() => {
     const subject = encodeURIComponent("Internship inquiry — Zaid Khan");
-    const body = encodeURIComponent(
-      "Hi Zaid,\n\nI'm reaching out about:\n\n[Role / team / timeline]\n\nBest,\n[Your name]"
-    );
+    const body = encodeURIComponent("Hi Zaid,\n\nI'm reaching out about:\n\n[Role / team / timeline]\n\nBest,\n");
     return `mailto:${email}?subject=${subject}&body=${body}`;
   }, [email]);
 
@@ -37,8 +35,7 @@ export default function Contact() {
     try {
       await navigator.clipboard.writeText(email);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-      if (window.plausible) window.plausible("Copy Email");
+      setTimeout(() => setCopied(false), 1600);
     } catch {
       /* ignore */
     }
@@ -48,26 +45,18 @@ export default function Contact() {
     e.preventDefault();
     const backend = getBackend();
     if (!backend) {
-      setStatus("Use LinkedIn or email — form backend not configured yet.");
+      setStatus("Use LinkedIn or email — form backend not configured.");
       return;
     }
-
     setLoading(true);
     setStatus("");
-
     try {
       let res;
       if (backend === "formspree") {
         res = await fetch(siteConfig.formspreeEndpoint, {
           method: "POST",
           headers: { Accept: "application/json", "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name,
-            email: formEmail,
-            inquiry_type: topic,
-            message,
-            _subject: `Portfolio: ${topic} from ${name}`,
-          }),
+          body: JSON.stringify({ name, email: formEmail, inquiry_type: topic, message }),
         });
       } else if (backend === "web3forms") {
         res = await fetch("https://api.web3forms.com/submit", {
@@ -79,111 +68,106 @@ export default function Contact() {
             email: formEmail,
             subject: `Portfolio: ${topic} from ${name}`,
             message,
-            inquiry_type: topic,
           }),
         });
         const data = await res.json();
         if (!res.ok || data.success === false) throw new Error("fail");
         setSuccess(true);
-        if (window.plausible) window.plausible("Contact Form Success");
         return;
       } else {
-        res = await fetch(
-          `https://formsubmit.co/ajax/${encodeURIComponent(siteConfig.formsubmitEmail)}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify({
-              name,
-              email: formEmail,
-              inquiry_type: topic,
-              message,
-              _subject: "New inquiry from zaidmajkhan.github.io",
-              _captcha: "false",
-            }),
-          }
-        );
+        res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(siteConfig.formsubmitEmail)}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            name,
+            email: formEmail,
+            inquiry_type: topic,
+            message,
+            _subject: "New inquiry from zaidmajkhan.github.io",
+            _captcha: "false",
+          }),
+        });
       }
       if (!res.ok) throw new Error("fail");
       setSuccess(true);
       if (window.plausible) window.plausible("Contact Form Success");
     } catch {
-      setStatus(`Couldn't send — try LinkedIn or email ${email} directly.`);
+      setStatus(`Couldn't send — email ${email} directly.`);
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <section id="contact" className="section-pad scroll-mt-24 bg-forest text-cream">
-      <div className="container-wide">
+    <section id="contact" className="section scroll-mt-24 border-t border-line bg-ink">
+      <div className="wrap">
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
           <aside>
-            <p className="eyebrow text-lime">06 — Contact</p>
-            <h2 className="heading-lg mt-5 text-cream">Let&apos;s connect.</h2>
-            <p className="mt-5 max-w-md text-lg leading-relaxed text-cream/65">
-              Open to internships in ISE, healthcare ops, and process design for Summer & Fall
-              2026. Recruiters usually message on LinkedIn — I reply within 24 hours on weekdays.
+            <p className="eyebrow reveal">06 — Contact</p>
+            <h2 className="pin-title display-lg mt-4 text-soft">
+              Always
+              <br />
+              <span className="text-green">bringing it.</span>
+            </h2>
+            <p className="reveal body mt-6 max-w-md">
+              Open to internships Summer & Fall 2026. Recruiters — LinkedIn is fastest. I reply
+              within 24h on weekdays.
             </p>
 
-            <div className="mt-8 grid gap-3">
+            <div className="reveal mt-8 grid gap-3">
               <a
                 href={siteConfig.linkedinUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="group flex items-center justify-between rounded-2xl border border-cream/15 bg-cream/5 px-5 py-4 transition hover:bg-cream/10 track-cta"
+                className="flex items-center justify-between border border-line px-5 py-4 transition hover:border-green track-cta"
                 data-track="LinkedIn Contact Card"
               >
                 <span>
-                  <span className="block text-sm font-extrabold tracking-[0.08em] uppercase">
-                    Message on LinkedIn
-                  </span>
-                  <span className="mt-1 block text-sm text-cream/55">Best for recruiters</span>
+                  <span className="block text-xs font-semibold tracking-[0.12em] uppercase">LinkedIn</span>
+                  <span className="mt-1 block text-sm text-mute">Best for recruiters</span>
                 </span>
-                <span className="text-lime">↗</span>
+                <span className="text-green">↗</span>
               </a>
               <a
                 href={mailto}
-                className="group flex items-center justify-between rounded-2xl border border-cream/15 bg-cream/5 px-5 py-4 transition hover:bg-cream/10 track-cta"
+                className="flex items-center justify-between border border-line px-5 py-4 transition hover:border-green track-cta"
                 data-track="Email Contact Card"
               >
                 <span>
-                  <span className="block text-sm font-extrabold tracking-[0.08em] uppercase">
-                    Email directly
-                  </span>
-                  <span className="mt-1 block text-sm text-cream/55">{email}</span>
+                  <span className="block text-xs font-semibold tracking-[0.12em] uppercase">Email</span>
+                  <span className="mt-1 block text-sm text-mute">{email}</span>
                 </span>
-                <span className="text-lime">↗</span>
+                <span className="text-green">↗</span>
               </a>
               <button
                 type="button"
                 onClick={copyEmail}
-                className="flex items-center justify-between rounded-2xl border border-cream/15 bg-cream/5 px-5 py-4 text-left transition hover:bg-cream/10"
+                className="flex items-center justify-between border border-line px-5 py-4 text-left transition hover:border-green"
               >
                 <span>
-                  <span className="block text-sm font-extrabold tracking-[0.08em] uppercase">
+                  <span className="block text-xs font-semibold tracking-[0.12em] uppercase">
                     {copied ? "Copied" : "Copy email"}
                   </span>
-                  <span className="mt-1 block text-sm text-cream/55">{email}</span>
+                  <span className="mt-1 block text-sm text-mute">{email}</span>
                 </span>
-                <span className="text-lime">⎘</span>
+                <span className="text-green">⎘</span>
               </button>
             </div>
           </aside>
 
-          <div className="rounded-[1.5rem] border border-cream/15 bg-cream p-6 text-forest md:p-8">
+          <div className="reveal border border-line bg-panel p-6 md:p-8">
             {success ? (
-              <div className="flex min-h-[22rem] flex-col items-start justify-center">
-                <p className="eyebrow text-moss">Sent</p>
-                <h3 className="mt-4 font-serif text-4xl tracking-[-0.04em]">Message received.</h3>
-                <p className="mt-4 max-w-sm text-muted">
-                  I&apos;ll reply within 24 hours on weekdays. For faster turns, LinkedIn works too.
-                </p>
+              <div className="flex min-h-80 flex-col justify-center">
+                <p className="eyebrow">Sent</p>
+                <h3 className="mt-4 font-display text-4xl font-bold uppercase tracking-[-0.04em] text-soft">
+                  Message locked in.
+                </h3>
+                <p className="mt-4 max-w-sm text-mute">I&apos;ll reply within 24 hours on weekdays.</p>
                 <a
                   href={siteConfig.linkedinUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="btn btn-forest mt-8 track-cta"
+                  className="btn btn-green mt-8 w-fit track-cta"
                   data-track="LinkedIn After Submit"
                 >
                   Open LinkedIn ↗
@@ -191,85 +175,48 @@ export default function Contact() {
               </div>
             ) : (
               <>
-                <p className="eyebrow text-moss">Or send a message</p>
-                <p className="mt-3 text-sm text-muted">Straight to my inbox — no account needed.</p>
-                <form className="mt-7 grid gap-4" onSubmit={onSubmit}>
+                <p className="eyebrow">Or send a message</p>
+                <form className="mt-6 grid gap-4" onSubmit={onSubmit}>
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="form-field">
-                      <label className="form-label" htmlFor="contactName">
-                        Name
-                      </label>
-                      <input
-                        id="contactName"
-                        className="form-input"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                        autoComplete="name"
-                        placeholder="Your name"
-                      />
-                    </div>
-                    <div className="form-field">
-                      <label className="form-label" htmlFor="contactEmail">
-                        Email
-                      </label>
-                      <input
-                        id="contactEmail"
-                        type="email"
-                        className="form-input"
-                        value={formEmail}
-                        onChange={(e) => setFormEmail(e.target.value)}
-                        required
-                        autoComplete="email"
-                        placeholder="you@company.com"
-                      />
-                    </div>
+                    <label className="grid gap-2">
+                      <span className="form-label">Name</span>
+                      <input className="form-input" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your name" />
+                    </label>
+                    <label className="grid gap-2">
+                      <span className="form-label">Email</span>
+                      <input className="form-input" type="email" value={formEmail} onChange={(e) => setFormEmail(e.target.value)} required placeholder="you@company.com" />
+                    </label>
                   </div>
-
-                  <div className="form-field">
+                  <div className="grid gap-2">
                     <span className="form-label">Topic</span>
                     <div className="flex flex-wrap gap-2">
                       {TOPICS.map((t) => (
                         <button
                           key={t.value}
                           type="button"
-                          className={`topic-pill${topic === t.value ? " active" : ""}`}
+                          className={`topic${topic === t.value ? " active" : ""}`}
                           onClick={() => setTopic(t.value)}
-                          aria-pressed={topic === t.value}
                         >
                           {t.label}
                         </button>
                       ))}
                     </div>
                   </div>
-
-                  <div className="form-field">
-                    <div className="flex items-baseline justify-between gap-3">
-                      <label className="form-label" htmlFor="contactMessage">
-                        Message
-                      </label>
-                      <span className="text-[0.7rem] text-muted">{message.length} / 1000</span>
-                    </div>
+                  <label className="grid gap-2">
+                    <span className="form-label">Message</span>
                     <textarea
-                      id="contactMessage"
-                      className="form-input form-textarea"
+                      className="form-input min-h-28"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       required
                       maxLength={1000}
-                      placeholder="Team, role, timeline — whatever helps me reply faster."
+                      placeholder="Team, role, timeline…"
                     />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn btn-forest track-cta"
-                    data-track="Contact Form Submit"
-                    disabled={loading}
-                  >
+                  </label>
+                  <button type="submit" className="btn btn-green track-cta" data-track="Contact Form Submit" disabled={loading}>
                     {loading ? "Sending…" : "Send message"}
                   </button>
-                  {status ? <p className="text-sm text-red-700">{status}</p> : null}
+                  {status ? <p className="text-sm text-red-400">{status}</p> : null}
                 </form>
               </>
             )}
