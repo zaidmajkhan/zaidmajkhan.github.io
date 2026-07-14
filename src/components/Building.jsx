@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import siteConfig from "../config/siteConfig.js";
 
 const RiveMark = lazy(() => import("./RiveMark.jsx"));
+const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
 
 export default function Building({ todoAppUrl }) {
   const projects = [
@@ -31,8 +32,8 @@ export default function Building({ todoAppUrl }) {
   return (
     <section id="building" className="section scroll-mt-24">
       <div className="wrap">
-        <div className="surface mx-auto p-5 md:p-8 lg:p-10">
-          <div className="grid items-end gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="surface mx-auto overflow-hidden p-5 md:p-8 lg:p-10">
+          <div className="grid items-end gap-6 lg:grid-cols-[1.15fr_0.85fr]">
             <div>
               <p className="eyebrow reveal text-green">03 — Building</p>
               <h2 className="pin-title display-lg mt-3 text-forest">Personal projects, shipped separately.</h2>
@@ -41,23 +42,24 @@ export default function Building({ todoAppUrl }) {
                 something ships.
               </p>
             </div>
-            <div className="reveal relative hidden h-40 overflow-hidden rounded-xl border border-forest/10 bg-forest lg:block">
+            <div className="reveal-scale relative hidden h-44 overflow-hidden rounded-xl border border-forest/10 bg-forest lg:block">
               <Suspense fallback={null}>
-                <RiveMark src="/assets/vehicles.riv" className="absolute inset-0 h-full w-full" />
+                <SceneCanvas variant="orbit" compact className="absolute inset-0 h-full w-full opacity-80" />
+                <RiveMark src="/assets/vehicles.riv" className="absolute inset-0 h-full w-full opacity-40 mix-blend-screen" />
               </Suspense>
             </div>
           </div>
 
-          <div className="mt-8 grid border-y border-forest/12 md:grid-cols-3">
+          <div className="stagger-children mt-8 grid border-y border-forest/12 md:grid-cols-3">
             {projects.map((p, i) => (
               <article
                 key={p.num}
-                className={`reveal flex min-h-[15rem] flex-col justify-between p-5 ${
+                className={`flex min-h-[15rem] flex-col justify-between p-5 ${
                   i < 2 ? "md:border-r md:border-forest/12" : ""
                 } border-b border-forest/12 last:border-b-0 md:border-b-0`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-display text-3xl text-forest">{p.num}</span>
+                  <span className="drift font-display text-3xl text-forest">{p.num}</span>
                   <span className="chip">{p.tag}</span>
                 </div>
                 <div className="mt-8">

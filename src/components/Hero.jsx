@@ -39,10 +39,10 @@ export default function Hero() {
         <div className="relative z-10 overflow-hidden py-8 md:py-6">
           <h1 className="display-xl text-cream">
             <span className="hero-line block overflow-hidden">
-              <span className="inline-block">Zaid</span>
+              <span className="inline-block will-change-transform">Zaid</span>
             </span>
             <span className="hero-line block overflow-hidden">
-              <span className="inline-block text-green">Khan</span>
+              <span className="inline-block will-change-transform text-green">Khan</span>
             </span>
           </h1>
         </div>

@@ -201,6 +201,16 @@
     pointer-events: none;
     opacity: 0.45;
   }
+  .hero-canvas canvas,
+  .scene-mount canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .scene-mount {
+    perspective: 800px;
+    transform-style: preserve-3d;
+  }
 
   .surface {
     border: 1px solid var(--color-line);

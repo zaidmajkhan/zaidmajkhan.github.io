@@ -1,3 +1,7 @@
+import { lazy, Suspense } from "react";
+
+const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
+
 const CREDS = [
   {
     year: "Fall '25",
@@ -27,34 +31,58 @@ const CREDS = [
 
 export default function Credentials() {
   return (
-    <section id="credentials" className="section scroll-mt-24">
-      <div className="wrap">
+    <section id="credentials" className="section scroll-mt-24 relative overflow-hidden">
+      <div
+        className="pointer-events-none absolute -left-10 bottom-0 hidden h-64 w-64 opacity-40 lg:block"
+        aria-hidden="true"
+      >
+        <div className="scene-mount absolute inset-0">
+          <Suspense fallback={null}>
+            <SceneCanvas variant="lattice" className="h-full w-full" />
+          </Suspense>
+        </div>
+      </div>
+
+      <div className="wrap relative z-10">
         <div className="mx-auto max-w-2xl text-center">
           <p className="eyebrow reveal text-green">05 — Proof</p>
           <h2 className="pin-title display-lg mt-3 text-forest">Proof, not posture.</h2>
         </div>
 
-        <div className="reveal surface mx-auto mt-8 max-w-4xl overflow-hidden">
+        <div className="reveal-scale surface mx-auto mt-8 max-w-4xl overflow-hidden">
           <div className="grid border-b border-forest/12 md:grid-cols-4">
             {[
-              ["4.0", "GPA"],
-              ["47%", "Wait ↓ CVS"],
-              ["Top 6%", "Wharton"],
-              ["CPhT", "Licensed"],
-            ].map(([v, l], i) => (
+              { val: "4.0", label: "GPA", count: "4", decimals: "1" },
+              { val: "47%", label: "Wait ↓ CVS", count: "47", suffix: "%" },
+              { val: "Top 6%", label: "Wharton", count: null },
+              { val: "CPhT", label: "Licensed", count: null },
+            ].map((s, i) => (
               <div
-                key={l}
-                className={`flex min-h-28 flex-col items-center justify-center border-b border-forest/12 p-5 text-center md:border-b-0 ${
+                key={s.label}
+                className={`stat-cell flex min-h-28 flex-col items-center justify-center border-b border-forest/12 p-5 text-center md:border-b-0 ${
                   i < 3 ? "md:border-r md:border-forest/12" : ""
                 }`}
               >
-                <span className="font-display text-4xl tracking-[-0.04em] text-forest md:text-[2.6rem]">{v}</span>
-                <span className="mt-1.5 text-[0.62rem] font-extrabold tracking-[0.12em] text-mute uppercase">{l}</span>
+                <span
+                  className="font-display text-4xl tracking-[-0.04em] text-forest md:text-[2.6rem]"
+                  {...(s.count
+                    ? {
+                        "data-count": s.count,
+                        "data-suffix": s.suffix || "",
+                        "data-decimals": s.decimals || "0",
+                      }
+                    : {})}
+                >
+                  {s.val}
+                </span>
+                <span className="mt-1.5 text-[0.62rem] font-extrabold tracking-[0.12em] text-mute uppercase">
+                  {s.label}
+                </span>
               </div>
             ))}
           </div>
 
-          <ul>
+          <ul className="stagger-children">
             {CREDS.map((c) => (
               <li
                 key={c.title}

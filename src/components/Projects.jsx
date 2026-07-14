@@ -33,7 +33,7 @@ export default function Projects({ todoAppUrl }) {
             <p className="eyebrow reveal text-green">04 — Work</p>
             <h2 className="pin-title display-lg mt-3 text-forest">Selected index</h2>
           </div>
-          <p className="reveal body max-w-sm text-mute md:text-right">
+          <p className="reveal-right body max-w-sm text-mute md:text-right">
             From pharmacy process redesign to personal AI tooling.
           </p>
         </div>
@@ -44,9 +44,9 @@ export default function Projects({ todoAppUrl }) {
               key={row.num}
               href={row.href}
               {...(row.external ? { target: "_blank", rel: "noreferrer" } : {})}
-              className="reveal interactive-row group grid grid-cols-[2.75rem_1fr_auto] items-center gap-3 border-b border-forest/12 py-4 md:grid-cols-[3.5rem_1.4fr_1fr_4.5rem_auto] md:gap-5"
+              className="interactive-row group grid grid-cols-[2.75rem_1fr_auto] items-center gap-3 border-b border-forest/12 py-4 md:grid-cols-[3.5rem_1.4fr_1fr_4.5rem_auto] md:gap-5"
             >
-              <span className="font-display text-sm text-mute">{row.num}</span>
+              <span className="drift font-display text-sm text-mute">{row.num}</span>
               <span className="font-display text-lg tracking-[-0.03em] text-forest transition-transform duration-300 group-hover:translate-x-1 md:text-xl">
                 {row.title}
               </span>
