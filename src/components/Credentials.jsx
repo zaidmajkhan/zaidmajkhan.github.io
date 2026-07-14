@@ -49,7 +49,7 @@ export default function Credentials() {
                 }`}
               >
                 <span
-                  className="font-display text-4xl tracking-[-0.04em] text-forest md:text-[2.6rem]"
+                  className="font-display text-4xl leading-none tracking-[-0.02em] text-forest md:text-[2.6rem]"
                   {...(s.count
                     ? {
                         "data-count": s.count,
@@ -75,7 +75,7 @@ export default function Credentials() {
               >
                 <span className="text-sm font-bold text-green">{c.year}</span>
                 <div>
-                  <p className="font-display text-lg tracking-[-0.03em] text-forest">{c.title}</p>
+                  <p className="font-display text-lg leading-snug tracking-[-0.02em] text-forest">{c.title}</p>
                   <p className="mt-1 text-sm text-mute">{c.desc}</p>
                 </div>
                 <span className="chip w-fit">{c.badge}</span>

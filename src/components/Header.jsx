@@ -28,7 +28,7 @@ export default function Header({ mobileOpen, setMobileOpen }) {
             : "border border-transparent bg-transparent shadow-none"
         }`}
       >
-        <a href="#hero" className="font-display text-[1.7rem] tracking-[-0.03em] text-forest">
+        <a href="#hero" className="font-display text-[1.7rem] leading-none tracking-[-0.02em] text-forest">
           ZK
         </a>
 

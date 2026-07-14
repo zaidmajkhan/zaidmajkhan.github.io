@@ -39,7 +39,7 @@ export default function About() {
             <article key={k} className="surface surface-card flex flex-col p-5">
               <span className="text-[0.65rem] font-extrabold tracking-[0.14em] text-green uppercase">{k}</span>
               <div>
-                <h3 className="mt-4 font-display text-2xl tracking-[-0.03em] text-forest md:text-[1.65rem]">{t}</h3>
+                <h3 className="mt-4 font-display text-2xl leading-snug tracking-[-0.02em] text-forest md:text-[1.65rem]">{t}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-mute">{d}</p>
               </div>
             </article>

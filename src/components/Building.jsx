@@ -32,7 +32,7 @@ export default function Building({ todoAppUrl }) {
   return (
     <section id="building" className="section scroll-mt-24">
       <div className="wrap">
-        <div className="surface mx-auto overflow-hidden p-5 md:p-8 lg:p-10">
+        <div className="surface mx-auto p-5 md:p-8 lg:p-10">
           <div className="grid items-end gap-6 lg:grid-cols-[1.2fr_0.8fr]">
             <div>
               <p className="eyebrow reveal text-green">03 — Building</p>
@@ -70,7 +70,7 @@ export default function Building({ todoAppUrl }) {
                   <span className="chip">{p.tag}</span>
                 </div>
                 <div className="mt-8">
-                  <h3 className="font-display text-xl tracking-[-0.03em] text-forest">{p.title}</h3>
+                  <h3 className="font-display text-xl leading-snug tracking-[-0.02em] text-forest">{p.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-mute">{p.body}</p>
                   {p.href ? (
                     <a

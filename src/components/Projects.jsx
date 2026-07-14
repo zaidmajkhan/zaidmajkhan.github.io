@@ -47,7 +47,7 @@ export default function Projects({ todoAppUrl }) {
               className="interactive-row group grid grid-cols-[2.75rem_1fr_auto] items-center gap-3 border-b border-forest/12 py-4 md:grid-cols-[3.5rem_1.4fr_1fr_4.5rem_auto] md:gap-5"
             >
               <span className="font-display text-sm text-mute">{row.num}</span>
-              <span className="row-title font-display text-lg tracking-[-0.03em] text-forest md:text-xl">
+              <span className="row-title font-display text-lg leading-snug tracking-[-0.02em] text-forest md:text-xl">
                 {row.title}
               </span>
               <span className="hidden text-sm text-mute md:block">{row.cat}</span>

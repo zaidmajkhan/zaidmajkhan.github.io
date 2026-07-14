@@ -10,7 +10,7 @@ export default function Footer() {
             <p className="eyebrow text-green">Next move</p>
             <a
               href="#contact"
-              className="mt-2 block font-display text-[clamp(2rem,5vw,3.25rem)] leading-[0.92] tracking-[-0.03em] text-forest track-cta"
+              className="mt-2 block font-display text-[clamp(2rem,5vw,3.25rem)] leading-[1.12] tracking-[-0.025em] text-forest track-cta"
               data-track="Footer CTA"
             >
               Let&apos;s work <span className="text-green">together ↗</span>

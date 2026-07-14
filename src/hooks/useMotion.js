@@ -41,44 +41,45 @@ export function useMotion() {
     }
 
     const heroBits = gsap.utils.toArray(
-      ".hero-eyebrow, .hero-copy, .hero-actions .btn, .hero-meta > div, .hero-rive",
+      ".hero-eyebrow, .hero-copy, .hero-meta > div, .hero-rive",
     );
     const heroLines = gsap.utils.toArray(".hero-line > span");
+    const heroBtns = gsap.utils.toArray(".hero-actions .btn");
 
     const showHero = () => {
-      gsap.set([...heroBits, ...heroLines, ".hero-canvas"], {
+      gsap.set([...heroBits, ...heroLines, ...heroBtns, ".hero-canvas"], {
         clearProps: "all",
         opacity: 1,
         visibility: "visible",
         y: 0,
-        yPercent: 0,
       });
     };
 
-    if (reduced || !heroBits.length) {
+    if (reduced || !heroLines.length) {
       showHero();
     } else {
-      gsap.set(heroBits, { opacity: 0, y: 18 });
-      gsap.set(heroLines, { yPercent: 105 });
+      gsap.set(heroBits, { opacity: 0, y: 16 });
+      gsap.set(heroLines, { opacity: 0, y: 28 });
+      gsap.set(heroBtns, { opacity: 0, y: 12 });
       gsap.set(".hero-canvas", { opacity: 0 });
 
       heroTl = gsap.timeline({
         defaults: { ease: "power3.out" },
         onComplete: () => {
-          gsap.set([...heroBits, ...heroLines], { clearProps: "transform" });
+          gsap.set([...heroBits, ...heroLines, ...heroBtns], { clearProps: "transform" });
         },
       });
 
       heroTl
         .to(".hero-canvas", { opacity: 0.42, duration: 1.1, ease: "power2.out" }, 0)
-        .to(".hero-eyebrow", { opacity: 1, y: 0, duration: 0.55 }, 0.12)
-        .to(heroLines, { yPercent: 0, duration: 0.9, stagger: 0.1, ease: "power4.out" }, 0.18)
-        .to(".hero-copy", { opacity: 1, y: 0, duration: 0.6 }, 0.5)
-        .to(".hero-actions .btn", { opacity: 1, y: 0, duration: 0.45, stagger: 0.08 }, 0.62)
-        .to(".hero-meta > div", { opacity: 1, y: 0, duration: 0.45, stagger: 0.06 }, 0.72)
-        .to(".hero-rive", { opacity: 1, y: 0, duration: 0.5 }, 0.4);
+        .to(".hero-eyebrow", { opacity: 1, y: 0, duration: 0.55 }, 0.1)
+        .to(heroLines, { opacity: 1, y: 0, duration: 0.85, stagger: 0.1, ease: "power4.out" }, 0.16)
+        .to(".hero-copy", { opacity: 1, y: 0, duration: 0.55 }, 0.48)
+        .to(heroBtns, { opacity: 1, y: 0, duration: 0.45, stagger: 0.08 }, 0.58)
+        .to(".hero-meta > div", { opacity: 1, y: 0, duration: 0.45, stagger: 0.06 }, 0.65)
+        .to(".hero-rive", { opacity: 1, y: 0, duration: 0.5 }, 0.35);
 
-      const heroFailsafe = window.setTimeout(showHero, 1800);
+      const heroFailsafe = window.setTimeout(showHero, 1600);
       cleanups.push(() => clearTimeout(heroFailsafe));
     }
 

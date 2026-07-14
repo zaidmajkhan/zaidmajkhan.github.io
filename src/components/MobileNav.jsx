@@ -26,7 +26,7 @@ export default function MobileNav({ mobileOpen, setMobileOpen }) {
           <a
             key={item.href}
             href={item.href}
-            className="border-b border-line py-3.5 font-display text-3xl tracking-[-0.03em] text-forest transition hover:text-green"
+            className="border-b border-line py-3.5 font-display text-3xl leading-snug tracking-[-0.02em] text-forest transition hover:text-green"
             onClick={() => setMobileOpen(false)}
           >
             {item.label}

@@ -106,7 +106,7 @@ export default function Contact() {
   return (
     <section id="contact" className="section scroll-mt-24">
       <div className="wrap">
-        <div className="surface band-forest overflow-hidden p-5 sm:p-7 lg:p-9">
+        <div className="surface band-forest p-5 sm:p-7 lg:p-9">
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:items-start">
             <aside>
               <p className="eyebrow reveal text-lime">06 — Contact</p>
@@ -171,7 +171,7 @@ export default function Contact() {
               {success ? (
                 <div className="flex min-h-72 flex-col justify-center">
                   <p className="eyebrow text-lime">Sent</p>
-                  <h3 className="mt-3 font-display text-3xl tracking-[-0.03em] text-cream md:text-4xl">
+                  <h3 className="mt-3 font-display text-3xl leading-snug tracking-[-0.02em] text-cream md:text-4xl">
                     Message locked in.
                   </h3>
                   <p className="mt-3 max-w-sm text-cream/65">
