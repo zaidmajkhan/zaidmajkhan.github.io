@@ -7,17 +7,17 @@ export default function About() {
     <section id="about" className="section scroll-mt-24">
       <div className="wrap">
         <div className="mx-auto grid max-w-5xl items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="text-center lg:text-left">
+          <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
             <p className="eyebrow reveal text-green">01 — About</p>
             <h2 className="pin-title display-lg mt-4 text-balance text-forest">
               Systems that lose people deserve better engineering.
             </h2>
-            <p className="body reveal mt-5 max-w-2xl text-mute lg:mx-0 mx-auto">
+            <p className="body reveal mt-5 text-mute">
               I grew up watching my family navigate a healthcare system that felt designed to lose
               people in the cracks. An engineer looks at that and sees fixable problems.
             </p>
           </div>
-          <div className="scene-mount relative mx-auto hidden h-56 w-full max-w-sm overflow-hidden rounded-2xl border border-forest/12 bg-gradient-to-br from-cream-soft to-cream-deep lg:block">
+          <div className="scene-mount relative mx-auto hidden h-56 w-full max-w-sm overflow-hidden rounded-2xl border border-forest/10 bg-gradient-to-br from-cream-soft to-cream-deep lg:block">
             <Suspense fallback={null}>
               <SceneCanvas variant="lattice" className="absolute inset-0 h-full w-full" />
             </Suspense>

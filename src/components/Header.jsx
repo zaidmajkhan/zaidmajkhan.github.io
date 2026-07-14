@@ -22,10 +22,10 @@ export default function Header({ mobileOpen, setMobileOpen }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-5 md:pt-4">
       <div
-        className={`wrap flex items-center justify-between rounded-2xl px-3 py-2 transition-all duration-300 md:px-4 ${
+        className={`wrap flex items-center justify-between rounded-2xl px-3 py-2 transition-[background,box-shadow,border-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] md:px-4 ${
           scrolled
             ? "border border-forest/10 bg-cream/95 shadow-[0_10px_36px_rgba(0,40,0,0.08)] backdrop-blur-xl"
-            : "bg-transparent"
+            : "border border-transparent bg-transparent shadow-none"
         }`}
       >
         <a href="#hero" className="font-display text-[1.7rem] tracking-[-0.03em] text-forest">
@@ -62,8 +62,16 @@ export default function Header({ mobileOpen, setMobileOpen }) {
           onClick={() => setMobileOpen(!mobileOpen)}
         >
           <span className="relative block h-3.5 w-5">
-            <span className={`absolute left-0 block h-px w-5 bg-current transition ${mobileOpen ? "top-1.5 rotate-45" : "top-0.5"}`} />
-            <span className={`absolute left-0 block h-px w-5 bg-current transition ${mobileOpen ? "bottom-1.5 -rotate-45" : "bottom-0.5"}`} />
+            <span
+              className={`absolute left-0 block h-px w-5 bg-current transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                mobileOpen ? "top-1.5 rotate-45" : "top-0.5 rotate-0"
+              }`}
+            />
+            <span
+              className={`absolute left-0 block h-px w-5 bg-current transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                mobileOpen ? "bottom-1.5 -rotate-45" : "bottom-0.5 rotate-0"
+              }`}
+            />
           </span>
         </button>
       </div>

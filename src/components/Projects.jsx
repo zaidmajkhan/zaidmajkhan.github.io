@@ -33,7 +33,7 @@ export default function Projects({ todoAppUrl }) {
             <p className="eyebrow reveal text-green">04 — Work</p>
             <h2 className="pin-title display-lg mt-3 text-forest">Selected index</h2>
           </div>
-          <p className="reveal-right body max-w-sm text-mute md:text-right">
+          <p className="reveal body max-w-sm text-mute md:text-right">
             From pharmacy process redesign to personal AI tooling.
           </p>
         </div>
@@ -46,8 +46,8 @@ export default function Projects({ todoAppUrl }) {
               {...(row.external ? { target: "_blank", rel: "noreferrer" } : {})}
               className="interactive-row group grid grid-cols-[2.75rem_1fr_auto] items-center gap-3 border-b border-forest/12 py-4 md:grid-cols-[3.5rem_1.4fr_1fr_4.5rem_auto] md:gap-5"
             >
-              <span className="drift font-display text-sm text-mute">{row.num}</span>
-              <span className="font-display text-lg tracking-[-0.03em] text-forest transition-transform duration-300 group-hover:translate-x-1 md:text-xl">
+              <span className="font-display text-sm text-mute">{row.num}</span>
+              <span className="row-title font-display text-lg tracking-[-0.03em] text-forest md:text-xl">
                 {row.title}
               </span>
               <span className="hidden text-sm text-mute md:block">{row.cat}</span>
@@ -59,7 +59,11 @@ export default function Projects({ todoAppUrl }) {
 
         <p className="reveal mt-6 text-sm text-mute">
           Need the PDF?{" "}
-          <a href={siteConfig.resumeUrl} className="font-bold text-forest underline underline-offset-4" download="Zaid-Khan-Resume.pdf">
+          <a
+            href={siteConfig.resumeUrl}
+            className="font-bold text-forest underline underline-offset-4 transition-opacity hover:opacity-70"
+            download="Zaid-Khan-Resume.pdf"
+          >
             Download resume →
           </a>
         </p>

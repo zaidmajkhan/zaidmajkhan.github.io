@@ -33,7 +33,7 @@ export default function Experience() {
   return (
     <section id="experience" className="section band-forest scroll-mt-24 relative overflow-hidden">
       <div
-        className="pointer-events-none absolute -right-8 top-10 hidden h-72 w-72 opacity-50 lg:block xl:right-8 xl:h-80 xl:w-80"
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(28vw,22rem)] opacity-45 lg:block"
         aria-hidden="true"
       >
         <div className="scene-mount absolute inset-0">
@@ -44,14 +44,14 @@ export default function Experience() {
       </div>
 
       <div className="wrap relative z-10">
-        <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-end">
+        <div className="grid gap-5 md:grid-cols-[1.15fr_0.85fr] md:items-end">
           <div>
             <p className="eyebrow reveal text-lime">02 — Experience</p>
             <h2 className="pin-title display-lg mt-3 text-cream">
               Pharmacy floors, school ops, competitions.
             </h2>
           </div>
-          <p className="reveal-right body max-w-md text-cream/65 md:justify-self-end md:text-right">
+          <p className="reveal body max-w-md text-cream/65 md:justify-self-end md:text-right">
             Every role is practice in mapping how systems behave under constraint.
           </p>
         </div>
@@ -60,7 +60,7 @@ export default function Experience() {
           {ITEMS.map((item, i) => (
             <article
               key={item.title}
-              className="grid gap-3 border-b border-cream/15 py-5 md:grid-cols-[9.5rem_1fr] md:gap-8"
+              className="exp-row grid gap-3 border-b border-cream/15 py-5 md:grid-cols-[9.5rem_1fr] md:gap-8"
             >
               <div>
                 <p className="text-sm font-bold text-lime">{item.date}</p>
@@ -69,7 +69,7 @@ export default function Experience() {
                 </p>
               </div>
               <div className="flex gap-3">
-                <span className="drift mt-1 font-display text-sm text-cream/40">
+                <span className="mt-1 font-display text-sm text-cream/40">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
