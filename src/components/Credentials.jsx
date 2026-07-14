@@ -34,7 +34,7 @@ export default function Credentials() {
           <h2 className="pin-title display-lg mt-3 text-forest">Proof, not posture.</h2>
         </div>
 
-        <div className="reveal surface mx-auto mt-8 max-w-4xl overflow-hidden">
+        <div className="surface mx-auto mt-8 max-w-4xl overflow-hidden">
           <div className="grid border-b border-forest/12 md:grid-cols-4">
             {[
               { val: "4.0", label: "GPA", count: "4", decimals: "1" },
