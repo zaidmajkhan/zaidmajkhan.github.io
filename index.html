@@ -67,6 +67,13 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap"
       rel="stylesheet"
     />
+    <script>
+      try {
+        if (sessionStorage.getItem("introSeen")) {
+          document.documentElement.classList.add("intro-seen");
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -21,25 +21,25 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="hero" className="bg-cream px-2.5 pb-2.5 pt-[5.4rem] md:px-4 md:pb-4 md:pt-[5.8rem]">
+    <section id="hero" className="bg-cream px-2.5 pb-2 pt-[5.1rem] md:px-4 md:pb-3 md:pt-[5.4rem]">
       <div className="hero-shell">
         <div className="hero-shell-media" aria-hidden="true">
           <div ref={canvasRef} className="hero-canvas" />
         </div>
 
-        <div className="hero-shell-content flex min-h-[min(44rem,calc(100vh-5.75rem))] flex-col justify-between p-6 sm:p-8 md:p-11 lg:p-14">
+        <div className="hero-shell-content flex min-h-[min(32rem,calc(100dvh-6rem))] flex-col justify-between p-5 sm:p-7 md:min-h-[min(34rem,calc(100dvh-5.5rem))] md:p-9 lg:min-h-[min(36rem,calc(100dvh-5.25rem))] lg:p-11">
           <div className="relative z-10 flex shrink-0 items-start justify-between gap-4">
             <p className="hero-eyebrow eyebrow text-lime">
               Open to internships · Summer & Fall 2026
             </p>
-            <div className="hero-rive hidden h-20 w-20 shrink-0 md:block lg:h-28 lg:w-28">
+            <div className="hero-rive hidden h-20 w-20 shrink-0 md:block lg:h-24 lg:w-24">
               <Suspense fallback={null}>
                 <RiveMark src="/assets/motion.riv" className="h-full w-full opacity-90" />
               </Suspense>
             </div>
           </div>
 
-          <div className="relative z-10 shrink-0 py-8 md:py-10">
+          <div className="relative z-10 shrink-0 py-5 md:py-6 lg:py-7">
             <h1 className="display-xl text-cream">
               <span className="hero-line">
                 <span className="will-change-transform">Zaid</span>

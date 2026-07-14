@@ -78,8 +78,8 @@
     font-weight: 500;
     font-optical-sizing: auto;
     letter-spacing: -0.02em;
-    line-height: 1.12;
-    font-size: clamp(3rem, 9.5vw, 7.25rem);
+    line-height: 1.1;
+    font-size: clamp(2.85rem, 8.5vw, 6.5rem);
   }
 
   .display-lg {
@@ -197,9 +197,14 @@
     color: var(--color-lime);
   }
 
-  /* Denser sections — nesteye uses tighter rhythm */
+  /* Denser sections — less empty desktop height */
   .section {
-    padding-block: clamp(3rem, 5.5vw, 4.75rem);
+    padding-block: clamp(2.5rem, 4.5vw, 4rem);
+  }
+  @media (min-width: 1024px) {
+    .section {
+      padding-block: clamp(2.75rem, 3.8vw, 3.75rem);
+    }
   }
 
   .hero-shell {
@@ -225,9 +230,111 @@
   }
   /* Keep oversized serif glyphs fully visible */
   .hero-shell .display-xl {
-    letter-spacing: -0.018em;
-    line-height: 1.14;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
     padding-inline: 0.04em;
+    font-size: clamp(2.85rem, 8.5vw, 6.5rem);
+  }
+
+  /* —— Loading intro —— */
+  .intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-cream);
+    color: var(--color-forest);
+  }
+  html.intro-seen .intro-overlay {
+    display: none;
+  }
+  html.intro-leaving .intro-overlay {
+    animation: intro-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .intro-mark {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(3.5rem, 10vw, 6.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    animation: intro-mark-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards;
+  }
+  .intro-foot {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1.75rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: min(1200px, calc(100% - 2rem));
+    margin-inline: auto;
+  }
+  .intro-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+    opacity: 0;
+    animation: intro-fade 0.55s ease 0.18s forwards;
+  }
+  .intro-count {
+    display: flex;
+    align-items: baseline;
+    gap: 0.1rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: intro-fade 0.55s ease 0.18s forwards;
+  }
+  .intro-count i {
+    font-style: normal;
+    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--color-mute);
+  }
+  .intro-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: rgba(0, 40, 0, 0.1);
+  }
+  .intro-bar span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--color-forest);
+  }
+  @keyframes intro-mark-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes intro-fade {
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes intro-up {
+    to {
+      transform: translateY(-105%);
+      visibility: hidden;
+      pointer-events: none;
+    }
   }
 
   .hero-canvas {
@@ -452,5 +559,8 @@
   .exp-row,
   .nav-pill a {
     transition: none !important;
+  }
+  .intro-overlay {
+    display: none !important;
   }
 }

@@ -3,13 +3,14 @@ import Lenis from "lenis";
 import gsap from "gsap";
 
 /**
- * Reliable motion:
- * - Hero via GSAP (+ failsafe)
- * - Scroll reveals via IntersectionObserver + CSS (.in)
- * - Lenis for smooth scroll only — never gates visibility
+ * Motion after intro:
+ * - Hero GSAP entrance
+ * - Scroll reveals via scroll + IO (desktop-safe with Lenis)
  */
-export function useMotion() {
+export function useMotion(ready = true, introDelay = false) {
   useLayoutEffect(() => {
+    if (!ready) return undefined;
+
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let lenis = null;
     let rafId = 0;
@@ -17,6 +18,8 @@ export function useMotion() {
     const cleanups = [];
 
     document.documentElement.classList.add("motion-on");
+    /* Force a paint at opacity:0 before any .in is added (critical on tall desktops) */
+    void document.documentElement.offsetHeight;
 
     if (!reduced) {
       lenis = new Lenis({
@@ -64,6 +67,7 @@ export function useMotion() {
       gsap.set(".hero-canvas", { opacity: 0 });
 
       heroTl = gsap.timeline({
+        delay: introDelay ? 0.15 : 0.05,
         defaults: { ease: "power3.out" },
         onComplete: () => {
           gsap.set([...heroBits, ...heroLines, ...heroBtns], { clearProps: "transform" });
@@ -79,7 +83,7 @@ export function useMotion() {
         .to(".hero-meta > div", { opacity: 1, y: 0, duration: 0.45, stagger: 0.06 }, 0.65)
         .to(".hero-rive", { opacity: 1, y: 0, duration: 0.5 }, 0.35);
 
-      const heroFailsafe = window.setTimeout(showHero, 1600);
+      const heroFailsafe = window.setTimeout(showHero, 2200);
       cleanups.push(() => clearTimeout(heroFailsafe));
     }
 
@@ -92,31 +96,60 @@ export function useMotion() {
     if (reduced) {
       revealEls.forEach((el) => el.classList.add("in"));
     } else {
+      const reveal = (el) => {
+        if (!el || el.classList.contains("in")) return;
+        el.classList.add("in");
+      };
+
+      const checkReveals = () => {
+        const vh = window.innerHeight;
+        revealEls.forEach((el) => {
+          if (el.classList.contains("in")) return;
+          const rect = el.getBoundingClientRect();
+          /* Slightly stricter than before so desktop doesn't dump everything in at once */
+          if (rect.top < vh * 0.86 && rect.bottom > 48) reveal(el);
+        });
+      };
+
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
-            entry.target.classList.add("in");
+            reveal(entry.target);
             io.unobserve(entry.target);
           });
         },
-        { root: null, rootMargin: "0px 0px -6% 0px", threshold: 0.05 },
+        { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
       );
 
-      revealEls.forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.94 && rect.bottom > 24) {
-          el.classList.add("in");
-        } else {
-          io.observe(el);
-        }
+      /*
+       * Wait two frames after motion-on so opacity:0 is painted first.
+       * Instant .in in the same frame as motion-on skips CSS transitions on tall desktops.
+       */
+      let booted = false;
+      const boot = () => {
+        if (booted) return;
+        booted = true;
+        revealEls.forEach((el) => io.observe(el));
+        checkReveals();
+      };
+      requestAnimationFrame(() => {
+        requestAnimationFrame(boot);
       });
 
-      cleanups.push(() => io.disconnect());
+      window.addEventListener("scroll", checkReveals, { passive: true });
+      window.addEventListener("resize", checkReveals, { passive: true });
+      if (lenis) lenis.on("scroll", checkReveals);
+      cleanups.push(() => {
+        io.disconnect();
+        window.removeEventListener("scroll", checkReveals);
+        window.removeEventListener("resize", checkReveals);
+        if (lenis) lenis.off("scroll", checkReveals);
+      });
 
       const allSafe = window.setTimeout(() => {
-        revealEls.forEach((el) => el.classList.add("in"));
-      }, 4000);
+        revealEls.forEach(reveal);
+      }, 8000);
       cleanups.push(() => clearTimeout(allSafe));
     }
 
@@ -146,13 +179,17 @@ export function useMotion() {
       });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
+    if (lenis) lenis.on("scroll", onScroll);
     onScroll();
-    cleanups.push(() => window.removeEventListener("scroll", onScroll));
+    cleanups.push(() => {
+      window.removeEventListener("scroll", onScroll);
+      if (lenis) lenis.off("scroll", onScroll);
+    });
 
     return () => {
       cleanups.forEach((fn) => fn());
       if (heroTl) heroTl.kill();
       document.documentElement.classList.remove("motion-on");
     };
-  }, []);
+  }, [ready, introDelay]);
 }
