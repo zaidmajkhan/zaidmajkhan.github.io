@@ -244,7 +244,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-cream);
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 55% 45% at 18% 22%, rgba(200, 232, 106, 0.14), transparent 55%),
+      radial-gradient(ellipse 50% 40% at 84% 78%, rgba(13, 107, 72, 0.1), transparent 50%),
+      var(--color-cream);
     color: var(--color-forest);
   }
   html.intro-seen .intro-overlay {
@@ -253,7 +257,22 @@
   html.intro-leaving .intro-overlay {
     animation: intro-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
+  .intro-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    animation: intro-fade 0.8s ease 0.05s forwards;
+  }
+  .intro-canvas canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
   .intro-mark {
+    position: relative;
+    z-index: 2;
     font-family: var(--font-display);
     font-weight: 500;
     font-size: clamp(3.5rem, 10vw, 6.5rem);
@@ -262,11 +281,76 @@
     opacity: 0;
     animation: intro-mark-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards;
   }
+  .intro-chips {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .intro-chip {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    max-width: 9.5rem;
+    opacity: 0;
+  }
+  .intro-chip-label {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--color-forest);
+  }
+  .intro-chip-detail {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .intro-chip--systems {
+    top: 14%;
+    right: 8%;
+    text-align: right;
+  }
+  .intro-chip--care {
+    bottom: 22%;
+    left: 7%;
+  }
+  .intro-chip--signal {
+    top: 16%;
+    left: 8%;
+  }
+  .intro-chip--loop {
+    bottom: 20%;
+    right: 8%;
+    text-align: right;
+  }
+  @media (max-width: 700px) {
+    .intro-chip--systems {
+      top: 10%;
+      right: 5%;
+    }
+    .intro-chip--signal {
+      top: 10%;
+      left: 5%;
+    }
+    .intro-chip--care {
+      bottom: 18%;
+      left: 5%;
+    }
+    .intro-chip--loop {
+      bottom: 18%;
+      right: 5%;
+    }
+  }
   .intro-foot {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 1.75rem;
+    z-index: 2;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -305,6 +389,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 2;
     height: 2px;
     background: rgba(0, 40, 0, 0.1);
   }
