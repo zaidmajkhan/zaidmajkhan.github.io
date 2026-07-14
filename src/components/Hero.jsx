@@ -27,7 +27,7 @@ export default function Hero() {
       <div className="wrap relative z-10 flex min-h-[calc(100vh-5rem)] flex-col justify-between pb-10 pt-8 md:pb-14 md:pt-14">
         <div className="flex items-start justify-between gap-6">
           <p className="hero-eyebrow eyebrow">Open to internships · Summer & Fall 2026</p>
-          <div className="hidden h-28 w-28 shrink-0 md:block lg:h-36 lg:w-36">
+          <div className="hero-rive hidden h-28 w-28 shrink-0 md:block lg:h-36 lg:w-36">
             <Suspense fallback={<div className="h-full w-full border border-line" />}>
               <RiveMark src="/assets/motion.riv" className="h-full w-full opacity-90" />
             </Suspense>
@@ -72,7 +72,7 @@ export default function Hero() {
               ["CPhT", "Licensed"],
             ].map(([v, l]) => (
               <div key={l}>
-                <p className="font-display text-2xl font-bold tracking-[-0.04em] text-soft md:text-3xl">
+                <p className="font-display text-2xl tracking-[-0.03em] text-soft md:text-3xl">
                   {v}
                 </p>
                 <p className="mt-1 text-[0.65rem] font-semibold tracking-[0.14em] text-mute uppercase">

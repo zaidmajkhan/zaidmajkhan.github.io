@@ -5,13 +5,12 @@
   --color-ink: #111111;
   --color-panel: #161616;
   --color-line: #2a2a2a;
-  --color-soft: #e8e8e8;
-  --color-mute: #8b8b8b;
+  --color-soft: #ededed;
+  --color-mute: #8f8f8f;
   --color-green: #c6ff3d;
   --color-green-dim: #8fb82a;
-  --color-green-deep: #3d4d12;
-  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -70,41 +69,39 @@
 
   .display {
     font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.045em;
-    line-height: 0.88;
-    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
   }
 
   .display-xl {
     font-family: var(--font-display);
-    font-weight: 800;
-    letter-spacing: -0.05em;
-    line-height: 0.82;
-    text-transform: uppercase;
-    font-size: clamp(3.8rem, 13vw, 10rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 0.86;
+    font-size: clamp(4.2rem, 14vw, 10.5rem);
   }
 
   .display-lg {
     font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 0.9;
-    text-transform: uppercase;
-    font-size: clamp(2.4rem, 6.5vw, 5.5rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 0.94;
+    font-size: clamp(2.6rem, 7vw, 5.25rem);
   }
 
   .eyebrow {
-    font-size: 0.72rem;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--color-green);
   }
 
   .body {
-    font-size: clamp(1rem, 1.3vw, 1.125rem);
-    line-height: 1.65;
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    line-height: 1.7;
     color: var(--color-mute);
   }
 
@@ -113,25 +110,35 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    min-height: 2.75rem;
-    padding: 0.7rem 1.2rem;
+    min-height: 2.85rem;
+    padding: 0.7rem 1.25rem;
     border: 1px solid transparent;
     font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition:
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      background 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.35s ease;
   }
   .btn:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+  }
+  .btn:active {
+    transform: translateY(0);
   }
   .btn-green {
     background: var(--color-green);
     color: var(--color-void);
+    box-shadow: 0 0 0 rgba(198, 255, 61, 0);
   }
   .btn-green:hover {
     background: #d8ff6a;
+    box-shadow: 0 12px 40px rgba(198, 255, 61, 0.22);
   }
   .btn-ghost {
     background: transparent;
@@ -141,12 +148,6 @@
   .btn-ghost:hover {
     border-color: var(--color-green);
     color: var(--color-green);
-  }
-
-  .rule {
-    height: 1px;
-    background: var(--color-line);
-    width: 100%;
   }
 
   .chip {
@@ -159,6 +160,7 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-green);
+    transition: border-color 0.3s ease, background 0.3s ease;
   }
 
   .section {
@@ -166,8 +168,7 @@
   }
 
   .reveal {
-    opacity: 0;
-    transform: translateY(36px);
+    will-change: transform, opacity;
   }
 
   .hero-canvas {
@@ -179,16 +180,33 @@
   }
 
   .nav-link {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    font-weight: 560;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-mute);
-    transition: color 0.2s;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 1px;
+    background: var(--color-green);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .nav-link:hover,
   .nav-link.active {
     color: var(--color-green);
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    transform: scaleX(1);
   }
 
   .form-input {
@@ -200,11 +218,12 @@
     font: inherit;
     font-size: 0.95rem;
     border-radius: 0;
-    transition: border-color 0.2s;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
   .form-input:focus {
     outline: none;
     border-color: var(--color-green);
+    box-shadow: 0 0 0 3px rgba(198, 255, 61, 0.12);
   }
   .form-label {
     font-size: 0.65rem;
@@ -223,17 +242,51 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     cursor: pointer;
+    transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
   }
   .topic.active,
   .topic:hover {
     border-color: var(--color-green);
     color: var(--color-green);
+    background: rgba(198, 255, 61, 0.06);
+  }
+
+  .interactive-row {
+    transition: background 0.35s ease, padding-left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .interactive-row:hover {
+    background: var(--color-panel);
+    padding-left: 0.5rem;
+  }
+
+  .surface-card {
+    transition:
+      border-color 0.35s ease,
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      background 0.35s ease;
+  }
+  .surface-card:hover {
+    border-color: color-mix(in srgb, var(--color-green) 45%, var(--color-line));
+    transform: translateY(-3px);
+  }
+
+  .rule-grow {
+    height: 1px;
+    background: var(--color-line);
+    width: 100%;
+    transform: scaleX(0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
+  .btn,
+  .nav-link,
+  .nav-link::after,
+  .topic,
+  .interactive-row,
+  .surface-card,
+  .form-input,
+  .chip {
+    transition: none !important;
   }
 }

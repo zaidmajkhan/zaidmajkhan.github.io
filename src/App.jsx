@@ -10,14 +10,12 @@ import Hero from "./components/Hero.jsx";
 import MobileNav from "./components/MobileNav.jsx";
 import Projects from "./components/Projects.jsx";
 import siteConfig from "./config/siteConfig.js";
-import { useGsapAnimations } from "./hooks/useGsapAnimations.js";
-import { useLenis } from "./hooks/useLenis.js";
+import { useMotion } from "./hooks/useMotion.js";
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useLenis();
-  useGsapAnimations();
+  useMotion();
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";

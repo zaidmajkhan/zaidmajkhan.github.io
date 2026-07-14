@@ -28,7 +28,7 @@ export default function Header({ mobileOpen, setMobileOpen }) {
       }`}
     >
       <div className="wrap flex h-16 items-center justify-between md:h-[4.25rem]">
-        <a href="#hero" className="font-display text-lg font-bold tracking-[-0.04em] uppercase text-soft">
+        <a href="#hero" className="font-display text-2xl tracking-[-0.03em] text-soft">
           ZK<span className="text-green">.</span>
         </a>
 

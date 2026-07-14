@@ -10,7 +10,7 @@ export default function Footer() {
             <p className="eyebrow">Next move</p>
             <a
               href="#contact"
-              className="mt-4 block font-display text-[clamp(2.5rem,7vw,5rem)] font-extrabold uppercase leading-[0.85] tracking-[-0.05em] text-soft track-cta"
+              className="mt-4 block font-display text-[clamp(2.5rem,7vw,5rem)] leading-[0.88] tracking-[-0.035em] text-soft track-cta"
               data-track="Footer CTA"
             >
               Let&apos;s work
@@ -64,7 +64,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 text-sm text-mute sm:flex-row sm:items-center sm:justify-between">
-          <a href="#hero" className="font-display text-lg font-bold uppercase tracking-[-0.04em] text-soft">
+          <a href="#hero" className="font-display text-xl tracking-[-0.03em] text-soft">
             Zaid Khan
           </a>
           <p>© {year} Zaid Khan</p>

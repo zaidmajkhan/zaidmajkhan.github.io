@@ -159,7 +159,7 @@ export default function Contact() {
             {success ? (
               <div className="flex min-h-80 flex-col justify-center">
                 <p className="eyebrow">Sent</p>
-                <h3 className="mt-4 font-display text-4xl font-bold uppercase tracking-[-0.04em] text-soft">
+                <h3 className="mt-4 font-display text-4xl tracking-[-0.03em] text-soft">
                   Message locked in.
                 </h3>
                 <p className="mt-4 max-w-sm text-mute">I&apos;ll reply within 24 hours on weekdays.</p>

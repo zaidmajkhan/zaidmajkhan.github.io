@@ -59,7 +59,7 @@ export default function Building({ todoAppUrl }) {
           {projects.map((p, i) => (
             <article
               key={p.num}
-              className={`reveal flex min-h-72 flex-col justify-between border-b border-line p-6 md:border-b-0 ${
+              className={`reveal surface-card flex min-h-72 flex-col justify-between border-b border-line p-6 md:border-b-0 ${
                 i < 2 ? "md:border-r" : ""
               }`}
             >
@@ -68,7 +68,7 @@ export default function Building({ todoAppUrl }) {
                 <span className="chip">{p.tag}</span>
               </div>
               <div>
-                <h3 className="font-display text-2xl font-bold tracking-[-0.03em] uppercase text-soft">
+                <h3 className="font-display text-2xl tracking-[-0.03em] text-soft">
                   {p.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-mute">{p.body}</p>

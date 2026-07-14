@@ -59,7 +59,7 @@ export default function Experience() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
-                    <h3 className="font-display text-xl font-bold tracking-[-0.03em] uppercase text-soft md:text-2xl">
+                    <h3 className="font-display text-xl tracking-[-0.03em] text-soft md:text-2xl">
                       {item.title}
                     </h3>
                     <p className="mt-3 max-w-3xl text-sm leading-relaxed text-mute md:text-base">

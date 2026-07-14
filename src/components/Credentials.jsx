@@ -52,7 +52,7 @@ export default function Credentials() {
                   i < 3 ? "md:border-r" : ""
                 }`}
               >
-                <span className="font-display text-4xl font-extrabold tracking-[-0.05em] text-green md:text-5xl">
+                <span className="font-display text-4xl tracking-[-0.04em] text-green md:text-5xl">
                   {v}
                 </span>
                 <span className="mt-2 text-[0.65rem] font-semibold tracking-[0.14em] text-mute uppercase">
@@ -70,7 +70,7 @@ export default function Credentials() {
               >
                 <span className="text-sm font-semibold text-green">{c.year}</span>
                 <div>
-                  <p className="font-display text-lg font-bold tracking-[-0.03em] uppercase text-soft">
+                  <p className="font-display text-lg tracking-[-0.03em] text-soft">
                     {c.title}
                   </p>
                   <p className="mt-1 text-sm text-mute">{c.desc}</p>

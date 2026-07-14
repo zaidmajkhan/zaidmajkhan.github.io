@@ -48,10 +48,10 @@ export default function Projects({ todoAppUrl }) {
               key={row.num}
               href={row.href}
               {...(row.external ? { target: "_blank", rel: "noreferrer" } : {})}
-              className="reveal group grid grid-cols-[3rem_1fr_auto] items-center gap-4 border-b border-line py-5 transition-colors hover:bg-panel md:grid-cols-[4rem_1.5fr_1fr_5rem_auto] md:gap-6"
+              className="reveal group interactive-row grid grid-cols-[3rem_1fr_auto] items-center gap-4 border-b border-line py-5 md:grid-cols-[4rem_1.5fr_1fr_5rem_auto] md:gap-6"
             >
-              <span className="font-display text-sm font-bold text-mute">{row.num}</span>
-              <span className="font-display text-lg font-bold tracking-[-0.03em] uppercase text-soft transition-transform group-hover:translate-x-1 md:text-2xl">
+              <span className="font-display text-sm text-mute">{row.num}</span>
+              <span className="font-display text-lg tracking-[-0.03em] text-soft transition-transform duration-300 group-hover:translate-x-1 md:text-2xl">
                 {row.title}
               </span>
               <span className="hidden text-sm text-mute md:block">{row.cat}</span>
