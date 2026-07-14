@@ -1,12 +1,20 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
+const INTERESTS = [
+  { key: "systems", label: "Systems", detail: "ISE · design" },
+  { key: "care", label: "Care flow", detail: "Healthcare ops" },
+  { key: "signal", label: "Signal", detail: "AI · build" },
+  { key: "loop", label: "Process", detail: "Ops · improve" },
+];
+
 /**
- * Cream/forest loading intro — show once per session.
+ * Cream/forest loading intro with interest-led 3D motifs.
  */
 export default function IntroOverlay({ active, onDone }) {
   const countRef = useRef(null);
   const barRef = useRef(null);
+  const canvasRef = useRef(null);
 
   useEffect(() => {
     if (!active) {
@@ -21,10 +29,18 @@ export default function IntroOverlay({ active, onDone }) {
       return undefined;
     }
 
+    let disposeScene = () => {};
+    let cancelled = false;
+    (async () => {
+      const { initIntroScene } = await import("../lib/scene3d.js");
+      if (cancelled || !canvasRef.current) return;
+      disposeScene = initIntroScene(canvasRef.current) || (() => {});
+    })();
+
     const obj = { v: 0 };
     const tween = gsap.to(obj, {
       v: 100,
-      duration: 1.15,
+      duration: 1.65,
       ease: "power2.inOut",
       onUpdate: () => {
         const v = Math.round(obj.v);
@@ -33,6 +49,12 @@ export default function IntroOverlay({ active, onDone }) {
       },
     });
 
+    gsap.fromTo(
+      ".intro-chip",
+      { opacity: 0, y: 12 },
+      { opacity: 1, y: 0, duration: 0.55, stagger: 0.08, delay: 0.28, ease: "power3.out" },
+    );
+
     const done = window.setTimeout(() => {
       document.documentElement.classList.add("intro-leaving");
       window.setTimeout(() => {
@@ -40,11 +62,13 @@ export default function IntroOverlay({ active, onDone }) {
         document.documentElement.classList.remove("intro-leaving");
         onDone?.();
       }, 700);
-    }, 1250);
+    }, 1850);
 
     return () => {
+      cancelled = true;
       tween.kill();
       clearTimeout(done);
+      disposeScene();
     };
   }, [active, onDone]);
 
@@ -52,7 +76,19 @@ export default function IntroOverlay({ active, onDone }) {
 
   return (
     <div className="intro-overlay" id="introOverlay" aria-hidden="true">
+      <div ref={canvasRef} className="intro-canvas" />
+
+      <div className="intro-chips" aria-hidden="true">
+        {INTERESTS.map((item) => (
+          <div key={item.key} className={`intro-chip intro-chip--${item.key}`}>
+            <span className="intro-chip-label">{item.label}</span>
+            <span className="intro-chip-detail">{item.detail}</span>
+          </div>
+        ))}
+      </div>
+
       <span className="intro-mark">ZK</span>
+
       <div className="intro-foot">
         <span className="intro-label">Zaid Khan — Portfolio</span>
         <span className="intro-count">
