@@ -1,26 +1,38 @@
-import siteConfig from '../config/siteConfig.js';
+import siteConfig from "../config/siteConfig.js";
 
-export default function MobileNav({ mobileOpen }) {
+const LINKS = [
+  { href: "#about", label: "About" },
+  { href: "#experience", label: "Experience" },
+  { href: "#building", label: "Building" },
+  { href: "#projects", label: "Projects" },
+  { href: "#contact", label: "Contact" },
+];
+
+export default function MobileNav({ mobileOpen, setMobileOpen }) {
+  if (!mobileOpen) return null;
+
   return (
-    <div className={`mobile-nav${mobileOpen ? ' open' : ''}`} id="mobileNav">
-      <div className="container">
+    <div className="fixed inset-0 z-40 bg-cream pt-24 lg:hidden">
+      <div className="container-wide flex flex-col gap-2">
         <a
           href={siteConfig.resumeUrl}
-          className="mobile-cta resume-link track-cta"
+          className="btn btn-forest w-full track-cta"
           data-track="Resume Mobile"
           download="Zaid-Khan-Resume.pdf"
+          onClick={() => setMobileOpen(false)}
         >
-          Download resume ↓
+          Download resume
         </a>
-        <a href="#contact" className="mobile-cta mobile-cta-book track-cta" data-track="Contact Mobile">
-          Contact
-        </a>
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#building">Building</a>
-        <a href="#projects">Projects</a>
-        <a href="#credentials">Credentials</a>
-        <a href="#contact">Contact</a>
+        {LINKS.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className="rounded-xl px-4 py-3 font-serif text-3xl tracking-[-0.03em] text-forest"
+            onClick={() => setMobileOpen(false)}
+          >
+            {item.label}
+          </a>
+        ))}
       </div>
     </div>
   );

@@ -1,76 +1,80 @@
-import siteConfig from '../config/siteConfig.js';
+import { useEffect, useState } from "react";
+import siteConfig from "../config/siteConfig.js";
 
-export default function Header({ onThemeToggle, theme, mobileOpen, setMobileOpen }) {
-  function handleHamburgerClick() {
-    setMobileOpen(!mobileOpen);
-  }
+const NAV = [
+  { href: "#about", label: "About" },
+  { href: "#experience", label: "Experience" },
+  { href: "#building", label: "Building" },
+  { href: "#projects", label: "Projects" },
+  { href: "#contact", label: "Contact" },
+];
+
+export default function Header({ mobileOpen, setMobileOpen }) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 24);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="site-header" id="siteHeader">
-      <div className="container header-inner">
-        <a className="logo" href="#hero">
+    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-5 md:pt-4">
+      <div
+        className={`container-wide flex items-center justify-between rounded-2xl px-3 py-2.5 transition-all duration-400 md:px-4 ${
+          scrolled
+            ? "border border-forest/10 bg-cream/90 shadow-[0_12px_40px_rgba(0,40,0,0.08)] backdrop-blur-xl"
+            : "bg-transparent"
+        }`}
+      >
+        <a href="#hero" className="font-serif text-[1.65rem] font-medium tracking-[-0.03em] text-forest">
           ZK
         </a>
-        <nav className="nav" id="nav">
-          <a href="#about" data-label="About">
-            <span>About</span>
-          </a>
-          <a href="#experience" data-label="Experience">
-            <span>Experience</span>
-          </a>
-          <a href="#building" data-label="Building">
-            <span>Building</span>
-          </a>
-          <a href="#projects" data-label="Projects">
-            <span>Projects</span>
-          </a>
-          <a href="#credentials" data-label="Credentials">
-            <span>Credentials</span>
-          </a>
-          <a href="#contact" data-label="Contact">
-            <span>Contact</span>
-          </a>
+
+        <nav className="nav-pill" aria-label="Primary">
+          {NAV.map((item) => (
+            <a key={item.href} href={item.href}>
+              {item.label}
+            </a>
+          ))}
         </nav>
-        <div className="header-actions">
+
+        <div className="hidden items-center gap-2 lg:flex">
           <a
             href={siteConfig.resumeUrl}
-            className="header-cta track-cta resume-link"
+            className="btn btn-outline track-cta"
             data-track="Resume Header"
             download="Zaid-Khan-Resume.pdf"
           >
-            Resume ↓
+            Resume
           </a>
-          <a href="#contact" className="header-cta-book btn ghost track-cta" data-track="Contact Header">
+          <a href="#contact" className="btn btn-forest track-cta" data-track="Contact Header">
             Contact
           </a>
         </div>
+
         <button
-          className="theme-toggle"
-          id="themeToggle"
           type="button"
-          aria-label="Toggle light or dark theme"
-          aria-pressed={theme === 'light'}
-          onClick={onThemeToggle}
-        >
-          <span className="tt-icon tt-sun" aria-hidden="true">
-            ☀
-          </span>
-          <span className="tt-icon tt-moon" aria-hidden="true">
-            ☾
-          </span>
-        </button>
-        <button
-          className={`hamburger${mobileOpen ? ' open' : ''}`}
-          id="hamburger"
-          type="button"
-          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          className="grid h-10 w-10 place-items-center rounded-full border border-forest/20 text-forest lg:hidden"
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
-          aria-controls="mobileNav"
-          onClick={handleHamburgerClick}
+          onClick={() => setMobileOpen(!mobileOpen)}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span className="relative block h-4 w-5">
+            <span
+              className={`absolute left-0 block h-px w-5 bg-current transition ${
+                mobileOpen ? "top-2 rotate-45" : "top-1"
+              }`}
+            />
+            <span
+              className={`absolute left-0 block h-px w-5 bg-current transition ${
+                mobileOpen ? "bottom-2 -rotate-45" : "bottom-1"
+              }`}
+            />
+          </span>
         </button>
       </div>
     </header>

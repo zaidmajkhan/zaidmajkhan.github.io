@@ -9,10 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "gsap": "^3.12.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "three": "^0.160.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.8",

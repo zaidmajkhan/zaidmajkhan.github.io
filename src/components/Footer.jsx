@@ -1,29 +1,27 @@
-import siteConfig from '../config/siteConfig.js';
+import siteConfig from "../config/siteConfig.js";
 
-export default function Footer({ githubUrl, twitterUrl }) {
+export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="site-footer">
-      <div className="container">
-        <div className="footer-cta">
-          <span className="footer-eyebrow">Have something in mind?</span>
-          <a href="#contact" className="footer-bigline track-cta" data-track="Footer CTA">
-            <span className="clip-wrap">
-              <span className="clip-inner">Let&apos;s work</span>
-            </span>
-            <span className="clip-wrap">
-              <span className="clip-inner clip-inner--accent">
-                together <i className="fb-arrow">↗</i>
-              </span>
-            </span>
+    <footer className="border-t border-forest/10 bg-cream">
+      <div className="container-wide py-16 md:py-20">
+        <div className="flex flex-col gap-8 border-b border-forest/10 pb-12 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="eyebrow text-moss">Have something in mind?</p>
+            <a href="#contact" className="mt-4 block font-serif text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.9] tracking-[-0.04em] text-forest track-cta" data-track="Footer CTA">
+              Let&apos;s work <span className="text-moss">together ↗</span>
+            </a>
+          </div>
+          <a href={siteConfig.resumeUrl} className="btn btn-forest track-cta" data-track="Resume Footer" download="Zaid-Khan-Resume.pdf">
+            Download resume
           </a>
         </div>
 
-        <div className="footer-grid">
-          <div className="footer-col">
-            <span className="footer-col-label">Sitemap</span>
-            <nav className="footer-links" aria-label="Footer">
+        <div className="mt-10 grid gap-8 sm:grid-cols-3">
+          <div>
+            <p className="text-[0.68rem] font-extrabold tracking-[0.16em] text-muted uppercase">Sitemap</p>
+            <nav className="mt-4 grid gap-2 text-sm font-semibold">
               <a href="#about">About</a>
               <a href="#experience">Experience</a>
               <a href="#building">Building</a>
@@ -31,41 +29,36 @@ export default function Footer({ githubUrl, twitterUrl }) {
               <a href="#contact">Contact</a>
             </nav>
           </div>
-          <div className="footer-col">
-            <span className="footer-col-label">Connect</span>
-            <div className="footer-links">
-              <a href="mailto:zaidmajkhan@gmail.com">zaidmajkhan@gmail.com</a>
-              <a href={siteConfig.resumeUrl} className="resume-link" download="Zaid-Khan-Resume.pdf">
-                Resume ↓
-              </a>
-              <a href="https://linkedin.com/in/zaidmajkhan" target="_blank" rel="noreferrer">
+          <div>
+            <p className="text-[0.68rem] font-extrabold tracking-[0.16em] text-muted uppercase">Connect</p>
+            <div className="mt-4 grid gap-2 text-sm font-semibold">
+              <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
+              <a href={siteConfig.linkedinUrl} target="_blank" rel="noreferrer">
                 LinkedIn ↗
               </a>
-              <a href={githubUrl} id="footerGithub" target="_blank" rel="noreferrer">
+              <a href={siteConfig.githubUrl} target="_blank" rel="noreferrer">
                 GitHub ↗
               </a>
-              <a href={twitterUrl} id="footerTwitter" target="_blank" rel="noreferrer">
+              <a href={siteConfig.twitterUrl} target="_blank" rel="noreferrer">
                 X / Twitter ↗
               </a>
             </div>
           </div>
-          <div className="footer-col">
-            <span className="footer-col-label">Based in</span>
-            <div className="footer-links">
+          <div>
+            <p className="text-[0.68rem] font-extrabold tracking-[0.16em] text-muted uppercase">Based in</p>
+            <div className="mt-4 grid gap-2 text-sm text-muted">
               <span>McKinney, TX</span>
-              <span>Texas A&amp;M Engineering Academies</span>
+              <span>Texas A&M Engineering Academies</span>
             </div>
           </div>
         </div>
 
-        <div className="footer-base">
-          <a className="footer-logo" href="#hero">
+        <div className="mt-12 flex flex-col gap-3 border-t border-forest/10 pt-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+          <a href="#hero" className="font-serif text-xl tracking-[-0.03em] text-forest">
             Zaid Khan
           </a>
-          <p className="footer-copy muted small">
-            © <span id="yearFooter">{year}</span> Zaid Khan
-          </p>
-          <a href="#hero" className="footer-top">
+          <p>© {year} Zaid Khan</p>
+          <a href="#hero" className="font-semibold text-forest">
             Back to top ↑
           </a>
         </div>

@@ -1,128 +1,86 @@
+import siteConfig from "../config/siteConfig.js";
+
 export default function Building({ todoAppUrl }) {
-  const todoLive = Boolean(todoAppUrl);
+  const projects = [
+    {
+      num: "01",
+      title: "AI Lead Follow-Up Agent",
+      tag: "In progress",
+      body: "Python agent using Claude API + Gmail — ingests lead data, generates outreach, tracks sends. Still iterating on reliability.",
+      href: "https://github.com/zaidmajkhan/lead-followup-agent",
+    },
+    {
+      num: "02",
+      title: "AI Todo App",
+      tag: todoAppUrl ? "Live" : "Deploying",
+      body: "Full-stack FastAPI + SQLite + Claude API on the server only. This portfolio stays static; the app deploys separately.",
+      href: todoAppUrl || null,
+    },
+    {
+      num: "03",
+      title: "Healthcare Workflow Tools",
+      tag: "Planned",
+      body: "Exploring process-mapping tools inspired by pharmacy ops — modeling hand-offs and bottlenecks in clinical workflows.",
+      href: null,
+    },
+  ];
 
   return (
-    <section className="section alt" id="building">
-      <div className="container">
-        <div className="section-intro">
-          <span className="section-label">03 — Building</span>
-          <div className="section-rule"></div>
-        </div>
-
-        <div className="services-header">
-          <h2 className="services-heading">
-            <div className="clip-wrap">
-              <span className="clip-inner">Personal</span>
-            </div>
-            <div className="clip-wrap">
-              <span className="clip-inner clip-inner--accent">Projects</span>
-            </div>
-          </h2>
-          <div className="services-right reveal-up">
-            <p className="services-sub">
-              Side projects exploring AI and full-stack tooling — each app deployed separately from this static site.
-              No client work; cards update when something ships live.
+    <section id="building" className="section-pad scroll-mt-24">
+      <div className="container-wide">
+        <div className="surface mx-auto max-w-[1320px] p-6 md:p-12 lg:p-16">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="eyebrow justify-center text-moss">03 — Building</p>
+            <h2 className="heading-xl mt-5 text-forest">Personal projects, shipped separately.</h2>
+            <p className="body-lg mx-auto mt-6 max-w-2xl text-muted">
+              Side projects exploring AI and full-stack tooling. No client work — cards flip to
+              live links when something ships.
             </p>
+          </div>
+
+          <div className="mt-14 grid border-y border-forest/15 md:grid-cols-3">
+            {projects.map((p, i) => (
+              <article
+                key={p.num}
+                className={`flex min-h-64 flex-col justify-between p-7 md:p-9 ${
+                  i < projects.length - 1 ? "md:border-r md:border-forest/15" : ""
+                } border-b border-forest/15 last:border-b-0 md:border-b-0`}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-serif text-4xl tracking-[-0.05em] text-forest">{p.num}</span>
+                  <span className="rounded-full border border-forest/15 px-3 py-1 text-[0.65rem] font-extrabold tracking-[0.12em] text-moss uppercase">
+                    {p.tag}
+                  </span>
+                </div>
+                <div className="mt-10">
+                  <h3 className="font-serif text-2xl tracking-[-0.03em] text-forest">{p.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">{p.body}</p>
+                  {p.href ? (
+                    <a
+                      href={p.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-5 inline-flex items-center gap-2 border-b border-forest/30 pb-1 text-xs font-extrabold tracking-[0.12em] uppercase"
+                    >
+                      Open ↗
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-10 flex justify-center">
             <a
-              href="https://github.com/zaidmajkhan"
+              href={siteConfig.githubUrl}
               target="_blank"
               rel="noreferrer"
-              className="btn primary track-cta"
+              className="btn btn-forest track-cta"
               data-track="GitHub Building"
             >
               View GitHub
             </a>
-            <div className="services-stack-note">// personal builds · not client-facing</div>
           </div>
-        </div>
-
-        <div className="service-list service-bento">
-          <div className="service-item glass-card reveal-up">
-            <div className="service-num">01</div>
-            <div className="service-content">
-              <div className="service-head">
-                <h3>AI Lead Follow-Up Agent</h3>
-                <span className="service-tag">In progress</span>
-              </div>
-              <p>
-                <span>
-                  Python agent using Claude API + Gmail — ingests lead data, generates outreach, tracks sends. Active
-                  repo on GitHub; still iterating on reliability and edge cases.
-                </span>
-              </p>
-            </div>
-          </div>
-
-          <div className="service-item glass-card reveal-up">
-            <div className="service-num">02</div>
-            <div className="service-content">
-              <div className="service-head">
-                <h3>AI Todo App</h3>
-                <span className="service-tag" id="todoAppTag">
-                  {todoLive ? 'Live' : 'Deploying'}
-                </span>
-              </div>
-              <p>
-                <span>
-                  Full-stack todo app — FastAPI backend, SQLite, Claude API on the server only. This portfolio stays on
-                  GitHub Pages; the app deploys separately (Render or Railway). API keys never touch frontend JS.
-                </span>
-              </p>
-              {todoLive ? (
-                <a
-                  href={todoAppUrl}
-                  id="todoAppLink"
-                  className="building-link track-cta"
-                  data-track="Todo App Live"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Open live app ↗
-                </a>
-              ) : (
-                <>
-                  <a
-                    href="#"
-                    id="todoAppLink"
-                    className="building-link track-cta"
-                    data-track="Todo App Live"
-                    target="_blank"
-                    rel="noreferrer"
-                    hidden
-                  >
-                    Open live app ↗
-                  </a>
-                  <span className="building-soon" id="todoAppSoon">
-                    Live link when deployed
-                  </span>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="service-item glass-card reveal-up">
-            <div className="service-num">03</div>
-            <div className="service-content">
-              <div className="service-head">
-                <h3>Healthcare Workflow Tools</h3>
-                <span className="service-tag">Planned</span>
-              </div>
-              <p>
-                <span>
-                  Placeholder — exploring process-mapping tools inspired by pharmacy ops experience. Goal: model
-                  hand-offs and bottlenecks in clinical workflows. Not started yet.
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="placeholder-note reveal-up glass-card">
-          <span className="contact-type-label">Note</span>
-          <p>
-            Static portfolio here; full-stack apps link out to their own hosts. Project cards flip to live links once
-            deployed.
-          </p>
         </div>
       </div>
     </section>
