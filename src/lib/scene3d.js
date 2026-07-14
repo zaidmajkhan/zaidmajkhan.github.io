@@ -16,8 +16,8 @@ export function initHeroScene(container) {
   const group = new THREE.Group();
   scene.add(group);
 
-  const green = 0x34d399;
-  const dim = 0x0d6b48;
+  const green = 0xc8e86a;
+  const dim = 0x1a5c2e;
 
   function wire(geo, color, opacity) {
     const mesh = new THREE.Mesh(

@@ -26,32 +26,28 @@ export default function Projects({ todoAppUrl }) {
   ];
 
   return (
-    <section id="projects" className="section scroll-mt-24 border-t border-line bg-ink">
+    <section id="projects" className="section scroll-mt-24 bg-cream-soft">
       <div className="wrap">
-        <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow reveal">04 — Work</p>
-            <h2 className="pin-title display-lg mt-4 text-soft">
-              Selected
-              <br />
-              <span className="text-green">index.</span>
-            </h2>
+            <p className="eyebrow reveal text-green">04 — Work</p>
+            <h2 className="pin-title display-lg mt-3 text-forest">Selected index</h2>
           </div>
-          <p className="reveal body max-w-sm md:text-right">
+          <p className="reveal body max-w-sm text-mute md:text-right">
             From pharmacy process redesign to personal AI tooling.
           </p>
         </div>
 
-        <div className="border-t border-line">
+        <div className="border-t border-forest/12">
           {rows.map((row) => (
             <a
               key={row.num}
               href={row.href}
               {...(row.external ? { target: "_blank", rel: "noreferrer" } : {})}
-              className="reveal group interactive-row grid grid-cols-[3rem_1fr_auto] items-center gap-4 border-b border-line py-5 md:grid-cols-[4rem_1.5fr_1fr_5rem_auto] md:gap-6"
+              className="reveal interactive-row group grid grid-cols-[2.75rem_1fr_auto] items-center gap-3 border-b border-forest/12 py-4 md:grid-cols-[3.5rem_1.4fr_1fr_4.5rem_auto] md:gap-5"
             >
               <span className="font-display text-sm text-mute">{row.num}</span>
-              <span className="font-display text-lg tracking-[-0.03em] text-soft transition-transform duration-300 group-hover:translate-x-1 md:text-2xl">
+              <span className="font-display text-lg tracking-[-0.03em] text-forest transition-transform duration-300 group-hover:translate-x-1 md:text-xl">
                 {row.title}
               </span>
               <span className="hidden text-sm text-mute md:block">{row.cat}</span>
@@ -61,13 +57,9 @@ export default function Projects({ todoAppUrl }) {
           ))}
         </div>
 
-        <p className="reveal mt-8 text-sm text-mute">
+        <p className="reveal mt-6 text-sm text-mute">
           Need the PDF?{" "}
-          <a
-            href={siteConfig.resumeUrl}
-            className="font-semibold text-green"
-            download="Zaid-Khan-Resume.pdf"
-          >
+          <a href={siteConfig.resumeUrl} className="font-bold text-forest underline underline-offset-4" download="Zaid-Khan-Resume.pdf">
             Download resume →
           </a>
         </p>

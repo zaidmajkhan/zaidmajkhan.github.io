@@ -11,7 +11,7 @@ const LINKS = [
 export default function MobileNav({ mobileOpen, setMobileOpen }) {
   if (!mobileOpen) return null;
   return (
-    <div className="fixed inset-0 z-40 bg-void pt-20 lg:hidden">
+    <div className="fixed inset-0 z-40 bg-cream/97 pt-24 backdrop-blur-xl lg:hidden">
       <div className="wrap flex flex-col gap-1">
         <a
           href={siteConfig.resumeUrl}
@@ -26,7 +26,7 @@ export default function MobileNav({ mobileOpen, setMobileOpen }) {
           <a
             key={item.href}
             href={item.href}
-            className="display border-b border-line py-4 text-4xl text-soft"
+            className="border-b border-line py-3.5 font-display text-3xl tracking-[-0.03em] text-forest transition hover:text-green"
             onClick={() => setMobileOpen(false)}
           >
             {item.label}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import siteConfig from "../config/siteConfig.js";
 
 const NAV = [
@@ -11,28 +11,28 @@ const NAV = [
 
 export default function Header({ mobileOpen, setMobileOpen }) {
   const [scrolled, setScrolled] = useState(false);
-  const ref = useRef(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header
-      ref={ref}
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled ? "border-b border-line bg-void/90 backdrop-blur-md" : ""
-      }`}
-    >
-      <div className="wrap flex h-16 items-center justify-between md:h-[4.25rem]">
-        <a href="#hero" className="font-display text-2xl tracking-[-0.03em] text-soft">
-          ZK<span className="text-green">.</span>
+    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-5 md:pt-4">
+      <div
+        className={`wrap flex items-center justify-between rounded-2xl px-3 py-2 transition-all duration-300 md:px-4 ${
+          scrolled
+            ? "border border-forest/10 bg-cream/95 shadow-[0_10px_36px_rgba(0,40,0,0.08)] backdrop-blur-xl"
+            : "bg-transparent"
+        }`}
+      >
+        <a href="#hero" className="font-display text-[1.7rem] tracking-[-0.03em] text-forest">
+          ZK
         </a>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+        <nav className="nav-pill" aria-label="Primary">
           {NAV.map((item) => (
             <a key={item.href} href={item.href} data-nav className="nav-link">
               {item.label}
@@ -40,7 +40,7 @@ export default function Header({ mobileOpen, setMobileOpen }) {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-2 lg:flex">
           <a
             href={siteConfig.resumeUrl}
             className="btn btn-ghost track-cta"
@@ -56,7 +56,7 @@ export default function Header({ mobileOpen, setMobileOpen }) {
 
         <button
           type="button"
-          className="grid h-10 w-10 place-items-center border border-line text-soft lg:hidden"
+          className="grid h-10 w-10 place-items-center rounded-full border border-forest/25 text-forest lg:hidden"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen(!mobileOpen)}

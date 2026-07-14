@@ -27,45 +27,41 @@ const ITEMS = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="section scroll-mt-24 border-t border-line bg-ink">
+    <section id="experience" className="section band-forest scroll-mt-24">
       <div className="wrap">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-end">
           <div>
-            <p className="eyebrow reveal">02 — Experience</p>
-            <h2 className="pin-title display-lg mt-4 text-soft">
-              On
-              <br />
-              <span className="text-green">track.</span>
+            <p className="eyebrow reveal text-lime">02 — Experience</p>
+            <h2 className="pin-title display-lg mt-3 text-cream">
+              Pharmacy floors, school ops, competitions.
             </h2>
           </div>
-          <p className="reveal body max-w-md md:text-right">
-            Pharmacy floors, school ops, global competition — every role is systems under
-            constraint.
+          <p className="reveal body max-w-md text-cream/65 md:justify-self-end md:text-right">
+            Every role is practice in mapping how systems behave under constraint.
           </p>
         </div>
 
-        <div className="mt-14 border-t border-line">
+        <div className="mt-10 border-t border-cream/15">
           {ITEMS.map((item, i) => (
-            <article key={item.title} className="reveal grid gap-4 border-b border-line py-8 md:grid-cols-[10rem_1fr] md:gap-10">
+            <article
+              key={item.title}
+              className="reveal grid gap-3 border-b border-cream/15 py-5 md:grid-cols-[9.5rem_1fr] md:gap-8"
+            >
               <div>
-                <p className="text-sm font-semibold text-green">{item.date}</p>
-                <p className="mt-1 text-[0.65rem] font-semibold tracking-[0.14em] text-mute uppercase">
+                <p className="text-sm font-bold text-lime">{item.date}</p>
+                <p className="mt-0.5 text-[0.62rem] font-extrabold tracking-[0.14em] text-cream/45 uppercase">
                   {item.type}
                 </p>
               </div>
-              <div>
-                <div className="flex items-start gap-3">
-                  <span className="mt-1 font-display text-sm font-bold text-mute">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-xl tracking-[-0.03em] text-soft md:text-2xl">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 max-w-3xl text-sm leading-relaxed text-mute md:text-base">
-                      {item.body}
-                    </p>
-                  </div>
+              <div className="flex gap-3">
+                <span className="mt-1 font-display text-sm text-cream/40">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="font-display text-xl tracking-[-0.03em] text-cream md:text-[1.45rem]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 max-w-3xl text-sm leading-relaxed text-cream/60">{item.body}</p>
                 </div>
               </div>
             </article>

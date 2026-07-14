@@ -21,21 +21,23 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="hero" className="relative min-h-screen overflow-hidden pt-20">
-      <div ref={canvasRef} className="hero-canvas opacity-70" aria-hidden="true" />
+    <section id="hero" className="bg-cream px-2.5 pb-2.5 pt-[5.4rem] md:px-4 md:pb-4 md:pt-[5.8rem]">
+      <div className="hero-shell flex flex-col justify-between p-5 sm:p-7 md:p-10 lg:p-12">
+        <div ref={canvasRef} className="hero-canvas" aria-hidden="true" />
 
-      <div className="wrap relative z-10 flex min-h-[calc(100vh-5rem)] flex-col justify-between pb-10 pt-8 md:pb-14 md:pt-14">
-        <div className="flex items-start justify-between gap-6">
-          <p className="hero-eyebrow eyebrow">Open to internships · Summer & Fall 2026</p>
-          <div className="hero-rive hidden h-28 w-28 shrink-0 md:block lg:h-36 lg:w-36">
-            <Suspense fallback={<div className="h-full w-full border border-line" />}>
+        <div className="relative z-10 flex items-start justify-between gap-4">
+          <p className="hero-eyebrow eyebrow text-lime">
+            Open to internships · Summer & Fall 2026
+          </p>
+          <div className="hero-rive hidden h-20 w-20 shrink-0 md:block lg:h-28 lg:w-28">
+            <Suspense fallback={null}>
               <RiveMark src="/assets/motion.riv" className="h-full w-full opacity-90" />
             </Suspense>
           </div>
         </div>
 
-        <div className="overflow-hidden">
-          <h1 className="display-xl text-soft">
+        <div className="relative z-10 overflow-hidden py-8 md:py-6">
+          <h1 className="display-xl text-cream">
             <span className="hero-line block overflow-hidden">
               <span className="inline-block">Zaid</span>
             </span>
@@ -45,39 +47,35 @@ export default function Hero() {
           </h1>
         </div>
 
-        <div className="grid gap-8 border-t border-line pt-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
+        <div className="relative z-10 grid gap-5 border-t border-cream/20 pt-5 md:grid-cols-[1.35fr_0.65fr] md:items-end">
           <div>
-            <p className="hero-copy body max-w-xl">
-              ISEN @ Texas A&M. Healthcare systems, process design, and shipping tools that make
-              operations less broken.
+            <p className="hero-copy max-w-xl text-base leading-relaxed text-cream/75 md:text-lg">
+              ISEN @ Texas A&M. Healthcare systems, process design, and tools that make complex
+              operations work.
             </p>
-            <div className="hero-actions mt-6 flex flex-wrap gap-3">
+            <div className="hero-actions mt-5 flex flex-wrap gap-2.5">
               <a
                 href={siteConfig.resumeUrl}
-                className="btn btn-green track-cta"
+                className="btn btn-cream track-cta"
                 data-track="Resume Hero"
                 download="Zaid-Khan-Resume.pdf"
               >
                 Download resume
               </a>
-              <a href="#experience" className="btn btn-ghost track-cta" data-track="View Experience">
+              <a href="#experience" className="btn btn-ghost-cream track-cta" data-track="View Experience">
                 See experience
               </a>
             </div>
           </div>
-          <div className="hero-meta grid grid-cols-3 gap-4 border-t border-line pt-4 md:border-t-0 md:pt-0 md:text-right">
+          <div className="hero-meta grid grid-cols-3 gap-3 border-t border-cream/15 pt-4 md:border-t-0 md:pt-0 md:text-right">
             {[
               ["4.0", "GPA"],
               ["47%", "Wait ↓"],
               ["CPhT", "Licensed"],
             ].map(([v, l]) => (
               <div key={l}>
-                <p className="font-display text-2xl tracking-[-0.03em] text-soft md:text-3xl">
-                  {v}
-                </p>
-                <p className="mt-1 text-[0.65rem] font-semibold tracking-[0.14em] text-mute uppercase">
-                  {l}
-                </p>
+                <p className="font-display text-2xl tracking-[-0.03em] text-cream md:text-[1.75rem]">{v}</p>
+                <p className="mt-1 text-[0.62rem] font-extrabold tracking-[0.12em] text-cream/50 uppercase">{l}</p>
               </div>
             ))}
           </div>
