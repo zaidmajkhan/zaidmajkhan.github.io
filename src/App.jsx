@@ -14,7 +14,6 @@ import LookingFor from "./components/LookingFor.jsx";
 import MobileNav from "./components/MobileNav.jsx";
 import Projects from "./components/Projects.jsx";
 import Testimonials from "./components/Testimonials.jsx";
-import Notes from "./components/Notes.jsx";
 import siteConfig from "./config/siteConfig.js";
 import { useMotion } from "./hooks/useMotion.js";
 
@@ -75,7 +74,6 @@ export default function App() {
         <Credentials />
         <LookingFor />
         <Faq />
-        <Notes />
         <Contact />
       </main>
       <Footer />

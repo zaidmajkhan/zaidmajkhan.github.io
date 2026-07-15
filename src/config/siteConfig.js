@@ -20,7 +20,6 @@ const siteConfig = {
   newsletterUrl: "https://buttondown.com/zaidkhan",
   linkedinUrl: "https://linkedin.com/in/zaidmajkhan",
   phone: "(469) 919-8378",
-  blogUrl: "/blog/",
   /** Set when the todo app is deployed (Render, Railway, etc.) — never embed API keys in this static site */
   todoAppUrl: "",
   todoAppRepoUrl: "",

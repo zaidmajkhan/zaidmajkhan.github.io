@@ -38,12 +38,12 @@ export default function Projects({ todoAppUrl }) {
   return (
     <section id="projects" className="section scroll-mt-24 relative overflow-hidden bg-cream-soft">
       <div
-        className="motif-bleed motif-bleed--cream pointer-events-none absolute -right-6 top-8 hidden h-64 w-64 opacity-55 lg:block"
+        className="motif-bleed motif-bleed--cream pointer-events-none absolute -right-6 top-8 hidden h-72 w-72 opacity-80 lg:block"
         aria-hidden="true"
       >
         <div className="scene-mount absolute inset-0">
           <Suspense fallback={null}>
-            <SceneCanvas variant="process" tone="cream" compact className="h-full w-full" />
+            <SceneCanvas variant="race" tone="cream" compact className="h-full w-full" />
           </Suspense>
         </div>
       </div>
