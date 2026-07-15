@@ -8,36 +8,41 @@ const INTERESTS = [
 
 /**
  * Cream loading intro — train crosses while mini objects fly by.
- * Saturn stays on the page as the scroll float (PlanetBackdrop).
- *
- * onPrepare fires as the overlay starts leaving so motion can hide/prime
- * content under the cover (avoids a double appear after load).
+ * Always plays on desktop and mobile (unless reduced-motion).
+ * Timers are keyed only on `active` so parent re-renders cannot cancel the loader.
  */
 export default function IntroOverlay({ active, onPrepare, onDone }) {
   const countRef = useRef(null);
   const barRef = useRef(null);
   const canvasRef = useRef(null);
   const preparedRef = useRef(false);
+  const onPrepareRef = useRef(onPrepare);
+  const onDoneRef = useRef(onDone);
+  onPrepareRef.current = onPrepare;
+  onDoneRef.current = onDone;
 
   useEffect(() => {
-    if (!active) {
-      onDone?.();
-      return undefined;
-    }
+    if (!active) return undefined;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
       document.documentElement.classList.add("intro-seen");
-      onDone?.();
+      onDoneRef.current?.();
       return undefined;
     }
+
+    document.documentElement.classList.remove("intro-seen", "intro-leaving");
 
     let disposeScene = () => {};
     let cancelled = false;
     (async () => {
-      const { initIntroScene } = await import("../lib/scene3d.js");
-      if (cancelled || !canvasRef.current) return;
-      disposeScene = initIntroScene(canvasRef.current) || (() => {});
+      try {
+        const { initIntroScene } = await import("../lib/scene3d.js");
+        if (cancelled || !canvasRef.current) return;
+        disposeScene = initIntroScene(canvasRef.current) || (() => {});
+      } catch {
+        disposeScene = () => {};
+      }
     })();
 
     const obj = { v: 0 };
@@ -56,15 +61,15 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
     chipsTl
       .fromTo(
         ".intro-chip",
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.45, stagger: 0.1, delay: 0.22, ease: "power3.out" },
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, delay: 0.2, ease: "power3.out" },
       )
-      .to(".intro-chip", { opacity: 0, y: -6, duration: 0.35, stagger: 0.05, ease: "power2.in" }, 1.35);
+      .to(".intro-chip", { opacity: 0, y: -8, duration: 0.35, stagger: 0.05, ease: "power2.in" }, 1.35);
 
     const prepare = window.setTimeout(() => {
       if (!preparedRef.current) {
         preparedRef.current = true;
-        onPrepare?.();
+        onPrepareRef.current?.();
       }
     }, 1900);
 
@@ -73,7 +78,7 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
       window.setTimeout(() => {
         document.documentElement.classList.add("intro-seen");
         document.documentElement.classList.remove("intro-leaving");
-        onDone?.();
+        onDoneRef.current?.();
       }, 650);
     }, 2100);
 
@@ -85,7 +90,7 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
       clearTimeout(done);
       disposeScene();
     };
-  }, [active, onPrepare, onDone]);
+  }, [active]);
 
   if (!active) return null;
 

@@ -69,17 +69,15 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
       });
     };
 
-    /* Always visible first — animate as enhancement only */
-    showHero();
-
-    if (!reduced && heroLines.length) {
-      gsap.set(heroBits, { y: 10, opacity: 1 });
-      gsap.set(heroLines, { y: 16, opacity: 1 });
-      gsap.set(heroBtns, { y: 8, opacity: 1 });
-      gsap.set(".hero-canvas", { opacity: 0.35 });
+    /* Visible under the intro overlay until it lifts, then enter */
+    if (!reduced && heroLines.length && waitedForIntro) {
+      gsap.set(heroBits, { y: 14, opacity: 0 });
+      gsap.set(heroLines, { y: 22, opacity: 0 });
+      gsap.set(heroBtns, { y: 10, opacity: 0 });
+      gsap.set(".hero-canvas", { opacity: 0 });
 
       heroTl = gsap.timeline({
-        delay: waitedForIntro ? 0.35 : 0.05,
+        delay: 0.35,
         defaults: { ease: "power2.out" },
         onComplete: () => {
           gsap.set(heroTargets, { clearProps: "transform" });
@@ -87,13 +85,15 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
       });
 
       heroTl
-        .to(".hero-canvas", { opacity: 0.7, duration: 1.2, ease: "power1.out" }, 0)
-        .to(heroBits, { y: 0, duration: 0.55, stagger: 0.04 }, 0.05)
-        .to(heroLines, { y: 0, duration: 0.7, stagger: 0.1, ease: "power3.out" }, 0.08)
-        .to(heroBtns, { y: 0, duration: 0.45, stagger: 0.06 }, 0.35);
+        .to(".hero-canvas", { opacity: 0.72, duration: 1.2, ease: "power1.out" }, 0)
+        .to(heroBits, { opacity: 1, y: 0, duration: 0.6, stagger: 0.05 }, 0.08)
+        .to(heroLines, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, 0.12)
+        .to(heroBtns, { opacity: 1, y: 0, duration: 0.5, stagger: 0.07 }, 0.4);
 
-      const heroFailsafe = window.setTimeout(showHero, 2200);
+      const heroFailsafe = window.setTimeout(showHero, 2400);
       cleanups.push(() => clearTimeout(heroFailsafe));
+    } else {
+      showHero();
     }
 
     const onAnchor = (e) => {
@@ -190,7 +190,12 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
       });
     };
     observeAll();
-    checkReveals();
+    /* Wait 2 frames after intro so flourishes play while the page is on screen */
+    let bootId = 0;
+    bootId = requestAnimationFrame(() => {
+      bootId = requestAnimationFrame(() => checkReveals());
+    });
+    cleanups.push(() => cancelAnimationFrame(bootId));
 
     const mo = new MutationObserver(() => {
       collect().forEach((el) => {
