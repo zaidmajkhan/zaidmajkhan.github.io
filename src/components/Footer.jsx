@@ -16,17 +16,30 @@ export default function Footer() {
               Let&apos;s work <span className="text-green">together ↗</span>
             </a>
           </div>
-          <a
-            href={siteConfig.resumeUrl}
-            className="btn btn-green track-cta"
-            data-track="Resume Footer"
-            download="Zaid-Khan-Resume.pdf"
-          >
-            Download resume
-          </a>
+          <div className="flex flex-wrap gap-2.5">
+            {siteConfig.calBookingUrl ? (
+              <a
+                href={siteConfig.calBookingUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-ghost track-cta"
+                data-track="Book Call Footer"
+              >
+                Book a call
+              </a>
+            ) : null}
+            <a
+              href={siteConfig.resumeUrl}
+              className="btn btn-green track-cta"
+              data-track="Resume Footer"
+              download="Zaid-Khan-Resume.pdf"
+            >
+              Download resume
+            </a>
+          </div>
         </div>
 
-        <div className="mt-7 grid gap-6 sm:grid-cols-3">
+        <div className="mt-7 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <p className="text-[0.65rem] font-extrabold tracking-[0.14em] text-mute uppercase">
               Pages
@@ -38,14 +51,23 @@ export default function Footer() {
               <a href="#experience" className="hover:text-green">
                 Experience
               </a>
+              <a href="#case-study" className="hover:text-green">
+                Case study
+              </a>
               <a href="#building" className="hover:text-green">
                 Building
               </a>
               <a href="#projects" className="hover:text-green">
                 Work
               </a>
+              <a href="#faq" className="hover:text-green">
+                FAQ
+              </a>
               <a href="#contact" className="hover:text-green">
                 Contact
+              </a>
+              <a href={siteConfig.blogUrl} className="hover:text-green">
+                Blog
               </a>
             </nav>
           </div>
@@ -73,6 +95,14 @@ export default function Footer() {
               >
                 GitHub ↗
               </a>
+              <a
+                href={siteConfig.twitterUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-green"
+              >
+                X ↗
+              </a>
             </div>
           </div>
           <div>
@@ -83,6 +113,23 @@ export default function Footer() {
               <span>McKinney, TX</span>
               <span>Texas A&M Engineering Academies</span>
             </div>
+          </div>
+          <div>
+            <p className="text-[0.65rem] font-extrabold tracking-[0.14em] text-mute uppercase">
+              Newsletter
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-mute">
+              Build log notes on systems, ops, and personal AI experiments — no spam.
+            </p>
+            <a
+              href={siteConfig.newsletterUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-3 inline-block text-sm font-bold text-forest underline underline-offset-4 transition-opacity hover:opacity-70 track-cta"
+              data-track="Newsletter Footer"
+            >
+              Subscribe →
+            </a>
           </div>
         </div>
 

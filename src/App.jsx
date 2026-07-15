@@ -1,15 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import About from "./components/About.jsx";
 import Building from "./components/Building.jsx";
+import CaseStudy from "./components/CaseStudy.jsx";
 import Contact from "./components/Contact.jsx";
 import Credentials from "./components/Credentials.jsx";
 import Experience from "./components/Experience.jsx";
+import Faq from "./components/Faq.jsx";
 import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
 import Hero from "./components/Hero.jsx";
 import IntroOverlay from "./components/IntroOverlay.jsx";
+import LookingFor from "./components/LookingFor.jsx";
 import MobileNav from "./components/MobileNav.jsx";
 import Projects from "./components/Projects.jsx";
+import Testimonials from "./components/Testimonials.jsx";
+import Notes from "./components/Notes.jsx";
 import siteConfig from "./config/siteConfig.js";
 import { useMotion } from "./hooks/useMotion.js";
 
@@ -63,9 +68,14 @@ export default function App() {
         <Hero />
         <About />
         <Experience />
+        <CaseStudy />
         <Building todoAppUrl={siteConfig.todoAppUrl} />
         <Projects todoAppUrl={siteConfig.todoAppUrl} />
+        <Testimonials />
         <Credentials />
+        <LookingFor />
+        <Faq />
+        <Notes />
         <Contact />
       </main>
       <Footer />

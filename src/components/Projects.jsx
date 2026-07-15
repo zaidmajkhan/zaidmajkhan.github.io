@@ -5,9 +5,17 @@ const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
 
 export default function Projects({ todoAppUrl }) {
   const rows = [
-    { num: "01", title: "Healthcare Systems", cat: "Systems Design", year: "2026", flag: "Focus", href: "#about" },
     {
-      num: "02",
+      num: "01",
+      title: "CVS Pharmacy Workflow",
+      cat: "Process · Case study",
+      year: "2025",
+      flag: "47% ↓",
+      href: "#case-study",
+    },
+    { num: "02", title: "Healthcare Systems", cat: "Systems Design", year: "2026", flag: "Focus", href: "#about" },
+    {
+      num: "03",
       title: "AI Lead Follow-Up Agent",
       cat: "Python · APIs",
       year: "2025",
@@ -16,7 +24,7 @@ export default function Projects({ todoAppUrl }) {
       external: true,
     },
     {
-      num: "03",
+      num: "04",
       title: "AI Todo App",
       cat: "Full-stack",
       year: "2026",
@@ -24,7 +32,6 @@ export default function Projects({ todoAppUrl }) {
       href: todoAppUrl || "#building",
       external: Boolean(todoAppUrl),
     },
-    { num: "04", title: "CVS Pharmacy Workflow", cat: "Process", year: "2025", flag: "47% ↓", href: "#experience" },
     { num: "05", title: "Wharton Investment Comp", cat: "Strategy", year: "2023", flag: "Top 6%", href: "#credentials" },
   ];
 
