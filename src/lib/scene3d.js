@@ -5,7 +5,7 @@ function prefersReduced() {
 }
 
 function isNarrow() {
-  return window.matchMedia("(max-width: 900px)").matches;
+  return window.matchMedia("(max-width: 700px)").matches;
 }
 
 function makeRenderer(container) {
@@ -287,80 +287,97 @@ function buildProcess(colors, scale = 1) {
 }
 
 /**
- * Nonchalant Saturn glyph — outline body + thin wide rings (no filled globe).
- * @param {{ spin?: number, bob?: boolean, bodyOpacity?: number, ringOpacity?: number }} opts
+ * Professional Saturn logo mark in 3D — solid body + one clean ring.
+ * @param {{ spin?: number, bob?: boolean }} opts
  */
 function buildPlanet(colors, scale = 1, opts = {}) {
-  const spin = opts.spin ?? 0.03;
+  const spin = opts.spin ?? 0.12;
   const bob = opts.bob !== false;
-  const bodyOpacity = opts.bodyOpacity ?? 0.62;
-  const ringOpacity = opts.ringOpacity ?? 0.55;
   const ink = colors.deep ?? colors.primary;
   const group = new THREE.Group();
   group.scale.setScalar(scale);
 
-  /* Outline only — filled sphere reads as a globe */
-  const bodyRim = new THREE.Mesh(
-    new THREE.TorusGeometry(0.34, 0.018, 6, 80),
+  const body = new THREE.Mesh(
+    new THREE.SphereGeometry(0.72, 48, 36),
     new THREE.MeshBasicMaterial({
       color: ink,
       transparent: true,
-      opacity: bodyOpacity,
+      opacity: 0.88,
+    }),
+  );
+  group.add(body);
+
+  const highlight = new THREE.Mesh(
+    new THREE.SphereGeometry(0.5, 32, 24),
+    new THREE.MeshBasicMaterial({
+      color: colors.soft ?? ink,
+      transparent: true,
+      opacity: 0.14,
       depthWrite: false,
     }),
   );
-  group.add(bodyRim);
+  highlight.position.set(0.12, 0.16, 0.35);
+  group.add(highlight);
 
   const rings = new THREE.Group();
-  /* Open Saturn ellipse (not edge-on orbits, not face-on globe) */
-  rings.rotation.x = 1.05;
-  rings.rotation.z = 0.32;
+  rings.rotation.x = Math.PI / 2.35;
+  rings.rotation.z = 0.35;
   group.add(rings);
 
-  const wash = new THREE.Mesh(
-    new THREE.RingGeometry(0.52, 1.72, 96),
+  const disc = new THREE.Mesh(
+    new THREE.RingGeometry(0.95, 1.72, 96),
     new THREE.MeshBasicMaterial({
       color: ink,
       transparent: true,
-      opacity: ringOpacity * 0.1,
+      opacity: 0.55,
       side: THREE.DoubleSide,
       depthWrite: false,
     }),
   );
-  rings.add(wash);
+  rings.add(disc);
 
-  const rim = (radius, tube, opacity) => {
-    const mesh = new THREE.Mesh(
-      new THREE.TorusGeometry(radius, tube, 6, 110),
-      new THREE.MeshBasicMaterial({
-        color: ink,
-        transparent: true,
-        opacity,
-        depthWrite: false,
-      }),
-    );
-    rings.add(mesh);
-    return mesh;
-  };
+  const gap = new THREE.Mesh(
+    new THREE.RingGeometry(1.22, 1.34, 80),
+    new THREE.MeshBasicMaterial({
+      color: colors.soft ?? 0xf7e9dc,
+      transparent: true,
+      opacity: 0.35,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+    }),
+  );
+  rings.add(gap);
 
-  const rimA = rim(0.7, 0.013, ringOpacity * 0.8);
-  const rimB = rim(1.15, 0.016, ringOpacity);
-  const rimC = rim(1.55, 0.012, ringOpacity * 0.72);
-  const rimD = rim(1.82, 0.008, ringOpacity * 0.4);
+  const rimOuter = new THREE.Mesh(
+    new THREE.TorusGeometry(1.72, 0.014, 8, 100),
+    new THREE.MeshBasicMaterial({
+      color: ink,
+      transparent: true,
+      opacity: 0.7,
+      depthWrite: false,
+    }),
+  );
+  rings.add(rimOuter);
+
+  const rimInner = new THREE.Mesh(
+    new THREE.TorusGeometry(0.95, 0.012, 8, 90),
+    new THREE.MeshBasicMaterial({
+      color: ink,
+      transparent: true,
+      opacity: 0.55,
+      depthWrite: false,
+    }),
+  );
+  rings.add(rimInner);
 
   const baseY = 0;
   return {
     group,
     tick(t) {
-      group.rotation.y = Math.sin(t * 0.05) * 0.025;
-      bodyRim.rotation.x = Math.sin(t * 0.1) * 0.08;
-      rings.rotation.z = 0.32 + t * spin;
-      wash.rotation.z = t * 0.003;
-      rimA.rotation.z = t * 0.006;
-      rimB.rotation.z = -t * 0.004;
-      rimC.rotation.z = t * 0.003;
-      rimD.rotation.z = -t * 0.002;
-      if (bob) group.position.y = baseY + Math.sin(t * 0.16) * 0.01;
+      body.rotation.y = t * spin;
+      rings.rotation.z = 0.35 + t * spin * 0.45;
+      disc.rotation.z = t * 0.02;
+      if (bob) group.position.y = baseY + Math.sin(t * 0.4) * 0.04;
     },
   };
 }
@@ -535,77 +552,71 @@ export function initLatticeScene(container) {
 }
 
 /**
- * Intro loader — quiet Saturn accent + interest field on cream.
+ * Intro loader — Saturn logo mark + interest-led 3D field.
  */
 export function initIntroScene(container) {
   if (!container || prefersReduced()) return () => {};
 
   const colors = palette("cream");
-  const planet = buildPlanet(colors, 1.7, {
-    spin: 0.04,
-    bob: true,
-    bodyOpacity: 0.7,
-    ringOpacity: 0.55,
-  });
-  const systems = buildSystems(colors, 0.72);
-  const care = buildCare(colors, 0.68);
-  const signal = buildSignal(colors, 0.64);
-  const processMotif = buildProcess(colors, 0.58);
+  const planet = buildPlanet(colors, 1.55, { spin: 0.14, bob: true });
+  const systems = buildSystems(colors, 0.95);
+  const care = buildCare(colors, 0.9);
+  const signal = buildSignal(colors, 0.88);
+  const processMotif = buildProcess(colors, 0.8);
 
-  /* Quiet side accent — rings read Saturn, leave ZK clean */
-  planet.group.position.set(2.15, 0.25, -0.55);
-  systems.group.position.set(3.05, 1.35, -0.7);
-  care.group.position.set(-3.1, -1.2, 0.05);
-  signal.group.position.set(-2.85, 1.55, -0.75);
-  processMotif.group.position.set(2.9, -1.4, -0.5);
+  /* Saturn sits behind ZK as a clear logo mark */
+  planet.group.position.set(0, 0.05, -0.4);
+  systems.group.position.set(2.55, 1.2, -0.5);
+  care.group.position.set(-2.6, -1.05, 0.1);
+  signal.group.position.set(-2.4, 1.35, -0.55);
+  processMotif.group.position.set(2.45, -1.25, -0.35);
 
   const accents = [];
   const accentSpecs = [
-    { pos: [0.55, 2.05, -1.25], geo: () => new THREE.BoxGeometry(0.28, 0.28, 0.28), color: colors.primary, op: 0.24 },
-    { pos: [-0.45, -2.0, -1.05], geo: () => new THREE.DodecahedronGeometry(0.24, 0), color: colors.mid, op: 0.26 },
-    { pos: [3.35, 0.05, -1.5], geo: () => new THREE.OctahedronGeometry(0.26, 0), color: colors.soft, op: 0.22 },
-    { pos: [-3.4, -0.05, -1.45], geo: () => new THREE.IcosahedronGeometry(0.26, 0), color: colors.primary, op: 0.22 },
+    { pos: [0.4, 2.1, -1.2], geo: () => new THREE.BoxGeometry(0.3, 0.3, 0.3), color: colors.primary, op: 0.3 },
+    { pos: [-0.35, -1.95, -1.0], geo: () => new THREE.DodecahedronGeometry(0.26, 0), color: colors.mid, op: 0.32 },
+    { pos: [3.2, 0.1, -1.35], geo: () => new THREE.OctahedronGeometry(0.28, 0), color: colors.soft, op: 0.28 },
+    { pos: [-3.25, 0, -1.3], geo: () => new THREE.IcosahedronGeometry(0.28, 0), color: colors.primary, op: 0.28 },
   ];
   const extras = {
     ribbon: null,
     ribbon2: null,
     halo: null,
-    halo2: null,
     dust: null,
     dust2: null,
     dustNear: null,
   };
 
   const { dispose, world } = runScene(container, {
-    fov: 38,
-    z: 6.6,
-    pointer: 0.18,
+    fov: 40,
+    z: 6.0,
+    pointer: 0.2,
     onFrame: ({ t, target, world: w }) => {
-      w.rotation.y = target.x * 0.24;
-      w.rotation.x = target.y * 0.14;
+      w.rotation.y = target.x * 0.28;
+      w.rotation.x = target.y * 0.16;
 
       planet.tick(t);
-      planet.group.position.x = 2.15;
-      planet.group.position.z = -0.55;
-      planet.group.position.y = 0.25 + Math.sin(t * 0.28) * 0.025;
+      planet.group.position.x = 0;
+      planet.group.position.z = -0.4;
+      planet.group.position.y = 0.05 + Math.sin(t * 0.35) * 0.04;
 
-      systems.group.position.x = 3.05;
-      systems.group.position.z = -0.7;
-      care.group.position.x = -3.1;
-      care.group.position.z = 0.05;
-      signal.group.position.x = -2.85;
-      signal.group.position.z = -0.75;
-      processMotif.group.position.x = 2.9;
-      processMotif.group.position.z = -0.5;
+      systems.group.position.x = 2.55;
+      systems.group.position.z = -0.5;
+      care.group.position.x = -2.6;
+      care.group.position.z = 0.1;
+      signal.group.position.x = -2.4;
+      signal.group.position.z = -0.55;
+      processMotif.group.position.x = 2.45;
+      processMotif.group.position.z = -0.35;
 
       systems.tick(t);
-      systems.group.position.y = 1.35 + Math.sin(t * 0.7) * 0.08;
+      systems.group.position.y = 1.2 + Math.sin(t * 0.7) * 0.08;
       care.tick(t);
-      care.group.position.y = -1.2 + Math.cos(t * 0.55) * 0.07;
+      care.group.position.y = -1.05 + Math.cos(t * 0.55) * 0.07;
       signal.tick(t);
-      signal.group.position.y = 1.55 + Math.sin(t * 0.6 + 1) * 0.09;
+      signal.group.position.y = 1.35 + Math.sin(t * 0.6 + 1) * 0.09;
       processMotif.tick(t);
-      processMotif.group.position.y = -1.4 + Math.cos(t * 0.65 + 0.5) * 0.08;
+      processMotif.group.position.y = -1.25 + Math.cos(t * 0.65 + 0.5) * 0.08;
 
       accents.forEach((a) => {
         a.group.rotation.y = t * 0.25 + a.phase;
@@ -614,65 +625,47 @@ export function initIntroScene(container) {
         a.group.position.y = a.baseY + Math.sin(t * 0.5 + a.phase) * 0.1;
       });
 
-      if (extras.ribbon) extras.ribbon.rotation.y = t * 0.06;
-      if (extras.ribbon2) extras.ribbon2.rotation.x = t * 0.05;
-      if (extras.halo) extras.halo.rotation.z = t * 0.08;
-      if (extras.halo2) extras.halo2.rotation.z = -t * 0.05;
-      if (extras.dust) extras.dust.rotation.y = t * 0.04;
-      if (extras.dust2) extras.dust2.rotation.y = -t * 0.03;
-      if (extras.dustNear) extras.dustNear.rotation.x = t * 0.025;
+      if (extras.ribbon) extras.ribbon.rotation.y = t * 0.05;
+      if (extras.ribbon2) extras.ribbon2.rotation.x = t * 0.04;
+      if (extras.halo) extras.halo.rotation.z = t * 0.06;
+      if (extras.dust) extras.dust.rotation.y = t * 0.035;
+      if (extras.dust2) extras.dust2.rotation.y = -t * 0.025;
+      if (extras.dustNear) extras.dustNear.rotation.x = t * 0.02;
     },
   });
 
   world.add(planet.group, systems.group, care.group, signal.group, processMotif.group);
 
-  /* Soft ambient only — no giant orbit bands that read as extra globe rings */
-  extras.dust = makeParticles(world, 90, colors.primary, 6.2, 0.014, 0.2);
-  extras.dust2 = makeParticles(world, 40, colors.soft, 6.8, 0.01, 0.14);
+  extras.ribbon = makeOrbitRibbon(world, colors.primary, 0.12);
+  extras.ribbon.scale.setScalar(0.95);
+  extras.ribbon2 = makeOrbitRibbon(world, colors.soft, 0.08);
+  extras.ribbon2.rotation.z = Math.PI / 2.5;
+  extras.ribbon2.scale.setScalar(0.75);
+
+  extras.halo = new THREE.Mesh(
+    new THREE.TorusGeometry(2.6, 0.003, 8, 140),
+    new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.1 }),
+  );
+  extras.halo.rotation.x = Math.PI / 2.7;
+  world.add(extras.halo);
 
   accentSpecs.forEach((spec, i) => {
     const g = new THREE.Group();
     g.position.set(...spec.pos);
-    const obj = lineObj(g, spec.geo(), spec.color, spec.op * 0.7);
+    const obj = lineObj(g, spec.geo(), spec.color, spec.op);
     world.add(g);
     accents.push({ group: g, obj, phase: i * 1.1, baseY: spec.pos[1] });
   });
 
+  extras.dust = makeParticles(world, 130, colors.primary, 5.8, 0.015, 0.28);
+  extras.dust2 = makeParticles(world, 55, colors.soft, 6.4, 0.011, 0.16);
+  extras.dustNear = makeParticles(world, 28, colors.mid, 3.8, 0.016, 0.14);
+
   return dispose;
 }
 
-/**
- * Quiet Saturn scroll marker — small, wide-ring silhouette.
- */
+/** @deprecated Page marker now uses SVG logo — kept for API compatibility */
 export function initPlanetScene(container) {
   if (!container || prefersReduced()) return () => {};
-
-  const colors = {
-    primary: 0x002800,
-    mid: 0x0d6b48,
-    soft: 0x0a3318,
-    deep: 0x002800,
-  };
-  const planet = buildPlanet(colors, 1.2, {
-    spin: 0.025,
-    bob: false,
-    bodyOpacity: 0.68,
-    ringOpacity: 0.55,
-  });
-
-  const { dispose, world } = runScene(container, {
-    fov: 32,
-    z: 4.6,
-    pointer: 0,
-    onFrame: ({ t, world: w }) => {
-      w.rotation.y = 0;
-      w.rotation.x = 0.02;
-      planet.tick(t);
-    },
-  });
-
-  planet.group.position.set(0, 0, 0);
-  world.add(planet.group);
-
-  return dispose;
+  return () => {};
 }

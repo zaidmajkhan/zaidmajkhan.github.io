@@ -38,7 +38,7 @@ export default function SceneCanvas({
           motif: variant,
           tone: tone || (variant === "process" || variant === "care" ? "forest" : "cream"),
           compact,
-          desktopOnly: !compact,
+          desktopOnly: false,
         });
       } else if (variant === "lattice") {
         dispose = mod.initLatticeScene(ref.current);
