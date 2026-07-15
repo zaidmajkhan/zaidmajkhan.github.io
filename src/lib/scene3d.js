@@ -287,43 +287,55 @@ function buildProcess(colors, scale = 1) {
 }
 
 /**
- * Saturn silhouette — solid body + graphic ring bands (not a wire globe).
+ * Nonchalant Saturn glyph — outline body + thin wide rings (no filled globe).
  * @param {{ spin?: number, bob?: boolean, bodyOpacity?: number, ringOpacity?: number }} opts
  */
 function buildPlanet(colors, scale = 1, opts = {}) {
-  const spin = opts.spin ?? 0.06;
+  const spin = opts.spin ?? 0.03;
   const bob = opts.bob !== false;
-  const bodyOpacity = opts.bodyOpacity ?? 0.95;
-  const ringOpacity = opts.ringOpacity ?? 0.82;
+  const bodyOpacity = opts.bodyOpacity ?? 0.62;
+  const ringOpacity = opts.ringOpacity ?? 0.55;
   const ink = colors.deep ?? colors.primary;
   const group = new THREE.Group();
   group.scale.setScalar(scale);
 
-  /* Crisp filled disc — silhouette body */
-  const body = new THREE.Mesh(
-    new THREE.SphereGeometry(0.78, 64, 48),
+  /* Outline only — filled sphere reads as a globe */
+  const bodyRim = new THREE.Mesh(
+    new THREE.TorusGeometry(0.34, 0.018, 6, 80),
     new THREE.MeshBasicMaterial({
       color: ink,
       transparent: true,
       opacity: bodyOpacity,
+      depthWrite: false,
     }),
   );
-  group.add(body);
+  group.add(bodyRim);
 
   const rings = new THREE.Group();
-  /* RingGeometry already faces the camera — mild tilt for Saturn profile */
-  rings.rotation.x = 0.72;
-  rings.rotation.z = 0.42;
+  /* Open Saturn ellipse (not edge-on orbits, not face-on globe) */
+  rings.rotation.x = 1.05;
+  rings.rotation.z = 0.32;
   group.add(rings);
 
-  const band = (inner, outer, opacity) => {
+  const wash = new THREE.Mesh(
+    new THREE.RingGeometry(0.52, 1.72, 96),
+    new THREE.MeshBasicMaterial({
+      color: ink,
+      transparent: true,
+      opacity: ringOpacity * 0.1,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+    }),
+  );
+  rings.add(wash);
+
+  const rim = (radius, tube, opacity) => {
     const mesh = new THREE.Mesh(
-      new THREE.RingGeometry(inner, outer, 180),
+      new THREE.TorusGeometry(radius, tube, 6, 110),
       new THREE.MeshBasicMaterial({
         color: ink,
         transparent: true,
         opacity,
-        side: THREE.DoubleSide,
         depthWrite: false,
       }),
     );
@@ -331,23 +343,24 @@ function buildPlanet(colors, scale = 1, opts = {}) {
     return mesh;
   };
 
-  /* Inner band, Cassini gap, outer band + faint outer wash */
-  const ringA = band(1.02, 1.4, ringOpacity);
-  const ringB = band(1.52, 1.92, ringOpacity * 0.88);
-  const ringC = band(1.98, 2.12, ringOpacity * 0.35);
+  const rimA = rim(0.7, 0.013, ringOpacity * 0.8);
+  const rimB = rim(1.15, 0.016, ringOpacity);
+  const rimC = rim(1.55, 0.012, ringOpacity * 0.72);
+  const rimD = rim(1.82, 0.008, ringOpacity * 0.4);
 
   const baseY = 0;
   return {
     group,
     tick(t) {
-      /* Keep the Saturn profile facing the camera — never yaw edge-on */
-      group.rotation.y = Math.sin(t * 0.12) * 0.08;
-      group.rotation.x = Math.sin(t * 0.09) * 0.04;
-      rings.rotation.z = 0.42 + t * spin;
-      ringA.rotation.z = t * 0.015;
-      ringB.rotation.z = -t * 0.012;
-      ringC.rotation.z = t * 0.01;
-      if (bob) group.position.y = baseY + Math.sin(t * 0.28) * 0.025;
+      group.rotation.y = Math.sin(t * 0.05) * 0.025;
+      bodyRim.rotation.x = Math.sin(t * 0.1) * 0.08;
+      rings.rotation.z = 0.32 + t * spin;
+      wash.rotation.z = t * 0.003;
+      rimA.rotation.z = t * 0.006;
+      rimB.rotation.z = -t * 0.004;
+      rimC.rotation.z = t * 0.003;
+      rimD.rotation.z = -t * 0.002;
+      if (bob) group.position.y = baseY + Math.sin(t * 0.16) * 0.01;
     },
   };
 }
@@ -522,24 +535,25 @@ export function initLatticeScene(container) {
 }
 
 /**
- * Intro loader — Saturn centerpiece + interest field on cream.
+ * Intro loader — quiet Saturn accent + interest field on cream.
  */
 export function initIntroScene(container) {
   if (!container || prefersReduced()) return () => {};
 
   const colors = palette("cream");
-  const planet = buildPlanet(colors, 1.85, {
-    spin: 0.08,
+  const planet = buildPlanet(colors, 1.7, {
+    spin: 0.04,
     bob: true,
-    bodyOpacity: 0.96,
-    ringOpacity: 0.8,
+    bodyOpacity: 0.7,
+    ringOpacity: 0.55,
   });
   const systems = buildSystems(colors, 0.72);
   const care = buildCare(colors, 0.68);
   const signal = buildSignal(colors, 0.64);
   const processMotif = buildProcess(colors, 0.58);
 
-  planet.group.position.set(0.35, 0.08, 0);
+  /* Quiet side accent — rings read Saturn, leave ZK clean */
+  planet.group.position.set(2.15, 0.25, -0.55);
   systems.group.position.set(3.05, 1.35, -0.7);
   care.group.position.set(-3.1, -1.2, 0.05);
   signal.group.position.set(-2.85, 1.55, -0.75);
@@ -571,9 +585,9 @@ export function initIntroScene(container) {
       w.rotation.x = target.y * 0.14;
 
       planet.tick(t);
-      planet.group.position.x = 0.35;
-      planet.group.position.z = 0;
-      planet.group.position.y = 0.08 + Math.sin(t * 0.4) * 0.04;
+      planet.group.position.x = 2.15;
+      planet.group.position.z = -0.55;
+      planet.group.position.y = 0.25 + Math.sin(t * 0.28) * 0.025;
 
       systems.group.position.x = 3.05;
       systems.group.position.z = -0.7;
@@ -612,43 +626,23 @@ export function initIntroScene(container) {
 
   world.add(planet.group, systems.group, care.group, signal.group, processMotif.group);
 
-  extras.ribbon = makeOrbitRibbon(world, colors.primary, 0.14);
-  extras.ribbon.scale.setScalar(1.08);
-  extras.ribbon2 = makeOrbitRibbon(world, colors.soft, 0.08);
-  extras.ribbon2.rotation.z = Math.PI / 2.4;
-  extras.ribbon2.scale.setScalar(0.88);
-
-  extras.halo = new THREE.Mesh(
-    new THREE.TorusGeometry(2.45, 0.003, 8, 140),
-    new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.12 }),
-  );
-  extras.halo.rotation.x = Math.PI / 2.8;
-  world.add(extras.halo);
-  extras.halo2 = new THREE.Mesh(
-    new THREE.TorusGeometry(3.05, 0.0025, 8, 150),
-    new THREE.MeshBasicMaterial({ color: colors.mid, transparent: true, opacity: 0.08 }),
-  );
-  extras.halo2.rotation.x = Math.PI / 2.2;
-  extras.halo2.rotation.y = 0.35;
-  world.add(extras.halo2);
+  /* Soft ambient only — no giant orbit bands that read as extra globe rings */
+  extras.dust = makeParticles(world, 90, colors.primary, 6.2, 0.014, 0.2);
+  extras.dust2 = makeParticles(world, 40, colors.soft, 6.8, 0.01, 0.14);
 
   accentSpecs.forEach((spec, i) => {
     const g = new THREE.Group();
     g.position.set(...spec.pos);
-    const obj = lineObj(g, spec.geo(), spec.color, spec.op);
+    const obj = lineObj(g, spec.geo(), spec.color, spec.op * 0.7);
     world.add(g);
     accents.push({ group: g, obj, phase: i * 1.1, baseY: spec.pos[1] });
   });
-
-  extras.dust = makeParticles(world, 140, colors.primary, 6.2, 0.016, 0.28);
-  extras.dust2 = makeParticles(world, 60, colors.soft, 6.8, 0.012, 0.18);
-  extras.dustNear = makeParticles(world, 32, colors.mid, 3.9, 0.018, 0.14);
 
   return dispose;
 }
 
 /**
- * Persistent Saturn silhouette — scroll-progress marker.
+ * Quiet Saturn scroll marker — small, wide-ring silhouette.
  */
 export function initPlanetScene(container) {
   if (!container || prefersReduced()) return () => {};
@@ -659,20 +653,20 @@ export function initPlanetScene(container) {
     soft: 0x0a3318,
     deep: 0x002800,
   };
-  const planet = buildPlanet(colors, 1.25, {
-    spin: 0.045,
+  const planet = buildPlanet(colors, 1.2, {
+    spin: 0.025,
     bob: false,
-    bodyOpacity: 0.94,
-    ringOpacity: 0.78,
+    bodyOpacity: 0.68,
+    ringOpacity: 0.55,
   });
 
   const { dispose, world } = runScene(container, {
-    fov: 28,
-    z: 4.8,
-    pointer: 0.03,
-    onFrame: ({ t, target, world: w }) => {
-      w.rotation.y = target.x * 0.04;
-      w.rotation.x = 0.01 + target.y * 0.03;
+    fov: 32,
+    z: 4.6,
+    pointer: 0,
+    onFrame: ({ t, world: w }) => {
+      w.rotation.y = 0;
+      w.rotation.x = 0.02;
       planet.tick(t);
     },
   });
