@@ -65,25 +65,13 @@ export default function Hero() {
                 >
                   Download resume
                 </a>
-                {siteConfig.calBookingUrl ? (
-                  <a
-                    href={siteConfig.calBookingUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-ghost-cream track-cta"
-                    data-track="Book Call Hero"
-                  >
-                    Book a call
-                  </a>
-                ) : (
-                  <a
-                    href="#experience"
-                    className="btn btn-ghost-cream track-cta"
-                    data-track="View Experience"
-                  >
-                    See experience
-                  </a>
-                )}
+                <a
+                  href="#experience"
+                  className="btn btn-ghost-cream track-cta"
+                  data-track="View Experience"
+                >
+                  See experience
+                </a>
               </div>
             </div>
             <div className="hero-meta grid grid-cols-3 gap-3 border-t border-cream/15 pt-4 md:border-t-0 md:pt-0 md:text-right">

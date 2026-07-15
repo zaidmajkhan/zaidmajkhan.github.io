@@ -4,7 +4,6 @@ import siteConfig from "../config/siteConfig.js";
 const NAV = [
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
-  { href: "#case-study", label: "Case study" },
   { href: "#building", label: "Building" },
   { href: "#projects", label: "Work" },
   { href: "#contact", label: "Contact" },
@@ -50,17 +49,6 @@ export default function Header({ mobileOpen, setMobileOpen }) {
           >
             Resume
           </a>
-          {siteConfig.calBookingUrl ? (
-            <a
-              href={siteConfig.calBookingUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-ghost track-cta"
-              data-track="Book Call Header"
-            >
-              Book a call
-            </a>
-          ) : null}
           <a href="#contact" className="btn btn-green track-cta" data-track="Contact Header">
             Contact
           </a>

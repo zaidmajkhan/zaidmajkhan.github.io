@@ -5,17 +5,9 @@ const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
 
 export default function Projects({ todoAppUrl }) {
   const rows = [
+    { num: "01", title: "Healthcare Systems", cat: "Systems Design", year: "2026", flag: "Focus", href: "#about" },
     {
-      num: "01",
-      title: "CVS Pharmacy Workflow",
-      cat: "Process · Case study",
-      year: "2025",
-      flag: "47% ↓",
-      href: "#case-study",
-    },
-    { num: "02", title: "Healthcare Systems", cat: "Systems Design", year: "2026", flag: "Focus", href: "#about" },
-    {
-      num: "03",
+      num: "02",
       title: "AI Lead Follow-Up Agent",
       cat: "Python · APIs",
       year: "2025",
@@ -24,7 +16,7 @@ export default function Projects({ todoAppUrl }) {
       external: true,
     },
     {
-      num: "04",
+      num: "03",
       title: "AI Todo App",
       cat: "Full-stack",
       year: "2026",
@@ -32,18 +24,19 @@ export default function Projects({ todoAppUrl }) {
       href: todoAppUrl || "#building",
       external: Boolean(todoAppUrl),
     },
+    { num: "04", title: "CVS Pharmacy Workflow", cat: "Process", year: "2025", flag: "47% ↓", href: "#experience" },
     { num: "05", title: "Wharton Investment Comp", cat: "Strategy", year: "2023", flag: "Top 6%", href: "#credentials" },
   ];
 
   return (
     <section id="projects" className="section scroll-mt-24 relative overflow-hidden bg-cream-soft">
       <div
-        className="motif-bleed motif-bleed--cream pointer-events-none absolute -right-6 top-8 hidden h-72 w-72 opacity-80 lg:block"
+        className="motif-bleed motif-bleed--cream pointer-events-none absolute -right-6 top-8 hidden h-64 w-64 opacity-55 lg:block"
         aria-hidden="true"
       >
         <div className="scene-mount absolute inset-0">
           <Suspense fallback={null}>
-            <SceneCanvas variant="race" tone="cream" compact className="h-full w-full" />
+            <SceneCanvas variant="process" tone="cream" compact className="h-full w-full" />
           </Suspense>
         </div>
       </div>

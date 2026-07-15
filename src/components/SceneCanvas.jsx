@@ -1,20 +1,19 @@
 import { useEffect, useRef } from "react";
 
 const MOTIFS = new Set(["systems", "care", "signal", "process"]);
-const VEHICLES = new Set(["ambulance", "race", "sedan", "hatchback", "garage"]);
 
 /**
  * Lazy-loads a Three.js scene. Pauses when off-screen.
+ * @param {"hero"|"orbit"|"lattice"|"systems"|"care"|"signal"|"process"} variant
+ * @param {"cream"|"forest"} tone
  */
 export default function SceneCanvas({
   variant = "systems",
-  model,
   tone,
   className = "",
   compact = false,
 }) {
   const ref = useRef(null);
-  const resolved = model || variant;
 
   useEffect(() => {
     const el = ref.current;
@@ -34,15 +33,6 @@ export default function SceneCanvas({
       let dispose;
       if (variant === "hero") {
         dispose = mod.initHeroScene(ref.current);
-      } else if (resolved === "garage") {
-        dispose = mod.initGarageScene(ref.current, { tone: tone || "forest", compact });
-      } else if (VEHICLES.has(resolved)) {
-        dispose = mod.initVehicleScene(ref.current, {
-          model: resolved,
-          tone: tone || (resolved === "ambulance" ? "cream" : "forest"),
-          compact,
-          desktopOnly: !compact,
-        });
       } else if (MOTIFS.has(variant)) {
         dispose = mod.initMotifScene(ref.current, {
           motif: variant,
@@ -78,7 +68,7 @@ export default function SceneCanvas({
       io.disconnect();
       cleanup();
     };
-  }, [variant, model, tone, compact, resolved]);
+  }, [variant, tone, compact]);
 
   return <div ref={ref} className={className} aria-hidden="true" />;
 }
