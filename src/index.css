@@ -236,22 +236,24 @@
     font-size: clamp(2.85rem, 8.5vw, 6.5rem);
   }
 
-  /* —— Persistent Saturn backdrop —— */
+  /* —— Scroll-progress Saturn —— */
   .planet-backdrop {
     position: fixed;
-    top: max(4rem, 8vh);
-    right: -6vw;
-    width: min(58vw, 34rem);
-    height: min(58vw, 34rem);
+    top: 0;
+    right: -2vw;
+    width: min(68vw, 38rem);
+    height: min(68vw, 38rem);
     z-index: 2;
     pointer-events: none;
     opacity: 0;
+    transform: translate3d(0, 8vh, 0);
+    will-change: transform;
     transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1);
-    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 40%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 40%, transparent 78%);
+    mask-image: radial-gradient(circle at 50% 50%, #000 52%, transparent 82%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 52%, transparent 82%);
   }
   .planet-backdrop.is-on {
-    opacity: 0.55;
+    opacity: 0.68;
   }
   .planet-backdrop canvas {
     display: block;
@@ -260,14 +262,12 @@
   }
   @media (max-width: 900px) {
     .planet-backdrop {
-      top: auto;
-      bottom: 8vh;
       right: -18vw;
-      width: min(78vw, 22rem);
-      height: min(78vw, 22rem);
+      width: min(92vw, 28rem);
+      height: min(92vw, 28rem);
     }
     .planet-backdrop.is-on {
-      opacity: 0.38;
+      opacity: 0.45;
     }
   }
   @media (prefers-reduced-motion: reduce) {
