@@ -287,135 +287,67 @@ function buildProcess(colors, scale = 1) {
 }
 
 /**
- * Saturn-like planet — round globe first, restrained rings.
- * @param {{ spin?: number, bob?: boolean, detail?: "full"|"compact" }} opts
+ * Saturn silhouette — solid body + graphic ring bands (not a wire globe).
+ * @param {{ spin?: number, bob?: boolean, bodyOpacity?: number, ringOpacity?: number }} opts
  */
 function buildPlanet(colors, scale = 1, opts = {}) {
-  const spin = opts.spin ?? 0.14;
+  const spin = opts.spin ?? 0.06;
   const bob = opts.bob !== false;
-  const detail = opts.detail ?? "full";
+  const bodyOpacity = opts.bodyOpacity ?? 0.95;
+  const ringOpacity = opts.ringOpacity ?? 0.82;
+  const ink = colors.deep ?? colors.primary;
   const group = new THREE.Group();
   group.scale.setScalar(scale);
 
-  const body = new THREE.Group();
+  /* Crisp filled disc — silhouette body */
+  const body = new THREE.Mesh(
+    new THREE.SphereGeometry(0.78, 64, 48),
+    new THREE.MeshBasicMaterial({
+      color: ink,
+      transparent: true,
+      opacity: bodyOpacity,
+    }),
+  );
   group.add(body);
 
-  const segs = detail === "full" ? 64 : 48;
-  const ringsSegs = detail === "full" ? 160 : 120;
-
-  /* Soft volume so the silhouette reads as a round ball */
-  const fill = new THREE.Mesh(
-    new THREE.SphereGeometry(1.0, segs, Math.round(segs * 0.75)),
-    new THREE.MeshBasicMaterial({
-      color: colors.primary,
-      transparent: true,
-      opacity: 0.14,
-      depthWrite: false,
-    }),
-  );
-  body.add(fill);
-
-  const inner = new THREE.Mesh(
-    new THREE.SphereGeometry(0.78, 36, 28),
-    new THREE.MeshBasicMaterial({
-      color: colors.soft,
-      transparent: true,
-      opacity: 0.2,
-      depthWrite: false,
-    }),
-  );
-  body.add(inner);
-
-  const shell = new THREE.Mesh(
-    new THREE.SphereGeometry(1.02, segs, Math.round(segs * 0.75)),
-    new THREE.MeshBasicMaterial({
-      color: colors.primary,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.38,
-    }),
-  );
-  body.add(shell);
-
-  const longitude = new THREE.Mesh(
-    new THREE.SphereGeometry(1.015, 18, Math.round(segs * 0.75)),
-    new THREE.MeshBasicMaterial({
-      color: colors.mid,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.18,
-    }),
-  );
-  body.add(longitude);
-
   const rings = new THREE.Group();
-  rings.rotation.x = Math.PI / 2.35;
-  rings.rotation.z = 0.22;
+  /* RingGeometry already faces the camera — mild tilt for Saturn profile */
+  rings.rotation.x = 0.72;
+  rings.rotation.z = 0.42;
   group.add(rings);
 
-  /* Tighter, thinner rings so the globe stays the round hero */
-  const ringDisc = new THREE.Mesh(
-    new THREE.RingGeometry(1.18, 1.72, ringsSegs),
-    new THREE.MeshBasicMaterial({
-      color: colors.soft,
-      transparent: true,
-      opacity: 0.2,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-    }),
-  );
-  rings.add(ringDisc);
-
-  const ringSpecs = [
-    { r: 1.22, tube: 0.01, color: colors.primary, op: 0.5 },
-    { r: 1.45, tube: 0.012, color: colors.soft, op: 0.45 },
-    { r: 1.66, tube: 0.007, color: colors.mid, op: 0.3 },
-  ];
-  const ringMeshes = ringSpecs.map((spec) => {
+  const band = (inner, outer, opacity) => {
     const mesh = new THREE.Mesh(
-      new THREE.TorusGeometry(spec.r, spec.tube, 8, ringsSegs),
+      new THREE.RingGeometry(inner, outer, 180),
       new THREE.MeshBasicMaterial({
-        color: spec.color,
+        color: ink,
         transparent: true,
-        opacity: spec.op,
+        opacity,
+        side: THREE.DoubleSide,
         depthWrite: false,
       }),
     );
     rings.add(mesh);
     return mesh;
-  });
+  };
 
-  const moons = [];
-  if (detail === "full") {
-    const moon = new THREE.Mesh(
-      new THREE.SphereGeometry(0.07, 16, 16),
-      new THREE.MeshBasicMaterial({
-        color: colors.mid,
-        transparent: true,
-        opacity: 0.65,
-      }),
-    );
-    group.add(moon);
-    moons.push({ mesh: moon, phase: 0.6, r: 1.95, speed: 0.28, tilt: 0.08 });
-  }
+  /* Inner band, Cassini gap, outer band + faint outer wash */
+  const ringA = band(1.02, 1.4, ringOpacity);
+  const ringB = band(1.52, 1.92, ringOpacity * 0.88);
+  const ringC = band(1.98, 2.12, ringOpacity * 0.35);
 
   const baseY = 0;
   return {
     group,
     tick(t) {
-      body.rotation.y = t * spin;
-      shell.rotation.y = t * spin * 0.12;
-      longitude.rotation.y = -t * spin * 0.2;
-      rings.rotation.z = 0.22 + Math.sin(t * 0.1) * 0.02;
-      ringMeshes.forEach((m, i) => {
-        m.rotation.z = t * (0.025 + i * 0.008) * (i % 2 ? -1 : 1);
-      });
-      ringDisc.rotation.z = t * 0.02;
-      moons.forEach((m) => {
-        const a = t * m.speed + m.phase;
-        m.mesh.position.set(Math.cos(a) * m.r, Math.sin(a * 0.5) * m.tilt, Math.sin(a) * m.r * 0.35);
-      });
-      if (bob) group.position.y = baseY + Math.sin(t * 0.35) * 0.04;
+      /* Keep the Saturn profile facing the camera — never yaw edge-on */
+      group.rotation.y = Math.sin(t * 0.12) * 0.08;
+      group.rotation.x = Math.sin(t * 0.09) * 0.04;
+      rings.rotation.z = 0.42 + t * spin;
+      ringA.rotation.z = t * 0.015;
+      ringB.rotation.z = -t * 0.012;
+      ringC.rotation.z = t * 0.01;
+      if (bob) group.position.y = baseY + Math.sin(t * 0.28) * 0.025;
     },
   };
 }
@@ -596,7 +528,12 @@ export function initIntroScene(container) {
   if (!container || prefersReduced()) return () => {};
 
   const colors = palette("cream");
-  const planet = buildPlanet(colors, 2.15, { spin: 0.18, bob: true, detail: "full" });
+  const planet = buildPlanet(colors, 1.85, {
+    spin: 0.08,
+    bob: true,
+    bodyOpacity: 0.96,
+    ringOpacity: 0.8,
+  });
   const systems = buildSystems(colors, 0.72);
   const care = buildCare(colors, 0.68);
   const signal = buildSignal(colors, 0.64);
@@ -711,28 +648,32 @@ export function initIntroScene(container) {
 }
 
 /**
- * Persistent Saturn — bigger round globe used as a scroll-progress marker.
+ * Persistent Saturn silhouette — scroll-progress marker.
  */
 export function initPlanetScene(container) {
   if (!container || prefersReduced()) return () => {};
 
   const colors = {
-    primary: 0xc8e86a,
-    mid: 0x34d399,
-    soft: 0xf7e9dc,
-    deep: 0x86efac,
+    primary: 0x002800,
+    mid: 0x0d6b48,
+    soft: 0x0a3318,
+    deep: 0x002800,
   };
-  const planet = buildPlanet(colors, 1.55, { spin: 0.11, bob: false, detail: "compact" });
+  const planet = buildPlanet(colors, 1.25, {
+    spin: 0.045,
+    bob: false,
+    bodyOpacity: 0.94,
+    ringOpacity: 0.78,
+  });
 
   const { dispose, world } = runScene(container, {
-    fov: 32,
-    z: 3.9,
-    pointer: 0.08,
+    fov: 28,
+    z: 4.8,
+    pointer: 0.03,
     onFrame: ({ t, target, world: w }) => {
-      w.rotation.y = target.x * 0.14;
-      w.rotation.x = 0.04 + target.y * 0.08;
+      w.rotation.y = target.x * 0.04;
+      w.rotation.x = 0.01 + target.y * 0.03;
       planet.tick(t);
-      planet.group.rotation.y = t * 0.045;
     },
   });
 
