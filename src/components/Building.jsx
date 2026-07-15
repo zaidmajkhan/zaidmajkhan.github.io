@@ -9,7 +9,7 @@ export default function Building({ todoAppUrl }) {
     {
       num: "01",
       title: "AI Lead Follow-Up Agent",
-      tag: "In progress",
+      tag: "Shipped",
       body: "Python + Claude API + Gmail. Lead ingest, outreach, send tracking.",
       href: "https://github.com/zaidmajkhan/lead-followup-agent",
     },

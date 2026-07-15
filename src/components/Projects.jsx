@@ -11,7 +11,7 @@ export default function Projects({ todoAppUrl }) {
       title: "AI Lead Follow-Up Agent",
       cat: "Python · APIs",
       year: "2025",
-      flag: "WIP",
+      flag: "Done",
       href: "https://github.com/zaidmajkhan/lead-followup-agent",
       external: true,
     },
