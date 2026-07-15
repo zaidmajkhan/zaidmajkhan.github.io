@@ -382,6 +382,59 @@ function buildPlanet(colors, scale = 1, opts = {}) {
   };
 }
 
+/** Wireframe locomotive — rolls across the intro. */
+function buildTrain(colors, scale = 1) {
+  const group = new THREE.Group();
+  group.scale.setScalar(scale);
+
+  const cabin = lineObj(group, new THREE.BoxGeometry(0.55, 0.42, 0.5), colors.primary, 0.55);
+  cabin.position.set(-0.15, 0.32, 0);
+
+  const boiler = lineObj(group, new THREE.CylinderGeometry(0.2, 0.22, 0.85, 12), colors.deep ?? colors.primary, 0.5);
+  boiler.rotation.z = Math.PI / 2;
+  boiler.position.set(0.45, 0.22, 0);
+
+  const nose = lineObj(group, new THREE.ConeGeometry(0.2, 0.28, 10), colors.mid, 0.45);
+  nose.rotation.z = -Math.PI / 2;
+  nose.position.set(0.98, 0.22, 0);
+
+  const stack = lineObj(group, new THREE.CylinderGeometry(0.08, 0.1, 0.28, 8), colors.soft, 0.5);
+  stack.position.set(0.55, 0.55, 0);
+
+  const base = lineObj(group, new THREE.BoxGeometry(1.35, 0.12, 0.48), colors.primary, 0.4);
+  base.position.set(0.2, 0.06, 0);
+
+  const wheels = [];
+  [-0.25, 0.15, 0.55].forEach((x, i) => {
+    const w = lineObj(group, new THREE.TorusGeometry(0.14 + (i === 0 ? 0.03 : 0), 0.03, 6, 16), colors.mid, 0.55);
+    w.rotation.y = Math.PI / 2;
+    w.position.set(x, 0.0, 0.26);
+    const w2 = w.clone();
+    w2.position.z = -0.26;
+    group.add(w2);
+    wheels.push(w, w2);
+  });
+
+  const car = new THREE.Group();
+  lineObj(car, new THREE.BoxGeometry(0.7, 0.36, 0.46), colors.soft, 0.4);
+  car.position.set(-1.05, 0.24, 0);
+  group.add(car);
+
+  const coupler = lineObj(group, new THREE.BoxGeometry(0.2, 0.06, 0.08), colors.primary, 0.35);
+  coupler.position.set(-0.55, 0.12, 0);
+
+  return {
+    group,
+    tick(t, speed = 1) {
+      wheels.forEach((w) => {
+        w.rotation.z -= 0.35 * speed;
+      });
+      stack.rotation.y = t * 0.8;
+    },
+  };
+}
+
+
 const MOTIF_BUILDERS = {
   systems: buildSystems,
   care: buildCare,
@@ -552,114 +605,95 @@ export function initLatticeScene(container) {
 }
 
 /**
- * Intro loader — Saturn logo mark + interest-led 3D field.
+ * Intro loader — train crossing + mini flybys (no Saturn).
  */
 export function initIntroScene(container) {
   if (!container || prefersReduced()) return () => {};
 
   const colors = palette("cream");
-  const planet = buildPlanet(colors, 1.55, { spin: 0.14, bob: true });
-  const systems = buildSystems(colors, 0.95);
-  const care = buildCare(colors, 0.9);
-  const signal = buildSignal(colors, 0.88);
-  const processMotif = buildProcess(colors, 0.8);
+  const train = buildTrain(colors, 1.05);
 
-  /* Saturn sits behind ZK as a clear logo mark */
-  planet.group.position.set(0, 0.05, -0.4);
-  systems.group.position.set(2.55, 1.2, -0.5);
-  care.group.position.set(-2.6, -1.05, 0.1);
-  signal.group.position.set(-2.4, 1.35, -0.55);
-  processMotif.group.position.set(2.45, -1.25, -0.35);
-
-  const accents = [];
-  const accentSpecs = [
-    { pos: [0.4, 2.1, -1.2], geo: () => new THREE.BoxGeometry(0.3, 0.3, 0.3), color: colors.primary, op: 0.3 },
-    { pos: [-0.35, -1.95, -1.0], geo: () => new THREE.DodecahedronGeometry(0.26, 0), color: colors.mid, op: 0.32 },
-    { pos: [3.2, 0.1, -1.35], geo: () => new THREE.OctahedronGeometry(0.28, 0), color: colors.soft, op: 0.28 },
-    { pos: [-3.25, 0, -1.3], geo: () => new THREE.IcosahedronGeometry(0.28, 0), color: colors.primary, op: 0.28 },
+  const flyers = [];
+  const flyerSpecs = [
+    { geo: () => new THREE.IcosahedronGeometry(0.22, 0), color: colors.primary, y: 1.35, z: -0.8, speed: 1.15, phase: 0.0, spin: 0.9 },
+    { geo: () => new THREE.OctahedronGeometry(0.2, 0), color: colors.soft, y: 0.85, z: -1.1, speed: 0.9, phase: 1.2, spin: 1.1 },
+    { geo: () => new THREE.BoxGeometry(0.28, 0.28, 0.28), color: colors.mid, y: -0.95, z: -0.6, speed: 1.05, phase: 2.1, spin: 0.7 },
+    { geo: () => new THREE.TetrahedronGeometry(0.24, 0), color: colors.primary, y: -1.35, z: -1.0, speed: 0.8, phase: 0.55, spin: 1.3 },
+    { geo: () => new THREE.DodecahedronGeometry(0.18, 0), color: colors.soft, y: 1.75, z: -1.4, speed: 1.25, phase: 2.8, spin: 0.85 },
+    { geo: () => new THREE.CapsuleGeometry(0.1, 0.22, 4, 8), color: colors.mid, y: -0.35, z: -1.3, speed: 0.95, phase: 1.7, spin: 1.0 },
   ];
-  const extras = {
-    ribbon: null,
-    ribbon2: null,
-    halo: null,
-    dust: null,
-    dust2: null,
-    dustNear: null,
-  };
+
+  const track = new THREE.Group();
+  const railMat = new THREE.LineBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.22 });
+  for (const y of [-0.12, 0.12]) {
+    const pts = [new THREE.Vector3(-8, 0, y), new THREE.Vector3(8, 0, y)];
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    track.add(new THREE.Line(geo, railMat));
+  }
+  for (let i = -10; i <= 10; i++) {
+    const tie = lineObj(track, new THREE.BoxGeometry(0.08, 0.02, 0.38), colors.primary, 0.16);
+    tie.position.set(i * 0.7, -0.08, 0);
+  }
+  track.position.set(0, -0.85, 0);
+
+  const extras = { dust: null, dust2: null };
+  const trainStart = -5.8;
+  const trainEnd = 5.8;
+  const tripSec = 2.05;
+  const startedAt = performance.now();
 
   const { dispose, world } = runScene(container, {
-    fov: 40,
-    z: 6.0,
-    pointer: 0.2,
+    fov: 42,
+    z: 7.2,
+    pointer: 0.12,
     onFrame: ({ t, target, world: w }) => {
-      w.rotation.y = target.x * 0.28;
-      w.rotation.x = target.y * 0.16;
+      w.rotation.y = target.x * 0.12;
+      w.rotation.x = target.y * 0.08;
 
-      planet.tick(t);
-      planet.group.position.x = 0;
-      planet.group.position.z = -0.4;
-      planet.group.position.y = 0.05 + Math.sin(t * 0.35) * 0.04;
+      /* Smooth left → right pass across the load */
+      const elapsed = (performance.now() - startedAt) / 1000;
+      const u = Math.min(1, Math.max(0, elapsed / tripSec));
+      const ease = u * u * (3 - 2 * u);
+      train.group.position.x = trainStart + (trainEnd - trainStart) * ease;
+      train.group.position.y = -0.55;
+      train.group.position.z = 0.2;
+      train.tick(t, 1.2 + ease);
 
-      systems.group.position.x = 2.55;
-      systems.group.position.z = -0.5;
-      care.group.position.x = -2.6;
-      care.group.position.z = 0.1;
-      signal.group.position.x = -2.4;
-      signal.group.position.z = -0.55;
-      processMotif.group.position.x = 2.45;
-      processMotif.group.position.z = -0.35;
-
-      systems.tick(t);
-      systems.group.position.y = 1.2 + Math.sin(t * 0.7) * 0.08;
-      care.tick(t);
-      care.group.position.y = -1.05 + Math.cos(t * 0.55) * 0.07;
-      signal.tick(t);
-      signal.group.position.y = 1.35 + Math.sin(t * 0.6 + 1) * 0.09;
-      processMotif.tick(t);
-      processMotif.group.position.y = -1.25 + Math.cos(t * 0.65 + 0.5) * 0.08;
-
-      accents.forEach((a) => {
-        a.group.rotation.y = t * 0.25 + a.phase;
-        a.group.rotation.x = Math.sin(t * 0.4 + a.phase) * 0.35;
-        a.obj.rotation.z = t * 0.2;
-        a.group.position.y = a.baseY + Math.sin(t * 0.5 + a.phase) * 0.1;
+      flyers.forEach((f) => {
+        const local = (elapsed * f.speed * 0.35 + f.phase) % 1.0;
+        f.group.position.x = 4.8 - local * 9.6;
+        f.group.position.y = f.baseY + Math.sin(t * 0.8 + f.phase) * 0.12;
+        f.group.position.z = f.baseZ;
+        f.group.rotation.x = t * f.spin;
+        f.group.rotation.y = t * f.spin * 0.7;
       });
 
-      if (extras.ribbon) extras.ribbon.rotation.y = t * 0.05;
-      if (extras.ribbon2) extras.ribbon2.rotation.x = t * 0.04;
-      if (extras.halo) extras.halo.rotation.z = t * 0.06;
-      if (extras.dust) extras.dust.rotation.y = t * 0.035;
-      if (extras.dust2) extras.dust2.rotation.y = -t * 0.025;
-      if (extras.dustNear) extras.dustNear.rotation.x = t * 0.02;
+      track.position.x = ((elapsed * 1.4) % 0.7) - 0.35;
+
+      if (extras.dust) extras.dust.rotation.y = t * 0.04;
+      if (extras.dust2) extras.dust2.rotation.y = -t * 0.03;
     },
   });
 
-  world.add(planet.group, systems.group, care.group, signal.group, processMotif.group);
+  world.add(train.group, track);
 
-  extras.ribbon = makeOrbitRibbon(world, colors.primary, 0.12);
-  extras.ribbon.scale.setScalar(0.95);
-  extras.ribbon2 = makeOrbitRibbon(world, colors.soft, 0.08);
-  extras.ribbon2.rotation.z = Math.PI / 2.5;
-  extras.ribbon2.scale.setScalar(0.75);
-
-  extras.halo = new THREE.Mesh(
-    new THREE.TorusGeometry(2.6, 0.003, 8, 140),
-    new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.1 }),
-  );
-  extras.halo.rotation.x = Math.PI / 2.7;
-  world.add(extras.halo);
-
-  accentSpecs.forEach((spec, i) => {
+  flyerSpecs.forEach((spec) => {
     const g = new THREE.Group();
-    g.position.set(...spec.pos);
-    const obj = lineObj(g, spec.geo(), spec.color, spec.op);
+    const obj = lineObj(g, spec.geo(), spec.color, 0.42);
     world.add(g);
-    accents.push({ group: g, obj, phase: i * 1.1, baseY: spec.pos[1] });
+    flyers.push({
+      group: g,
+      obj,
+      baseY: spec.y,
+      baseZ: spec.z,
+      speed: spec.speed,
+      phase: spec.phase,
+      spin: spec.spin,
+    });
   });
 
-  extras.dust = makeParticles(world, 130, colors.primary, 5.8, 0.015, 0.28);
-  extras.dust2 = makeParticles(world, 55, colors.soft, 6.4, 0.011, 0.16);
-  extras.dustNear = makeParticles(world, 28, colors.mid, 3.8, 0.016, 0.14);
+  extras.dust = makeParticles(world, 90, colors.primary, 6.2, 0.014, 0.22);
+  extras.dust2 = makeParticles(world, 40, colors.soft, 7.0, 0.01, 0.14);
 
   return dispose;
 }
