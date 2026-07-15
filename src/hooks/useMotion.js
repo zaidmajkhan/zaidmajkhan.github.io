@@ -75,7 +75,7 @@ export function useMotion(ready = true, introDelay = false) {
       });
 
       heroTl
-        .to(".hero-canvas", { opacity: 0.42, duration: 1.1, ease: "power2.out" }, 0)
+        .to(".hero-canvas", { opacity: 0.55, duration: 1.1, ease: "power2.out" }, 0)
         .to(".hero-eyebrow", { opacity: 1, y: 0, duration: 0.55 }, 0.1)
         .to(heroLines, { opacity: 1, y: 0, duration: 0.85, stagger: 0.1, ease: "power4.out" }, 0.16)
         .to(".hero-copy", { opacity: 1, y: 0, duration: 0.55 }, 0.48)

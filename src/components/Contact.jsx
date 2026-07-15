@@ -1,5 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, lazy, Suspense } from "react";
 import siteConfig from "../config/siteConfig.js";
+
+const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
 
 const TOPICS = [
   { value: "recruiter", label: "Internship" },
@@ -106,8 +108,19 @@ export default function Contact() {
   return (
     <section id="contact" className="section scroll-mt-24">
       <div className="wrap">
-        <div className="surface band-forest p-5 sm:p-7 lg:p-9">
-          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:items-start">
+        <div className="surface band-forest relative overflow-hidden p-5 sm:p-7 lg:p-9">
+          <div
+            className="motif-bleed pointer-events-none absolute -right-4 -top-6 hidden h-56 w-56 opacity-50 lg:block"
+            aria-hidden="true"
+          >
+            <div className="scene-mount absolute inset-0">
+              <Suspense fallback={null}>
+                <SceneCanvas variant="process" tone="forest" compact className="h-full w-full" />
+              </Suspense>
+            </div>
+          </div>
+
+          <div className="relative z-10 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:items-start">
             <aside>
               <p className="eyebrow reveal text-lime">06 — Contact</p>
               <h2 className="pin-title display-lg mt-3 text-cream">

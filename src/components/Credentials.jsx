@@ -1,3 +1,7 @@
+import { lazy, Suspense } from "react";
+
+const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
+
 const CREDS = [
   {
     year: "Fall '25",
@@ -27,8 +31,19 @@ const CREDS = [
 
 export default function Credentials() {
   return (
-    <section id="credentials" className="section scroll-mt-24">
-      <div className="wrap">
+    <section id="credentials" className="section scroll-mt-24 relative overflow-hidden">
+      <div
+        className="motif-bleed motif-bleed--left pointer-events-none absolute -left-8 bottom-0 hidden h-72 w-72 opacity-45 lg:block"
+        aria-hidden="true"
+      >
+        <div className="scene-mount absolute inset-0">
+          <Suspense fallback={null}>
+            <SceneCanvas variant="systems" tone="cream" compact className="h-full w-full" />
+          </Suspense>
+        </div>
+      </div>
+
+      <div className="wrap relative z-10">
         <div className="mx-auto max-w-2xl text-center">
           <p className="eyebrow reveal text-green">05 — Proof</p>
           <h2 className="pin-title display-lg mt-3 text-forest">Proof, not posture.</h2>
@@ -75,7 +90,9 @@ export default function Credentials() {
               >
                 <span className="text-sm font-bold text-green">{c.year}</span>
                 <div>
-                  <p className="font-display text-lg leading-snug tracking-[-0.02em] text-forest">{c.title}</p>
+                  <p className="font-display text-lg leading-snug tracking-[-0.02em] text-forest">
+                    {c.title}
+                  </p>
                   <p className="mt-1 text-sm text-mute">{c.desc}</p>
                 </div>
                 <span className="chip w-fit">{c.badge}</span>

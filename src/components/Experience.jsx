@@ -38,7 +38,7 @@ export default function Experience() {
       >
         <div className="scene-mount absolute inset-0">
           <Suspense fallback={null}>
-            <SceneCanvas variant="orbit" className="h-full w-full" />
+            <SceneCanvas variant="care" tone="forest" className="h-full w-full" />
           </Suspense>
         </div>
       </div>

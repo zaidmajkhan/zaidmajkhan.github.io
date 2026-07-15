@@ -1,4 +1,7 @@
+import { lazy, Suspense } from "react";
 import siteConfig from "../config/siteConfig.js";
+
+const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
 
 export default function Projects({ todoAppUrl }) {
   const rows = [
@@ -26,8 +29,19 @@ export default function Projects({ todoAppUrl }) {
   ];
 
   return (
-    <section id="projects" className="section scroll-mt-24 bg-cream-soft">
-      <div className="wrap">
+    <section id="projects" className="section scroll-mt-24 relative overflow-hidden bg-cream-soft">
+      <div
+        className="motif-bleed motif-bleed--cream pointer-events-none absolute -right-6 top-8 hidden h-64 w-64 opacity-55 lg:block"
+        aria-hidden="true"
+      >
+        <div className="scene-mount absolute inset-0">
+          <Suspense fallback={null}>
+            <SceneCanvas variant="process" tone="cream" compact className="h-full w-full" />
+          </Suspense>
+        </div>
+      </div>
+
+      <div className="wrap relative z-10">
         <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow reveal text-green">04 — Work</p>
