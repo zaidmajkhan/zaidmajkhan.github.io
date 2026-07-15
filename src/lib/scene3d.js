@@ -538,58 +538,38 @@ export function initMotifScene(
 }
 
 /**
- * Hero — interest field on forest (systems + signal + process accents).
+ * Hero — one primary systems motif + one soft signal accent.
  */
 export function initHeroScene(container) {
   if (!container || prefersReduced()) return () => {};
   if (isNarrow()) return () => {};
 
   const colors = palette("forest");
-  const systems = buildSystems(colors, 0.92);
-  const signal = buildSignal(colors, 0.72);
-  const processMotif = buildProcess(colors, 0.62);
-  const care = buildCare(colors, 0.55);
+  const systems = buildSystems(colors, 1.05);
+  const signal = buildSignal(colors, 0.55);
 
-  systems.group.position.set(1.15, 0.35, 0);
-  signal.group.position.set(-1.55, 0.95, -0.6);
-  processMotif.group.position.set(1.75, -0.95, -0.5);
-  care.group.position.set(-1.4, -0.85, -0.35);
+  systems.group.position.set(1.35, 0.15, -0.15);
+  signal.group.position.set(-1.75, 0.75, -0.85);
 
-  const extras = { ribbon: null, halo: null, dust: null, dust2: null };
+  const extras = { dust: null };
 
   const { dispose, world } = runScene(container, {
-    fov: 38,
-    z: 5.1,
-    pointer: 0.22,
+    fov: 36,
+    z: 5.2,
+    pointer: 0.18,
     onFrame: ({ t, target, world: w }) => {
-      w.rotation.y = target.x * 0.45;
-      w.rotation.x = target.y * 0.3;
-      systems.tick(t * 0.85);
-      systems.group.position.y = 0.35 + Math.sin(t * 0.6) * 0.06;
-      signal.tick(t * 0.9);
-      signal.group.position.y = 0.95 + Math.sin(t * 0.55 + 1) * 0.07;
-      processMotif.tick(t * 0.8);
-      processMotif.group.position.y = -0.95 + Math.cos(t * 0.5) * 0.06;
-      care.tick(t * 0.75);
-      care.group.position.y = -0.85 + Math.cos(t * 0.45 + 0.4) * 0.06;
-      if (extras.ribbon) extras.ribbon.rotation.y = t * 0.05;
-      if (extras.halo) extras.halo.rotation.z = t * 0.07;
-      if (extras.dust) extras.dust.rotation.y = t * 0.035;
-      if (extras.dust2) extras.dust2.rotation.y = -t * 0.025;
+      w.rotation.y = target.x * 0.32;
+      w.rotation.x = target.y * 0.2;
+      systems.tick(t * 0.7);
+      systems.group.position.y = 0.15 + Math.sin(t * 0.45) * 0.045;
+      signal.tick(t * 0.6);
+      signal.group.position.y = 0.75 + Math.sin(t * 0.4 + 1) * 0.05;
+      if (extras.dust) extras.dust.rotation.y = t * 0.025;
     },
   });
 
-  world.add(systems.group, signal.group, processMotif.group, care.group);
-  extras.ribbon = makeOrbitRibbon(world, colors.primary, 0.12);
-  extras.ribbon.scale.setScalar(0.72);
-  extras.halo = new THREE.Mesh(
-    new THREE.TorusGeometry(1.7, 0.004, 8, 120),
-    new THREE.MeshBasicMaterial({ color: colors.mid, transparent: true, opacity: 0.14 }),
-  );
-  extras.halo.rotation.x = Math.PI / 2.5;
-  world.add(extras.halo);
-  extras.dust = makeParticles(world, 100, colors.primary, 4.2, 0.014, 0.28);
-  extras.dust2 = makeParticles(world, 45, colors.soft, 5, 0.011, 0.18);
+  world.add(systems.group, signal.group);
+  extras.dust = makeParticles(world, 55, colors.primary, 4.0, 0.012, 0.2);
 
   return dispose;
 }

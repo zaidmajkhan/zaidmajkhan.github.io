@@ -31,7 +31,7 @@ const CREDS = [
 
 export default function Credentials() {
   return (
-    <section id="credentials" className="section scroll-mt-24 relative overflow-hidden">
+    <section id="credentials" className="section section-band scroll-mt-24 relative overflow-hidden">
       <div
         className="motif-bleed motif-bleed--left pointer-events-none absolute -left-8 bottom-0 hidden h-80 w-80 opacity-60 md:block"
         aria-hidden="true"

@@ -191,19 +191,65 @@
     text-transform: uppercase;
     color: var(--color-green);
   }
+  .chip--shipped {
+    border-color: color-mix(in srgb, var(--color-green) 35%, transparent);
+    background: color-mix(in srgb, var(--color-green) 10%, var(--color-cream-soft));
+    color: var(--color-green);
+  }
+  .chip--live {
+    border-color: color-mix(in srgb, var(--color-lime) 55%, transparent);
+    background: color-mix(in srgb, var(--color-lime) 28%, var(--color-cream-soft));
+    color: #2f4a12;
+  }
+  .chip--deploying {
+    border-color: color-mix(in srgb, #b45309 28%, transparent);
+    background: color-mix(in srgb, #b45309 9%, var(--color-cream-soft));
+    color: #8a4508;
+  }
+  .chip--planned {
+    border-color: color-mix(in srgb, var(--color-mute) 35%, transparent);
+    background: transparent;
+    color: var(--color-mute);
+  }
+  .chip--focus {
+    border-color: color-mix(in srgb, var(--color-forest) 22%, transparent);
+    background: color-mix(in srgb, var(--color-forest) 6%, var(--color-cream-soft));
+    color: var(--color-forest);
+  }
   .chip-on-dark {
     border-color: rgba(247, 233, 220, 0.2);
     background: rgba(247, 233, 220, 0.08);
     color: var(--color-lime);
   }
 
-  /* Denser sections — less empty desktop height */
+  /* Section rhythm — alternate bands + soft paper grain */
   .section {
-    padding-block: clamp(2.5rem, 4.5vw, 4rem);
+    padding-block: clamp(2.75rem, 5vw, 4.25rem);
+    position: relative;
+  }
+  .section::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    mix-blend-mode: multiply;
+  }
+  .section-band {
+    background: color-mix(in srgb, var(--color-cream-deep) 55%, var(--color-cream));
+  }
+  .section-quiet {
+    background: var(--color-cream-soft);
+  }
+  .section.band-forest::before {
+    opacity: 0.018;
+    mix-blend-mode: soft-light;
   }
   @media (min-width: 1024px) {
     .section {
-      padding-block: clamp(2.75rem, 3.8vw, 3.75rem);
+      padding-block: clamp(3rem, 4.2vw, 4.5rem);
     }
   }
 
@@ -240,26 +286,28 @@
   .planet-backdrop {
     position: fixed;
     top: 0;
-    right: 2vw;
-    width: min(40vw, 22rem);
-    height: min(28vw, 15.5rem);
-    z-index: 2;
+    right: -6vw;
+    width: min(32vw, 17rem);
+    height: min(22vw, 12rem);
+    z-index: 1;
     pointer-events: none;
     opacity: 0;
     color: var(--color-forest);
     transform: translate3d(0, var(--planet-y, 8vh), 0);
     will-change: transform;
     transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+    mask-image: linear-gradient(270deg, #000 55%, transparent 100%);
+    -webkit-mask-image: linear-gradient(270deg, #000 55%, transparent 100%);
   }
   .planet-backdrop.is-on {
-    opacity: 0.5;
+    opacity: 0.28;
   }
   .planet-logo {
     display: block;
     width: 100%;
     height: 100%;
-    animation: planet-spin 36s linear infinite;
-    filter: drop-shadow(0 10px 30px rgba(0, 40, 0, 0.14));
+    animation: planet-spin 56s linear infinite;
+    filter: drop-shadow(0 8px 24px rgba(0, 40, 0, 0.1));
   }
   @keyframes planet-spin {
     to {
@@ -268,12 +316,18 @@
   }
   @media (max-width: 900px) {
     .planet-backdrop {
-      right: 0;
-      width: min(52vw, 14rem);
-      height: min(36vw, 10rem);
+      right: -18vw;
+      width: min(42vw, 10rem);
+      height: min(30vw, 7.25rem);
+      z-index: 0;
+      mask-image: linear-gradient(270deg, #000 40%, transparent 100%);
+      -webkit-mask-image: linear-gradient(270deg, #000 40%, transparent 100%);
     }
     .planet-backdrop.is-on {
-      opacity: 0.3;
+      opacity: 0.12;
+    }
+    .motif-bleed {
+      opacity: 0.35 !important;
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -631,7 +685,9 @@
   }
 
   .band-forest {
-    background: var(--color-forest);
+    background:
+      radial-gradient(ellipse 55% 40% at 88% 8%, rgba(200, 232, 106, 0.1), transparent 55%),
+      linear-gradient(165deg, #002800 0%, #0a3318 55%, #002800 100%);
     color: var(--color-cream);
   }
 
@@ -654,7 +710,7 @@
   html.motion-on.reveals-armed #projects .interactive-row:not(.in),
   html.motion-on.reveals-armed .scene-mount:not(.in) {
     opacity: 0;
-    translate: 0 1.15rem;
+    translate: 0 0.7rem;
   }
 
   html.motion-on .reveal,
@@ -665,21 +721,21 @@
   html.motion-on #projects .interactive-row,
   html.motion-on .scene-mount {
     transition:
-      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-      translate 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   html.motion-on .stagger-children > *:nth-child(2) {
-    transition-delay: 0.07s;
+    transition-delay: 0.05s;
   }
   html.motion-on .stagger-children > *:nth-child(3) {
-    transition-delay: 0.14s;
+    transition-delay: 0.1s;
   }
   html.motion-on .stagger-children > *:nth-child(4) {
-    transition-delay: 0.21s;
+    transition-delay: 0.15s;
   }
   html.motion-on .stagger-children > *:nth-child(5) {
-    transition-delay: 0.28s;
+    transition-delay: 0.2s;
   }
 
   html.motion-on .reveal.in,

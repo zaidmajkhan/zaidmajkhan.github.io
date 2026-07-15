@@ -105,12 +105,31 @@ export default function Contact() {
     }
   }
 
+  const channels = [
+    {
+      key: "linkedin",
+      label: "LinkedIn",
+      detail: "Best for recruiters",
+      href: siteConfig.linkedinUrl,
+      external: true,
+      track: "LinkedIn Contact Card",
+    },
+    {
+      key: "email",
+      label: "Email",
+      detail: email,
+      href: mailto,
+      external: false,
+      track: "Email Contact Card",
+    },
+  ];
+
   return (
     <section id="contact" className="section scroll-mt-24">
       <div className="wrap">
         <div className="surface band-forest relative overflow-hidden p-5 sm:p-7 lg:p-9">
           <div
-            className="motif-bleed pointer-events-none absolute -right-4 -top-6 hidden h-64 w-64 opacity-65 md:block"
+            className="motif-bleed pointer-events-none absolute -right-4 -top-6 hidden h-48 w-48 opacity-45 md:block"
             aria-hidden="true"
           >
             <div className="scene-mount absolute inset-0">
@@ -120,7 +139,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="relative z-10 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:items-start">
+          <div className="relative z-10 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:items-start">
             <aside>
               <p className="eyebrow reveal text-lime">06 — Contact</p>
               <h2 className="pin-title display-lg mt-3 text-cream">
@@ -133,56 +152,51 @@ export default function Contact() {
                 within 24h.
               </p>
 
-              <div className="reveal mt-6 grid gap-2.5">
-                <a
-                  href={siteConfig.linkedinUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-between rounded-xl border border-cream/15 bg-cream/[0.04] px-4 py-3.5 transition hover:border-lime/40 hover:bg-cream/[0.07] track-cta"
-                  data-track="LinkedIn Contact Card"
-                >
-                  <span>
-                    <span className="block text-[0.65rem] font-extrabold tracking-[0.14em] text-cream/55 uppercase">
-                      LinkedIn
+              <div className="reveal mt-7 border-y border-cream/15">
+                {channels.map((c) => (
+                  <a
+                    key={c.key}
+                    href={c.href}
+                    {...(c.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                    className="interactive-row group grid grid-cols-[1fr_auto] items-center gap-3 border-b border-cream/15 py-4 last:border-b-0 track-cta"
+                    data-track={c.track}
+                  >
+                    <span>
+                      <span className="block text-[0.62rem] font-extrabold tracking-[0.14em] text-cream/50 uppercase">
+                        {c.label}
+                      </span>
+                      <span className="mt-1 block font-display text-lg tracking-[-0.02em] text-cream">
+                        {c.detail}
+                      </span>
                     </span>
-                    <span className="mt-0.5 block text-sm font-semibold text-cream">
-                      Best for recruiters
+                    <span className="text-sm font-bold tracking-[0.1em] text-lime uppercase opacity-70 transition group-hover:opacity-100">
+                      Open ↗
                     </span>
-                  </span>
-                  <span className="text-lime">↗</span>
-                </a>
-                <a
-                  href={mailto}
-                  className="flex items-center justify-between rounded-xl border border-cream/15 bg-cream/[0.04] px-4 py-3.5 transition hover:border-lime/40 hover:bg-cream/[0.07] track-cta"
-                  data-track="Email Contact Card"
-                >
-                  <span>
-                    <span className="block text-[0.65rem] font-extrabold tracking-[0.14em] text-cream/55 uppercase">
-                      Email
-                    </span>
-                    <span className="mt-0.5 block text-sm font-semibold text-cream">{email}</span>
-                  </span>
-                  <span className="text-lime">↗</span>
-                </a>
+                  </a>
+                ))}
                 <button
                   type="button"
                   onClick={copyEmail}
-                  className="flex w-full items-center justify-between rounded-xl border border-cream/15 bg-cream/[0.04] px-4 py-3.5 text-left transition hover:border-lime/40 hover:bg-cream/[0.07]"
+                  className="interactive-row group grid w-full grid-cols-[1fr_auto] items-center gap-3 py-4 text-left"
                 >
                   <span>
-                    <span className="block text-[0.65rem] font-extrabold tracking-[0.14em] text-cream/55 uppercase">
+                    <span className="block text-[0.62rem] font-extrabold tracking-[0.14em] text-cream/50 uppercase">
                       {copied ? "Copied" : "Copy email"}
                     </span>
-                    <span className="mt-0.5 block text-sm font-semibold text-cream">{email}</span>
+                    <span className="mt-1 block font-display text-lg tracking-[-0.02em] text-cream">
+                      {email}
+                    </span>
                   </span>
-                  <span className="text-lime">⎘</span>
+                  <span className="text-sm font-bold tracking-[0.1em] text-lime uppercase opacity-70 transition group-hover:opacity-100">
+                    ⎘
+                  </span>
                 </button>
               </div>
             </aside>
 
-            <div className="reveal rounded-2xl border border-cream/15 bg-cream/[0.05] p-5 md:p-6">
+            <div className="reveal border-t border-cream/15 pt-6 lg:border-t-0 lg:border-l lg:border-cream/15 lg:pl-10 lg:pt-0">
               {success ? (
-                <div className="flex min-h-72 flex-col justify-center">
+                <div className="flex min-h-64 flex-col justify-center">
                   <p className="eyebrow text-lime">Sent</p>
                   <h3 className="mt-3 font-display text-3xl leading-snug tracking-[-0.02em] text-cream md:text-4xl">
                     Message locked in.
@@ -203,12 +217,15 @@ export default function Contact() {
               ) : (
                 <>
                   <p className="eyebrow text-lime">Or send a message</p>
-                  <form className="mt-5 grid gap-3.5" onSubmit={onSubmit}>
-                    <div className="grid gap-3.5 sm:grid-cols-2">
+                  <p className="mt-2 max-w-sm text-sm text-cream/55">
+                    Same note as LinkedIn — role, team, and timeline help most.
+                  </p>
+                  <form className="mt-5 grid gap-4" onSubmit={onSubmit}>
+                    <div className="grid gap-4 sm:grid-cols-2">
                       <label className="grid gap-1.5">
                         <span className="form-label !text-cream/55">Name</span>
                         <input
-                          className="form-input !border-cream/20 !bg-forest !text-cream placeholder:!text-cream/30 focus:!border-lime focus:!shadow-[0_0_0_3px_rgba(200,232,106,0.15)]"
+                          className="form-input !border-cream/20 !bg-transparent !text-cream placeholder:!text-cream/30 focus:!border-lime focus:!shadow-[0_0_0_3px_rgba(200,232,106,0.12)]"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           required
@@ -218,7 +235,7 @@ export default function Contact() {
                       <label className="grid gap-1.5">
                         <span className="form-label !text-cream/55">Email</span>
                         <input
-                          className="form-input !border-cream/20 !bg-forest !text-cream placeholder:!text-cream/30 focus:!border-lime focus:!shadow-[0_0_0_3px_rgba(200,232,106,0.15)]"
+                          className="form-input !border-cream/20 !bg-transparent !text-cream placeholder:!text-cream/30 focus:!border-lime focus:!shadow-[0_0_0_3px_rgba(200,232,106,0.12)]"
                           type="email"
                           value={formEmail}
                           onChange={(e) => setFormEmail(e.target.value)}
@@ -229,15 +246,15 @@ export default function Contact() {
                     </div>
                     <div className="grid gap-1.5">
                       <span className="form-label !text-cream/55">Topic</span>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-x-4 gap-y-2 border-b border-cream/15 pb-3">
                         {TOPICS.map((t) => (
                           <button
                             key={t.value}
                             type="button"
-                            className={`rounded-full border px-3 py-1.5 text-[0.68rem] font-bold tracking-[0.08em] uppercase transition ${
+                            className={`text-[0.68rem] font-bold tracking-[0.12em] uppercase transition ${
                               topic === t.value
-                                ? "border-lime bg-lime text-forest"
-                                : "border-cream/20 bg-transparent text-cream/70 hover:border-cream/40"
+                                ? "text-lime"
+                                : "text-cream/45 hover:text-cream/75"
                             }`}
                             onClick={() => setTopic(t.value)}
                           >
@@ -249,7 +266,7 @@ export default function Contact() {
                     <label className="grid gap-1.5">
                       <span className="form-label !text-cream/55">Message</span>
                       <textarea
-                        className="form-input min-h-28 !border-cream/20 !bg-forest !text-cream placeholder:!text-cream/30 focus:!border-lime focus:!shadow-[0_0_0_3px_rgba(200,232,106,0.15)]"
+                        className="form-input min-h-28 !border-cream/20 !bg-transparent !text-cream placeholder:!text-cream/30 focus:!border-lime focus:!shadow-[0_0_0_3px_rgba(200,232,106,0.12)]"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         required
