@@ -16,31 +16,31 @@ import { useMotion } from "./hooks/useMotion.js";
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [introSeen] = useState(() => document.documentElement.classList.contains("intro-seen"));
-  const [introActive, setIntroActive] = useState(() => !introSeen);
-  const [motionReady, setMotionReady] = useState(introSeen);
-  const [revealsReady, setRevealsReady] = useState(introSeen);
-  const [fromIntro] = useState(() => !introSeen);
+  /* Always run intro on load (phone-like). Only skip for reduced-motion. */
+  const [introActive, setIntroActive] = useState(() => {
+    try {
+      return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch {
+      return true;
+    }
+  });
+  const [motionReady, setMotionReady] = useState(() => !introActive);
+  const [revealsReady, setRevealsReady] = useState(() => !introActive);
+  const [playedIntro] = useState(() => introActive);
 
-  /* Prime Lenis + hero under the overlay — do NOT arm reveals yet */
   const onIntroPrepare = useCallback(() => {
     setMotionReady(true);
   }, []);
 
   const onIntroDone = useCallback(() => {
-    try {
-      sessionStorage.setItem("introSeen", "1");
-    } catch {
-      /* ignore */
-    }
     document.documentElement.classList.add("intro-seen");
+    document.documentElement.classList.remove("intro-leaving");
     setIntroActive(false);
     setMotionReady(true);
-    /* Arm reveals only once the overlay is gone so sections aren't stuck opacity:0 */
     setRevealsReady(true);
   }, []);
 
-  useMotion(motionReady, fromIntro, revealsReady);
+  useMotion(motionReady, playedIntro, revealsReady);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen || introActive ? "hidden" : "";

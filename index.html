@@ -71,10 +71,10 @@
       rel="stylesheet"
     />
     <script>
+      /* Clear legacy skip flag so desktop always gets the loader like mobile */
       try {
-        if (sessionStorage.getItem("introSeen")) {
-          document.documentElement.classList.add("intro-seen");
-        }
+        sessionStorage.removeItem("introSeen");
+        document.documentElement.classList.remove("intro-seen");
       } catch (e) {}
     </script>
   </head>
