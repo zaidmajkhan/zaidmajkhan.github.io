@@ -700,31 +700,8 @@
   }
 }
 
-/* Scroll reveals — only hide AFTER JS arms observers (prevents blank sections) */
+/* Scroll flourishes — NEVER hide resting content (desktop blank trap removed) */
 @media (prefers-reduced-motion: no-preference) {
-  html.motion-on.reveals-armed .reveal:not(.in),
-  html.motion-on.reveals-armed .pin-title:not(.in),
-  html.motion-on.reveals-armed .stagger-children > *:not(.in),
-  html.motion-on.reveals-armed .stat-cell:not(.in),
-  html.motion-on.reveals-armed #experience article:not(.in),
-  html.motion-on.reveals-armed #projects .interactive-row:not(.in),
-  html.motion-on.reveals-armed .scene-mount:not(.in) {
-    opacity: 0;
-    translate: 0 0.7rem;
-  }
-
-  /* Cold boot: no transition while marking in-view + arming (kills double flash) */
-  html.motion-on.reveals-cold .reveal,
-  html.motion-on.reveals-cold .pin-title,
-  html.motion-on.reveals-cold .stagger-children > *,
-  html.motion-on.reveals-cold .stat-cell,
-  html.motion-on.reveals-cold #experience article,
-  html.motion-on.reveals-cold #projects .interactive-row,
-  html.motion-on.reveals-cold .scene-mount,
-  html.motion-on.reveals-cold .rule-grow {
-    transition: none !important;
-  }
-
   html.motion-on .reveal,
   html.motion-on .pin-title,
   html.motion-on .stagger-children > *,
@@ -732,22 +709,8 @@
   html.motion-on #experience article,
   html.motion-on #projects .interactive-row,
   html.motion-on .scene-mount {
-    transition:
-      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-      translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  html.motion-on .stagger-children > *:nth-child(2) {
-    transition-delay: 0.05s;
-  }
-  html.motion-on .stagger-children > *:nth-child(3) {
-    transition-delay: 0.1s;
-  }
-  html.motion-on .stagger-children > *:nth-child(4) {
-    transition-delay: 0.15s;
-  }
-  html.motion-on .stagger-children > *:nth-child(5) {
-    transition-delay: 0.2s;
+    opacity: 1;
+    translate: 0 0;
   }
 
   html.motion-on .reveal.in,
@@ -757,19 +720,44 @@
   html.motion-on #experience article.in,
   html.motion-on #projects .interactive-row.in,
   html.motion-on .scene-mount.in {
-    opacity: 1;
-    translate: 0 0;
+    animation: reveal-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  html.motion-on.reveals-armed .rule-grow:not(.in) {
-    transform: scaleX(0);
+  html.motion-on .stagger-children > *.in:nth-child(2) {
+    animation-delay: 0.05s;
   }
+  html.motion-on .stagger-children > *.in:nth-child(3) {
+    animation-delay: 0.1s;
+  }
+  html.motion-on .stagger-children > *.in:nth-child(4) {
+    animation-delay: 0.15s;
+  }
+
+  @keyframes reveal-up {
+    from {
+      translate: 0 1rem;
+      opacity: 1;
+    }
+    to {
+      translate: 0 0;
+      opacity: 1;
+    }
+  }
+
   html.motion-on .rule-grow {
     transform-origin: left center;
-    transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: scaleX(1);
   }
   html.motion-on .rule-grow.in {
-    transform: scaleX(1);
+    animation: rule-grow-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes rule-grow-in {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
   }
 }
 

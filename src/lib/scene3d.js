@@ -9,26 +9,32 @@ function isNarrow() {
 }
 
 function makeRenderer(container) {
-  let renderer;
   try {
-    renderer = new THREE.WebGLRenderer({
+    const canvas = document.createElement("canvas");
+    const probe =
+      canvas.getContext("webgl2", { alpha: true }) ||
+      canvas.getContext("webgl", { alpha: true }) ||
+      canvas.getContext("experimental-webgl", { alpha: true });
+    if (!probe) return null;
+
+    const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
       powerPreference: "high-performance",
+      canvas,
     });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setClearColor(0x000000, 0);
+    container.appendChild(renderer.domElement);
+    Object.assign(renderer.domElement.style, {
+      width: "100%",
+      height: "100%",
+      display: "block",
+    });
+    return renderer;
   } catch {
     return null;
   }
-  if (!renderer) return null;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x000000, 0);
-  container.appendChild(renderer.domElement);
-  Object.assign(renderer.domElement.style, {
-    width: "100%",
-    height: "100%",
-    display: "block",
-  });
-  return renderer;
 }
 
 function lineObj(group, geo, color, opacity) {
@@ -521,35 +527,41 @@ export function initMotifScene(
   if (!container || prefersReduced()) return () => {};
   if (desktopOnly && isNarrow()) return () => {};
 
-  const colors = palette(tone);
-  const builder = MOTIF_BUILDERS[motif] || buildSystems;
-  const piece = builder(colors, compact ? 0.85 : 1);
-  const dustCount = compact ? 28 : 48;
-  const extras = { dust: null, ring: null };
+  try {
+    const colors = palette(tone);
+    const builder = MOTIF_BUILDERS[motif] || buildSystems;
+    const piece = builder(colors, compact ? 0.85 : 1);
+    const dustCount = compact ? 28 : 48;
+    const extras = { dust: null, ring: null };
 
-  const { dispose, world } = runScene(container, {
-    fov: compact ? 36 : 38,
-    z: compact ? 3.5 : 4.1,
-    pointer: 0.28,
-    onFrame: ({ t, target, world: w }) => {
-      w.rotation.y = target.x * 0.9;
-      w.rotation.x = 0.12 + target.y * 0.7;
-      piece.tick(t);
-      if (extras.dust) extras.dust.rotation.y = t * 0.05;
-      if (extras.ring) extras.ring.rotation.z = t * 0.12;
-    },
-  });
+    const { dispose, world, renderer } = runScene(container, {
+      fov: compact ? 36 : 38,
+      z: compact ? 3.5 : 4.1,
+      pointer: 0.28,
+      onFrame: ({ t, target, world: w }) => {
+        w.rotation.y = target.x * 0.9;
+        w.rotation.x = 0.12 + target.y * 0.7;
+        piece.tick(t);
+        if (extras.dust) extras.dust.rotation.y = t * 0.05;
+        if (extras.ring) extras.ring.rotation.z = t * 0.12;
+      },
+    });
 
-  world.add(piece.group);
-  extras.dust = makeParticles(world, dustCount, colors.soft, compact ? 1.7 : 2.2, 0.012, 0.32);
-  extras.ring = new THREE.Mesh(
-    new THREE.TorusGeometry(compact ? 1.35 : 1.55, 0.004, 8, 100),
-    new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.16 }),
-  );
-  extras.ring.rotation.x = Math.PI / 2.6;
-  world.add(extras.ring);
+    if (!renderer || !world) return dispose || (() => {});
 
-  return dispose;
+    world.add(piece.group);
+    extras.dust = makeParticles(world, dustCount, colors.soft, compact ? 1.7 : 2.2, 0.012, 0.32);
+    extras.ring = new THREE.Mesh(
+      new THREE.TorusGeometry(compact ? 1.35 : 1.55, 0.004, 8, 100),
+      new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.16 }),
+    );
+    extras.ring.rotation.x = Math.PI / 2.6;
+    world.add(extras.ring);
+
+    return dispose;
+  } catch {
+    return () => {};
+  }
 }
 
 /**
@@ -559,34 +571,40 @@ export function initHeroScene(container) {
   if (!container || prefersReduced()) return () => {};
   if (isNarrow()) return () => {};
 
-  const colors = palette("forest");
-  const systems = buildSystems(colors, 1.05);
-  const signal = buildSignal(colors, 0.55);
+  try {
+    const colors = palette("forest");
+    const systems = buildSystems(colors, 1.05);
+    const signal = buildSignal(colors, 0.55);
 
-  systems.group.position.set(1.35, 0.15, -0.15);
-  signal.group.position.set(-1.75, 0.75, -0.85);
+    systems.group.position.set(1.35, 0.15, -0.15);
+    signal.group.position.set(-1.75, 0.75, -0.85);
 
-  const extras = { dust: null };
+    const extras = { dust: null };
 
-  const { dispose, world } = runScene(container, {
-    fov: 36,
-    z: 5.2,
-    pointer: 0.18,
-    onFrame: ({ t, target, world: w }) => {
-      w.rotation.y = target.x * 0.32;
-      w.rotation.x = target.y * 0.2;
-      systems.tick(t * 0.7);
-      systems.group.position.y = 0.15 + Math.sin(t * 0.45) * 0.045;
-      signal.tick(t * 0.6);
-      signal.group.position.y = 0.75 + Math.sin(t * 0.4 + 1) * 0.05;
-      if (extras.dust) extras.dust.rotation.y = t * 0.025;
-    },
-  });
+    const { dispose, world, renderer } = runScene(container, {
+      fov: 36,
+      z: 5.2,
+      pointer: 0.18,
+      onFrame: ({ t, target, world: w }) => {
+        w.rotation.y = target.x * 0.32;
+        w.rotation.x = target.y * 0.2;
+        systems.tick(t * 0.7);
+        systems.group.position.y = 0.15 + Math.sin(t * 0.45) * 0.045;
+        signal.tick(t * 0.6);
+        signal.group.position.y = 0.75 + Math.sin(t * 0.4 + 1) * 0.05;
+        if (extras.dust) extras.dust.rotation.y = t * 0.025;
+      },
+    });
 
-  world.add(systems.group, signal.group);
-  extras.dust = makeParticles(world, 55, colors.primary, 4.0, 0.012, 0.2);
+    if (!renderer || !world) return dispose || (() => {});
 
-  return dispose;
+    world.add(systems.group, signal.group);
+    extras.dust = makeParticles(world, 55, colors.primary, 4.0, 0.012, 0.2);
+
+    return dispose;
+  } catch {
+    return () => {};
+  }
 }
 
 /** @deprecated alias — process motif on forest */

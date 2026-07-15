@@ -6,7 +6,7 @@ export default function About() {
   return (
     <section id="about" className="section section-quiet scroll-mt-24 relative overflow-hidden">
       <div
-        className="motif-bleed motif-bleed--cream pointer-events-none absolute inset-y-0 right-0 hidden w-[min(42vw,30rem)] opacity-85 md:block"
+        className="motif-bleed motif-bleed--cream pointer-events-none absolute inset-y-0 right-0 hidden w-[min(42vw,30rem)] opacity-100 md:block"
         aria-hidden="true"
       >
         <div className="scene-mount absolute inset-0">
