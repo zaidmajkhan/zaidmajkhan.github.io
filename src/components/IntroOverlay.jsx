@@ -9,7 +9,8 @@ const INTERESTS = [
 ];
 
 /**
- * Cream loading intro with Saturn centerpiece + interest-led 3D motifs.
+ * Cream loading intro — train crosses while mini objects fly by.
+ * Saturn stays on the page as the scroll float (PlanetBackdrop).
  */
 export default function IntroOverlay({ active, onDone }) {
   const countRef = useRef(null);
@@ -40,7 +41,7 @@ export default function IntroOverlay({ active, onDone }) {
     const obj = { v: 0 };
     const tween = gsap.to(obj, {
       v: 100,
-      duration: 1.65,
+      duration: 2.05,
       ease: "power2.inOut",
       onUpdate: () => {
         const v = Math.round(obj.v);
@@ -62,7 +63,7 @@ export default function IntroOverlay({ active, onDone }) {
         document.documentElement.classList.remove("intro-leaving");
         onDone?.();
       }, 700);
-    }, 1850);
+    }, 2300);
 
     return () => {
       cancelled = true;
