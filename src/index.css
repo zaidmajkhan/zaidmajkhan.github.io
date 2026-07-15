@@ -236,6 +236,46 @@
     font-size: clamp(2.85rem, 8.5vw, 6.5rem);
   }
 
+  /* —— Persistent Saturn backdrop —— */
+  .planet-backdrop {
+    position: fixed;
+    top: max(4rem, 8vh);
+    right: -6vw;
+    width: min(58vw, 34rem);
+    height: min(58vw, 34rem);
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 40%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 40%, transparent 78%);
+  }
+  .planet-backdrop.is-on {
+    opacity: 0.55;
+  }
+  .planet-backdrop canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  @media (max-width: 900px) {
+    .planet-backdrop {
+      top: auto;
+      bottom: 8vh;
+      right: -18vw;
+      width: min(78vw, 22rem);
+      height: min(78vw, 22rem);
+    }
+    .planet-backdrop.is-on {
+      opacity: 0.38;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .planet-backdrop {
+      display: none;
+    }
+  }
+
   /* —— Loading intro —— */
   .intro-overlay {
     position: fixed;
@@ -279,7 +319,9 @@
     line-height: 1;
     letter-spacing: -0.03em;
     opacity: 0;
+    transform: translateX(-18%);
     animation: intro-mark-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards;
+    text-shadow: 0 0 40px color-mix(in srgb, var(--color-cream) 80%, transparent);
   }
   .intro-chips {
     position: absolute;
@@ -402,11 +444,11 @@
   @keyframes intro-mark-in {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateX(-18%) translateY(10px);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(-18%) translateY(0);
     }
   }
   @keyframes intro-fade {

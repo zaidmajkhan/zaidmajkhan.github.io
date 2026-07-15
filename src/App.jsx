@@ -9,6 +9,7 @@ import Header from "./components/Header.jsx";
 import Hero from "./components/Hero.jsx";
 import IntroOverlay from "./components/IntroOverlay.jsx";
 import MobileNav from "./components/MobileNav.jsx";
+import PlanetBackdrop from "./components/PlanetBackdrop.jsx";
 import Projects from "./components/Projects.jsx";
 import siteConfig from "./config/siteConfig.js";
 import { useMotion } from "./hooks/useMotion.js";
@@ -59,6 +60,7 @@ export default function App() {
         Skip to content
       </a>
       <IntroOverlay active={introActive} onDone={onIntroDone} />
+      <PlanetBackdrop visible={!introActive} />
       <Header mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <MobileNav mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <main id="main-content">
