@@ -9,7 +9,7 @@ const INTERESTS = [
 ];
 
 /**
- * Cream/forest loading intro with interest-led 3D motifs.
+ * Cream loading intro with Saturn centerpiece + interest-led 3D motifs.
  */
 export default function IntroOverlay({ active, onDone }) {
   const countRef = useRef(null);
