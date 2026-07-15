@@ -110,7 +110,7 @@ export default function Contact() {
       <div className="wrap">
         <div className="surface band-forest relative overflow-hidden p-5 sm:p-7 lg:p-9">
           <div
-            className="motif-bleed pointer-events-none absolute -right-4 -top-6 hidden h-56 w-56 opacity-50 lg:block"
+            className="motif-bleed pointer-events-none absolute -right-4 -top-6 hidden h-64 w-64 opacity-65 md:block"
             aria-hidden="true"
           >
             <div className="scene-mount absolute inset-0">

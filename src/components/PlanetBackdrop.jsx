@@ -1,39 +1,11 @@
 import { useEffect, useRef } from "react";
+import SaturnLogo from "./SaturnLogo.jsx";
 
 /**
- * Fixed Saturn that tracks scroll progress — top of page → top of viewport,
- * bottom of page → bottom of viewport.
+ * Bigger Saturn logo mark that tracks scroll progress and slowly rotates.
  */
 export default function PlanetBackdrop({ visible = true }) {
   const ref = useRef(null);
-  const pauseRef = useRef(() => {});
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return undefined;
-
-    let cleanup = () => {};
-    let cancelled = false;
-
-    (async () => {
-      const { initPlanetScene } = await import("../lib/scene3d.js");
-      if (cancelled || !ref.current) return;
-      const dispose = initPlanetScene(ref.current);
-      cleanup = dispose || (() => {});
-      pauseRef.current = dispose?.setPaused || (() => {});
-      pauseRef.current(!visible);
-    })();
-
-    return () => {
-      cancelled = true;
-      cleanup();
-      pauseRef.current = () => {};
-    };
-  }, []);
-
-  useEffect(() => {
-    pauseRef.current(!visible);
-  }, [visible]);
 
   useEffect(() => {
     const el = ref.current;
@@ -55,12 +27,11 @@ export default function PlanetBackdrop({ visible = true }) {
 
       const size = el.offsetHeight || 1;
       const vh = window.innerHeight;
-      /* Track the planet's center so a large globe still travels top → bottom */
-      const pad = Math.max(120, vh * 0.14);
+      const pad = Math.max(100, vh * 0.12);
       const centerY = pad + progress * Math.max(0, vh - pad * 2);
       const y = centerY - size / 2;
 
-      el.style.transform = `translate3d(0, ${y}px, 0)`;
+      el.style.setProperty("--planet-y", `${y}px`);
       el.dataset.progress = progress.toFixed(3);
     };
 
@@ -89,6 +60,8 @@ export default function PlanetBackdrop({ visible = true }) {
       className={`planet-backdrop${visible ? " is-on" : ""}`}
       aria-hidden="true"
       role="presentation"
-    />
+    >
+      <SaturnLogo className="planet-logo" />
+    </div>
   );
 }

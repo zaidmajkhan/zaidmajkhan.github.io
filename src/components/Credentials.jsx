@@ -33,7 +33,7 @@ export default function Credentials() {
   return (
     <section id="credentials" className="section scroll-mt-24 relative overflow-hidden">
       <div
-        className="motif-bleed motif-bleed--left pointer-events-none absolute -left-8 bottom-0 hidden h-72 w-72 opacity-45 lg:block"
+        className="motif-bleed motif-bleed--left pointer-events-none absolute -left-8 bottom-0 hidden h-80 w-80 opacity-60 md:block"
         aria-hidden="true"
       >
         <div className="scene-mount absolute inset-0">
