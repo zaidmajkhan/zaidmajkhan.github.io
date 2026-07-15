@@ -19,6 +19,12 @@ export default function App() {
   const [introSeen] = useState(() => document.documentElement.classList.contains("intro-seen"));
   const [introActive, setIntroActive] = useState(() => !introSeen);
   const [motionReady, setMotionReady] = useState(introSeen);
+  const [fromIntro] = useState(() => !introSeen);
+
+  /* Prime motion while overlay is still covering — prevents visible→hidden flash */
+  const onIntroPrepare = useCallback(() => {
+    setMotionReady(true);
+  }, []);
 
   const onIntroDone = useCallback(() => {
     try {
@@ -31,7 +37,7 @@ export default function App() {
     setMotionReady(true);
   }, []);
 
-  useMotion(motionReady, introActive);
+  useMotion(motionReady, fromIntro);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen || introActive ? "hidden" : "";
@@ -59,7 +65,7 @@ export default function App() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <IntroOverlay active={introActive} onDone={onIntroDone} />
+      <IntroOverlay active={introActive} onPrepare={onIntroPrepare} onDone={onIntroDone} />
       <PlanetBackdrop visible={!introActive} />
       <Header mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <MobileNav mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />

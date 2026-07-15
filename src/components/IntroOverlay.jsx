@@ -9,11 +9,15 @@ const INTERESTS = [
 /**
  * Cream loading intro — train crosses while mini objects fly by.
  * Saturn stays on the page as the scroll float (PlanetBackdrop).
+ *
+ * onPrepare fires as the overlay starts leaving so motion can hide/prime
+ * content under the cover (avoids a double appear after load).
  */
-export default function IntroOverlay({ active, onDone }) {
+export default function IntroOverlay({ active, onPrepare, onDone }) {
   const countRef = useRef(null);
   const barRef = useRef(null);
   const canvasRef = useRef(null);
+  const preparedRef = useRef(false);
 
   useEffect(() => {
     if (!active) {
@@ -57,6 +61,13 @@ export default function IntroOverlay({ active, onDone }) {
       )
       .to(".intro-chip", { opacity: 0, y: -6, duration: 0.35, stagger: 0.05, ease: "power2.in" }, 1.35);
 
+    const prepare = window.setTimeout(() => {
+      if (!preparedRef.current) {
+        preparedRef.current = true;
+        onPrepare?.();
+      }
+    }, 1900);
+
     const done = window.setTimeout(() => {
       document.documentElement.classList.add("intro-leaving");
       window.setTimeout(() => {
@@ -70,10 +81,11 @@ export default function IntroOverlay({ active, onDone }) {
       cancelled = true;
       tween.kill();
       chipsTl.kill();
+      clearTimeout(prepare);
       clearTimeout(done);
       disposeScene();
     };
-  }, [active, onDone]);
+  }, [active, onPrepare, onDone]);
 
   if (!active) return null;
 

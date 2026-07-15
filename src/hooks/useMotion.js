@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 
@@ -9,12 +9,19 @@ const REVEAL_SELECTOR =
  * Motion after intro:
  * - Hero GSAP entrance
  * - Scroll reveals via scroll + IO (desktop-safe with Lenis)
+ *
+ * `fromIntro`: when true, hero stays hidden until the intro overlay is mid-exit
+ * so content does not flash visible → hidden → visible.
  */
-export function useMotion(ready = true, introDelay = false) {
+export function useMotion(ready = true, fromIntro = false) {
+  const fromIntroRef = useRef(fromIntro);
+  fromIntroRef.current = fromIntro;
+
   useLayoutEffect(() => {
     if (!ready) return undefined;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const waitedForIntro = fromIntroRef.current;
     let lenis = null;
     let rafId = 0;
     let heroTl = null;
@@ -61,13 +68,15 @@ export function useMotion(ready = true, introDelay = false) {
     if (reduced || !heroLines.length) {
       showHero();
     } else {
+      /* Hide immediately (under intro overlay when fromIntro) — no visible flash */
       gsap.set(heroBits, { opacity: 0, y: 10 });
       gsap.set(heroLines, { opacity: 0, y: 18 });
       gsap.set(heroBtns, { opacity: 0, y: 8 });
       gsap.set(".hero-canvas", { opacity: 0 });
 
       heroTl = gsap.timeline({
-        delay: introDelay ? 0.12 : 0.04,
+        /* Sync with intro slide-away so hero enters once under/with the overlay */
+        delay: waitedForIntro ? 0.4 : 0.04,
         defaults: { ease: "power2.out" },
         onComplete: () => {
           gsap.set([...heroBits, ...heroLines, ...heroBtns], { clearProps: "transform" });
@@ -82,7 +91,7 @@ export function useMotion(ready = true, introDelay = false) {
         .to(heroBtns, { opacity: 1, y: 0, duration: 0.55, stagger: 0.08 }, 0.68)
         .to(".hero-meta > div", { opacity: 1, y: 0, duration: 0.55, stagger: 0.07 }, 0.78);
 
-      const heroFailsafe = window.setTimeout(showHero, 2600);
+      const heroFailsafe = window.setTimeout(showHero, waitedForIntro ? 3200 : 2600);
       cleanups.push(() => clearTimeout(heroFailsafe));
     }
 
@@ -120,11 +129,19 @@ export function useMotion(ready = true, introDelay = false) {
       const boot = () => {
         if (booted) return;
         booted = true;
-        /* Arm hide rules only after observers are live — avoids blank sections */
-        document.documentElement.classList.add("reveals-armed");
-        collect().forEach((el) => io.observe(el));
+        /*
+         * Mark in-view as .in BEFORE arming hide rules, and suppress the
+         * opacity transition for one frame so we never flash visible→hidden→visible.
+         */
+        document.documentElement.classList.add("reveals-cold");
         checkReveals();
-        /* Second pass after layout settles / 3D mounts */
+        document.documentElement.classList.add("reveals-armed");
+        collect().forEach((el) => {
+          if (!el.classList.contains("in")) io.observe(el);
+        });
+        requestAnimationFrame(() => {
+          document.documentElement.classList.remove("reveals-cold");
+        });
         window.setTimeout(checkReveals, 120);
         window.setTimeout(checkReveals, 400);
       };
@@ -140,7 +157,7 @@ export function useMotion(ready = true, introDelay = false) {
         window.removeEventListener("scroll", checkReveals);
         window.removeEventListener("resize", checkReveals);
         if (lenis) lenis.off("scroll", checkReveals);
-        document.documentElement.classList.remove("reveals-armed");
+        document.documentElement.classList.remove("reveals-armed", "reveals-cold");
       });
 
       const allSafe = window.setTimeout(() => {
@@ -185,7 +202,8 @@ export function useMotion(ready = true, introDelay = false) {
     return () => {
       cleanups.forEach((fn) => fn());
       if (heroTl) heroTl.kill();
-      document.documentElement.classList.remove("motion-on", "reveals-armed");
+      document.documentElement.classList.remove("motion-on", "reveals-armed", "reveals-cold");
     };
-  }, [ready, introDelay]);
+    /* Only re-boot when readiness flips — not when intro finally unmounts */
+  }, [ready]);
 }

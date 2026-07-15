@@ -713,6 +713,18 @@
     translate: 0 0.7rem;
   }
 
+  /* Cold boot: no transition while marking in-view + arming (kills double flash) */
+  html.motion-on.reveals-cold .reveal,
+  html.motion-on.reveals-cold .pin-title,
+  html.motion-on.reveals-cold .stagger-children > *,
+  html.motion-on.reveals-cold .stat-cell,
+  html.motion-on.reveals-cold #experience article,
+  html.motion-on.reveals-cold #projects .interactive-row,
+  html.motion-on.reveals-cold .scene-mount,
+  html.motion-on.reveals-cold .rule-grow {
+    transition: none !important;
+  }
+
   html.motion-on .reveal,
   html.motion-on .pin-title,
   html.motion-on .stagger-children > *,
