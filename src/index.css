@@ -598,8 +598,19 @@
   }
 }
 
-/* Scroll reveals — CSS only, toggled by .in via IntersectionObserver */
+/* Scroll reveals — only hide AFTER JS arms observers (prevents blank sections) */
 @media (prefers-reduced-motion: no-preference) {
+  html.motion-on.reveals-armed .reveal:not(.in),
+  html.motion-on.reveals-armed .pin-title:not(.in),
+  html.motion-on.reveals-armed .stagger-children > *:not(.in),
+  html.motion-on.reveals-armed .stat-cell:not(.in),
+  html.motion-on.reveals-armed #experience article:not(.in),
+  html.motion-on.reveals-armed #projects .interactive-row:not(.in),
+  html.motion-on.reveals-armed .scene-mount:not(.in) {
+    opacity: 0;
+    translate: 0 1.15rem;
+  }
+
   html.motion-on .reveal,
   html.motion-on .pin-title,
   html.motion-on .stagger-children > *,
@@ -607,8 +618,6 @@
   html.motion-on #experience article,
   html.motion-on #projects .interactive-row,
   html.motion-on .scene-mount {
-    opacity: 0;
-    translate: 0 1.15rem;
     transition:
       opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
       translate 0.7s cubic-bezier(0.22, 1, 0.36, 1);
@@ -638,8 +647,10 @@
     translate: 0 0;
   }
 
-  html.motion-on .rule-grow {
+  html.motion-on.reveals-armed .rule-grow:not(.in) {
     transform: scaleX(0);
+  }
+  html.motion-on .rule-grow {
     transform-origin: left center;
     transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   }

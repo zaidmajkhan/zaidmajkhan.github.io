@@ -322,7 +322,8 @@ function runScene(container, { fov = 38, z = 4.2, pointer = 0.25, onFrame }) {
     onFrame({ t, target, world, mouse });
     renderer.render(scene, camera);
   };
-  animate();
+  /* Defer first frame so callers can finish binding `world` after runScene returns */
+  raf = requestAnimationFrame(animate);
 
   const dispose = () => {
     cancelAnimationFrame(raf);
@@ -365,9 +366,9 @@ export function initMotifScene(
     fov: compact ? 36 : 38,
     z: compact ? 3.5 : 4.1,
     pointer: 0.28,
-    onFrame: ({ t, target }) => {
-      world.rotation.y = target.x * 0.9;
-      world.rotation.x = 0.12 + target.y * 0.7;
+    onFrame: ({ t, target, world: w }) => {
+      w.rotation.y = target.x * 0.9;
+      w.rotation.x = 0.12 + target.y * 0.7;
       piece.tick(t);
       if (extras.dust) extras.dust.rotation.y = t * 0.05;
       if (extras.ring) extras.ring.rotation.z = t * 0.12;
@@ -396,12 +397,12 @@ export function initHeroScene(container) {
   const colors = palette("forest");
   const systems = buildSystems(colors, 0.92);
   const signal = buildSignal(colors, 0.72);
-  const process = buildProcess(colors, 0.62);
+  const processMotif = buildProcess(colors, 0.62);
   const care = buildCare(colors, 0.55);
 
   systems.group.position.set(1.15, 0.35, 0);
   signal.group.position.set(-1.55, 0.95, -0.6);
-  process.group.position.set(1.75, -0.95, -0.5);
+  processMotif.group.position.set(1.75, -0.95, -0.5);
   care.group.position.set(-1.4, -0.85, -0.35);
 
   const extras = { ribbon: null, halo: null, dust: null, dust2: null };
@@ -410,15 +411,15 @@ export function initHeroScene(container) {
     fov: 38,
     z: 5.1,
     pointer: 0.22,
-    onFrame: ({ t, target }) => {
-      world.rotation.y = target.x * 0.45;
-      world.rotation.x = target.y * 0.3;
+    onFrame: ({ t, target, world: w }) => {
+      w.rotation.y = target.x * 0.45;
+      w.rotation.x = target.y * 0.3;
       systems.tick(t * 0.85);
       systems.group.position.y = 0.35 + Math.sin(t * 0.6) * 0.06;
       signal.tick(t * 0.9);
       signal.group.position.y = 0.95 + Math.sin(t * 0.55 + 1) * 0.07;
-      process.tick(t * 0.8);
-      process.group.position.y = -0.95 + Math.cos(t * 0.5) * 0.06;
+      processMotif.tick(t * 0.8);
+      processMotif.group.position.y = -0.95 + Math.cos(t * 0.5) * 0.06;
       care.tick(t * 0.75);
       care.group.position.y = -0.85 + Math.cos(t * 0.45 + 0.4) * 0.06;
       if (extras.ribbon) extras.ribbon.rotation.y = t * 0.05;
@@ -428,7 +429,7 @@ export function initHeroScene(container) {
     },
   });
 
-  world.add(systems.group, signal.group, process.group, care.group);
+  world.add(systems.group, signal.group, processMotif.group, care.group);
   extras.ribbon = makeOrbitRibbon(world, colors.primary, 0.12);
   extras.ribbon.scale.setScalar(0.72);
   extras.halo = new THREE.Mesh(
@@ -463,12 +464,12 @@ export function initIntroScene(container) {
   const systems = buildSystems(colors, 1.05);
   const care = buildCare(colors, 1);
   const signal = buildSignal(colors, 0.95);
-  const process = buildProcess(colors, 0.82);
+  const processMotif = buildProcess(colors, 0.82);
 
   systems.group.position.set(2.2, 1.05, -0.35);
   care.group.position.set(-2.3, -0.9, 0.15);
   signal.group.position.set(-2.0, 1.25, -0.5);
-  process.group.position.set(2.05, -1.1, -0.25);
+  processMotif.group.position.set(2.05, -1.1, -0.25);
 
   const accents = [];
   const accentSpecs = [
@@ -491,9 +492,9 @@ export function initIntroScene(container) {
     fov: 42,
     z: 5.85,
     pointer: 0.22,
-    onFrame: ({ t, target }) => {
-      world.rotation.y = target.x * 0.32;
-      world.rotation.x = target.y * 0.22;
+    onFrame: ({ t, target, world: w }) => {
+      w.rotation.y = target.x * 0.32;
+      w.rotation.x = target.y * 0.22;
 
       systems.group.position.x = 2.2;
       systems.group.position.z = -0.35;
@@ -501,8 +502,8 @@ export function initIntroScene(container) {
       care.group.position.z = 0.15;
       signal.group.position.x = -2.0;
       signal.group.position.z = -0.5;
-      process.group.position.x = 2.05;
-      process.group.position.z = -0.25;
+      processMotif.group.position.x = 2.05;
+      processMotif.group.position.z = -0.25;
 
       systems.tick(t);
       systems.group.position.y = 1.05 + Math.sin(t * 0.7) * 0.08;
@@ -510,8 +511,8 @@ export function initIntroScene(container) {
       care.group.position.y = -0.9 + Math.cos(t * 0.55) * 0.07;
       signal.tick(t);
       signal.group.position.y = 1.25 + Math.sin(t * 0.6 + 1) * 0.09;
-      process.tick(t);
-      process.group.position.y = -1.1 + Math.cos(t * 0.65 + 0.5) * 0.08;
+      processMotif.tick(t);
+      processMotif.group.position.y = -1.1 + Math.cos(t * 0.65 + 0.5) * 0.08;
 
       accents.forEach((a) => {
         a.group.rotation.y = t * 0.25 + a.phase;
@@ -530,7 +531,7 @@ export function initIntroScene(container) {
     },
   });
 
-  world.add(systems.group, care.group, signal.group, process.group);
+  world.add(systems.group, care.group, signal.group, processMotif.group);
 
   extras.ribbon = makeOrbitRibbon(world, colors.primary, 0.18);
   extras.ribbon2 = makeOrbitRibbon(world, colors.soft, 0.1);
