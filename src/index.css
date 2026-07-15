@@ -584,11 +584,9 @@
     padding-left: 0.35rem;
   }
 
-  .faq-item summary {
-    outline: none;
-  }
-  .faq-item[open] summary span:last-child {
-    transform: rotate(45deg);
+  .band-forest {
+    background: var(--color-forest);
+    color: var(--color-cream);
   }
 
   .text-green {

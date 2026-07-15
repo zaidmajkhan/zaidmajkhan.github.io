@@ -6,12 +6,12 @@ export default function About() {
   return (
     <section id="about" className="section scroll-mt-24 relative overflow-hidden">
       <div
-        className="motif-bleed motif-bleed--cream pointer-events-none absolute inset-y-0 right-0 hidden w-[min(42vw,32rem)] opacity-90 lg:block"
+        className="motif-bleed motif-bleed--cream pointer-events-none absolute inset-y-0 right-0 hidden w-[min(38vw,28rem)] opacity-70 lg:block"
         aria-hidden="true"
       >
         <div className="scene-mount absolute inset-0">
           <Suspense fallback={null}>
-            <SceneCanvas variant="ambulance" tone="cream" className="h-full w-full" />
+            <SceneCanvas variant="systems" tone="cream" className="h-full w-full" />
           </Suspense>
         </div>
       </div>

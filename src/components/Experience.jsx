@@ -33,12 +33,12 @@ export default function Experience() {
   return (
     <section id="experience" className="section band-forest scroll-mt-24 relative overflow-hidden">
       <div
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(34vw,26rem)] opacity-70 lg:block"
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(28vw,22rem)] opacity-45 lg:block"
         aria-hidden="true"
       >
         <div className="scene-mount absolute inset-0">
           <Suspense fallback={null}>
-            <SceneCanvas variant="ambulance" tone="forest" className="h-full w-full" />
+            <SceneCanvas variant="care" tone="forest" className="h-full w-full" />
           </Suspense>
         </div>
       </div>
