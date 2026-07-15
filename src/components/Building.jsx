@@ -53,7 +53,7 @@ export default function Building({ todoAppUrl }) {
                   variant="signal"
                   tone="forest"
                   compact
-                  className="absolute inset-0 h-full w-full opacity-55"
+                  className="absolute inset-0 h-full w-full opacity-80"
                 />
               </Suspense>
             </div>

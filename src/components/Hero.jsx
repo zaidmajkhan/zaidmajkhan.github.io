@@ -8,9 +8,13 @@ export default function Hero() {
     let cleanup = () => {};
     let cancelled = false;
     (async () => {
-      const { initHeroScene } = await import("../lib/scene3d.js");
-      if (cancelled) return;
-      cleanup = initHeroScene(canvasRef.current) || (() => {});
+      try {
+        const { initHeroScene } = await import("../lib/scene3d.js");
+        if (cancelled || !canvasRef.current) return;
+        cleanup = initHeroScene(canvasRef.current) || (() => {});
+      } catch {
+        cleanup = () => {};
+      }
     })();
     return () => {
       cancelled = true;
