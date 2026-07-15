@@ -42,16 +42,17 @@ export default function Building({ todoAppUrl }) {
                 something ships.
               </p>
             </div>
-            <div className="reveal relative hidden h-44 overflow-hidden rounded-xl border border-forest/10 bg-forest lg:block">
+            <div className="reveal relative hidden h-44 overflow-hidden rounded-xl bg-forest lg:block">
               <Suspense fallback={null}>
                 <SceneCanvas
-                  variant="orbit"
+                  variant="signal"
+                  tone="forest"
                   compact
-                  className="absolute inset-0 h-full w-full opacity-70"
+                  className="absolute inset-0 h-full w-full opacity-80"
                 />
                 <RiveMark
                   src="/assets/vehicles.riv"
-                  className="absolute inset-0 h-full w-full opacity-35 mix-blend-screen"
+                  className="absolute inset-0 h-full w-full opacity-30 mix-blend-screen"
                 />
               </Suspense>
             </div>

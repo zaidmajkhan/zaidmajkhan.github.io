@@ -4,6 +4,10 @@ function prefersReduced() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+function isNarrow() {
+  return window.matchMedia("(max-width: 900px)").matches;
+}
+
 function makeRenderer(container) {
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
@@ -86,215 +90,24 @@ function bindResize(container, camera, renderer) {
   };
 }
 
-/**
- * Hero — restrained crystal + single ring + soft dust.
- */
-export function initHeroScene(container) {
-  if (!container || prefersReduced()) return () => {};
-  if (window.matchMedia("(max-width: 900px)").matches) return () => {};
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 80);
-  camera.position.set(0.2, 0.05, 4.5);
-
-  const renderer = makeRenderer(container);
-  const root = new THREE.Group();
-  root.position.set(0.55, 0.1, 0);
-  scene.add(root);
-
-  const lime = 0xc8e86a;
-  const mid = 0x34d399;
-  const deep = 0x1a5c2e;
-
-  const crystal = lineObj(root, new THREE.IcosahedronGeometry(1.15, 1), mid, 0.4);
-  const core = lineObj(root, new THREE.OctahedronGeometry(0.42, 0), lime, 0.65);
-  const inner = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(0.22, 0),
-    new THREE.MeshBasicMaterial({ color: lime, transparent: true, opacity: 0.22, depthWrite: false }),
-  );
-  root.add(inner);
-
-  const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(1.65, 0.008, 12, 140),
-    new THREE.MeshBasicMaterial({ color: lime, transparent: true, opacity: 0.32 }),
-  );
-  ring.rotation.x = Math.PI / 2.35;
-  ring.rotation.y = 0.25;
-  root.add(ring);
-
-  const ring2 = new THREE.Mesh(
-    new THREE.TorusGeometry(1.9, 0.004, 10, 120),
-    new THREE.MeshBasicMaterial({ color: deep, transparent: true, opacity: 0.35 }),
-  );
-  ring2.rotation.x = Math.PI / 3.4;
-  ring2.rotation.z = 0.4;
-  root.add(ring2);
-
-  const dust = makeParticles(root, 90, lime, 2.5, 0.014, 0.4);
-
-  const mouse = { x: 0, y: 0 };
-  const unbindPointer = bindPointer(container, mouse, 0.28);
-  const unbindResize = bindResize(container, camera, renderer);
-
-  let t = 0;
-  let raf = 0;
-  const target = { x: 0, y: 0 };
-  const animate = () => {
-    t += 0.0055;
-    target.x += (mouse.x - target.x) * 0.04;
-    target.y += (mouse.y - target.y) * 0.04;
-
-    root.rotation.y = t * 0.22 + target.x;
-    root.rotation.x = 0.18 + Math.sin(t * 0.35) * 0.06 + target.y;
-    crystal.rotation.y = t * 0.15;
-    core.rotation.y = -t * 0.55;
-    core.rotation.z = t * 0.2;
-    inner.rotation.x = t * 0.8;
-    ring.rotation.z = t * 0.12;
-    ring2.rotation.z = -t * 0.08;
-    dust.rotation.y = t * 0.04;
-
-    renderer.render(scene, camera);
-    raf = requestAnimationFrame(animate);
-  };
-  animate();
-
-  return () => {
-    cancelAnimationFrame(raf);
-    unbindPointer();
-    unbindResize();
-    renderer.dispose();
-    if (renderer.domElement.parentNode) {
-      renderer.domElement.parentNode.removeChild(renderer.domElement);
-    }
+/** Cream pages use deep greens; forest bands use lime/mint wireforms. */
+function palette(tone = "cream") {
+  if (tone === "forest") {
+    return {
+      primary: 0xc8e86a,
+      mid: 0x34d399,
+      soft: 0xf7e9dc,
+      deep: 0x86efac,
+    };
+  }
+  return {
+    primary: 0x0d6b48,
+    mid: 0x34d399,
+    soft: 0xc8e86a,
+    deep: 0x002800,
   };
 }
 
-/**
- * Compact orbit for dark bands — knot + ring only.
- */
-export function initOrbitScene(container, { compact = false } = {}) {
-  if (!container || prefersReduced()) return () => {};
-  if (!compact && window.matchMedia("(max-width: 900px)").matches) return () => {};
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 50);
-  camera.position.z = compact ? 3.4 : 3.7;
-
-  const renderer = makeRenderer(container);
-  const root = new THREE.Group();
-  scene.add(root);
-
-  const lime = 0xc8e86a;
-  const mid = 0x34d399;
-
-  const knot = lineObj(root, new THREE.TorusKnotGeometry(0.7, 0.18, 100, 12), mid, 0.45);
-  const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(1.2, 0.006, 10, 100),
-    new THREE.MeshBasicMaterial({ color: lime, transparent: true, opacity: 0.35 }),
-  );
-  ring.rotation.x = Math.PI / 2.5;
-  root.add(ring);
-  const dust = makeParticles(root, 40, lime, 1.8, 0.012, 0.35);
-
-  const mouse = { x: 0, y: 0 };
-  const unbindPointer = bindPointer(container, mouse, 0.25);
-  const unbindResize = bindResize(container, camera, renderer);
-
-  let t = 0;
-  let raf = 0;
-  const target = { x: 0, y: 0 };
-  const animate = () => {
-    t += 0.007;
-    target.x += (mouse.x - target.x) * 0.05;
-    target.y += (mouse.y - target.y) * 0.05;
-    root.rotation.y = t * 0.28 + target.x;
-    root.rotation.x = 0.35 + target.y;
-    knot.rotation.x = t * 0.25;
-    knot.rotation.y = t * 0.18;
-    ring.rotation.z = t * 0.3;
-    dust.rotation.y = t * 0.06;
-    renderer.render(scene, camera);
-    raf = requestAnimationFrame(animate);
-  };
-  animate();
-
-  return () => {
-    cancelAnimationFrame(raf);
-    unbindPointer();
-    unbindResize();
-    renderer.dispose();
-    if (renderer.domElement.parentNode) {
-      renderer.domElement.parentNode.removeChild(renderer.domElement);
-    }
-  };
-}
-
-/**
- * Soft lattice for cream sections.
- */
-export function initLatticeScene(container) {
-  if (!container || prefersReduced()) return () => {};
-  if (window.matchMedia("(max-width: 900px)").matches) return () => {};
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 50);
-  camera.position.z = 4;
-
-  const renderer = makeRenderer(container);
-  const root = new THREE.Group();
-  scene.add(root);
-
-  const forest = 0x0d6b48;
-  const mid = 0x34d399;
-
-  const crystal = lineObj(root, new THREE.OctahedronGeometry(0.95, 0), forest, 0.5);
-  const frame = lineObj(root, new THREE.IcosahedronGeometry(1.25, 0), mid, 0.22);
-  const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(1.45, 0.005, 10, 100),
-    new THREE.MeshBasicMaterial({ color: forest, transparent: true, opacity: 0.28 }),
-  );
-  ring.rotation.x = Math.PI / 2.5;
-  root.add(ring);
-  const dust = makeParticles(root, 36, forest, 2.2, 0.011, 0.3);
-
-  const mouse = { x: 0, y: 0 };
-  const unbindPointer = bindPointer(container, mouse, 0.22);
-  const unbindResize = bindResize(container, camera, renderer);
-
-  let t = 0;
-  let raf = 0;
-  const target = { x: 0, y: 0 };
-  const animate = () => {
-    t += 0.005;
-    target.x += (mouse.x - target.x) * 0.045;
-    target.y += (mouse.y - target.y) * 0.045;
-    root.rotation.y = t * 0.2 + target.x;
-    root.rotation.x = 0.15 + target.y;
-    crystal.rotation.y = -t * 0.4;
-    frame.rotation.y = t * 0.12;
-    frame.rotation.z = t * 0.08;
-    ring.rotation.z = t * 0.18;
-    dust.rotation.y = t * 0.05;
-    renderer.render(scene, camera);
-    raf = requestAnimationFrame(animate);
-  };
-  animate();
-
-  return () => {
-    cancelAnimationFrame(raf);
-    unbindPointer();
-    unbindResize();
-    renderer.dispose();
-    if (renderer.domElement.parentNode) {
-      renderer.domElement.parentNode.removeChild(renderer.domElement);
-    }
-  };
-}
-
-/**
- * Soft polyline between interest motifs — reads as a shared operating system.
- */
 function makeOrbitRibbon(group, color, opacity = 0.22) {
   const pts = [];
   for (let i = 0; i <= 128; i++) {
@@ -317,229 +130,201 @@ function makeOrbitRibbon(group, color, opacity = 0.22) {
   return mesh;
 }
 
+/** Systems lattice — ISE / design */
+function buildSystems(colors, scale = 1) {
+  const group = new THREE.Group();
+  group.scale.setScalar(scale);
+  const shell = lineObj(group, new THREE.IcosahedronGeometry(0.98, 1), colors.primary, 0.5);
+  const core = lineObj(group, new THREE.OctahedronGeometry(0.4, 0), colors.soft, 0.58);
+  const inner = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(0.18, 0),
+    new THREE.MeshBasicMaterial({
+      color: colors.soft,
+      transparent: true,
+      opacity: 0.28,
+      depthWrite: false,
+    }),
+  );
+  group.add(inner);
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(1.2, 0.008, 10, 110),
+    new THREE.MeshBasicMaterial({ color: colors.mid, transparent: true, opacity: 0.4 }),
+  );
+  ring.rotation.x = Math.PI / 2.6;
+  group.add(ring);
+  const ring2 = new THREE.Mesh(
+    new THREE.TorusGeometry(1.42, 0.004, 8, 100),
+    new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.22 }),
+  );
+  ring2.rotation.y = Math.PI / 3;
+  group.add(ring2);
+
+  const baseY = 0;
+  return {
+    group,
+    tick(t) {
+      group.rotation.y = t * 0.35;
+      group.rotation.x = Math.sin(t * 0.4) * 0.15;
+      shell.rotation.z = t * 0.12;
+      core.rotation.y = -t * 0.7;
+      inner.rotation.x = t * 0.9;
+      ring.rotation.z = t * 0.25;
+      ring2.rotation.z = -t * 0.18;
+      group.position.y = baseY + Math.sin(t * 0.7) * 0.08;
+    },
+  };
+}
+
+/** Care flow — healthcare / pharmacy ops */
+function buildCare(colors, scale = 1) {
+  const group = new THREE.Group();
+  group.scale.setScalar(scale);
+  const capsule = lineObj(group, new THREE.CapsuleGeometry(0.3, 0.9, 6, 14), colors.mid, 0.52);
+  capsule.rotation.z = Math.PI / 5;
+  const shell = lineObj(group, new THREE.SphereGeometry(0.78, 12, 12), colors.primary, 0.18);
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(1.12, 0.007, 10, 100),
+    new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.4 }),
+  );
+  ring.rotation.x = Math.PI / 2.2;
+  ring.rotation.y = 0.4;
+  group.add(ring);
+  const nodes = [];
+  for (let i = 0; i < 6; i++) {
+    const n = new THREE.Mesh(
+      new THREE.SphereGeometry(0.048, 10, 10),
+      new THREE.MeshBasicMaterial({
+        color: i % 2 ? colors.soft : colors.mid,
+        transparent: true,
+        opacity: 0.72,
+      }),
+    );
+    group.add(n);
+    nodes.push({ mesh: n, phase: (i / 6) * Math.PI * 2, r: 1.12 });
+  }
+  const baseY = 0;
+  return {
+    group,
+    tick(t) {
+      group.rotation.y = -t * 0.28;
+      capsule.rotation.y = t * 0.5;
+      shell.rotation.y = t * 0.15;
+      ring.rotation.z = t * 0.4;
+      nodes.forEach((n) => {
+        const a = t * 0.7 + n.phase;
+        n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a * 1.2) * 0.25, Math.sin(a) * n.r);
+      });
+      group.position.y = baseY + Math.cos(t * 0.55) * 0.07;
+    },
+  };
+}
+
+/** Signal — AI / build */
+function buildSignal(colors, scale = 1) {
+  const group = new THREE.Group();
+  group.scale.setScalar(scale);
+  const tet = lineObj(group, new THREE.TetrahedronGeometry(0.78, 0), colors.primary, 0.52);
+  const tet2 = lineObj(group, new THREE.TetrahedronGeometry(0.44, 0), colors.soft, 0.42);
+  const tet3 = lineObj(group, new THREE.OctahedronGeometry(0.22, 0), colors.mid, 0.35);
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(1.02, 0.005, 8, 90),
+    new THREE.MeshBasicMaterial({ color: colors.mid, transparent: true, opacity: 0.32 }),
+  );
+  ring.rotation.x = Math.PI / 3;
+  group.add(ring);
+  const nodes = [];
+  for (let i = 0; i < 3; i++) {
+    const n = new THREE.Mesh(
+      new THREE.SphereGeometry(0.035, 8, 8),
+      new THREE.MeshBasicMaterial({ color: colors.soft, transparent: true, opacity: 0.65 }),
+    );
+    group.add(n);
+    nodes.push({ mesh: n, phase: (i / 3) * Math.PI * 2, r: 1.02 });
+  }
+  const baseY = 0;
+  return {
+    group,
+    tick(t) {
+      group.rotation.y = t * 0.45;
+      group.rotation.z = Math.sin(t * 0.5) * 0.2;
+      tet.rotation.x = t * 0.3;
+      tet2.rotation.y = -t * 0.55;
+      tet3.rotation.z = t * 0.8;
+      ring.rotation.z = t * 0.35;
+      nodes.forEach((n) => {
+        const a = -t * 0.85 + n.phase;
+        n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a) * 0.35, Math.sin(a) * n.r * 0.6);
+      });
+      group.position.y = baseY + Math.sin(t * 0.6 + 1) * 0.09;
+    },
+  };
+}
+
+/** Process knot — ops / improve */
+function buildProcess(colors, scale = 1) {
+  const group = new THREE.Group();
+  group.scale.setScalar(scale);
+  const knot = lineObj(group, new THREE.TorusKnotGeometry(0.58, 0.15, 100, 12), colors.deep, 0.44);
+  const soft = lineObj(group, new THREE.TorusKnotGeometry(0.38, 0.06, 80, 8), colors.soft, 0.28);
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(1.02, 0.006, 8, 90),
+    new THREE.MeshBasicMaterial({ color: colors.soft, transparent: true, opacity: 0.3 }),
+  );
+  ring.rotation.x = Math.PI / 2.4;
+  group.add(ring);
+  const baseY = 0;
+  return {
+    group,
+    tick(t) {
+      group.rotation.x = t * 0.32;
+      group.rotation.y = t * 0.22;
+      knot.rotation.z = t * 0.4;
+      soft.rotation.x = -t * 0.35;
+      ring.rotation.z = -t * 0.3;
+      group.position.y = baseY + Math.cos(t * 0.65 + 0.5) * 0.08;
+    },
+  };
+}
+
+const MOTIF_BUILDERS = {
+  systems: buildSystems,
+  care: buildCare,
+  signal: buildSignal,
+  process: buildProcess,
+};
+
 /**
- * Intro loader scene — interest-led wireforms that fill the cream field on their own.
+ * Shared scene runner. Returns dispose. Controllers can call setPaused.
  */
-export function initIntroScene(container) {
-  if (!container || prefersReduced()) return () => {};
-
+function runScene(container, { fov = 38, z = 4.2, pointer = 0.25, onFrame }) {
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 80);
-  camera.position.z = 5.85;
-
+  const camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 80);
+  camera.position.z = z;
   const renderer = makeRenderer(container);
   const world = new THREE.Group();
   scene.add(world);
 
-  const forest = 0x0d6b48;
-  const mid = 0x34d399;
-  const lime = 0xc8e86a;
-  const deep = 0x002800;
-
-  /* Ambient particle field — denser so empty mid-space still feels alive */
-  const dust = makeParticles(world, 160, forest, 5.8, 0.018, 0.32);
-  const dust2 = makeParticles(world, 70, lime, 6.4, 0.013, 0.22);
-  const dustNear = makeParticles(world, 40, mid, 3.6, 0.02, 0.18);
-
-  /* Soft linking ribbon tying the four motifs together */
-  const ribbon = makeOrbitRibbon(world, forest, 0.18);
-  const ribbon2 = makeOrbitRibbon(world, lime, 0.1);
-  ribbon2.rotation.z = Math.PI / 2.4;
-  ribbon2.scale.setScalar(0.78);
-
-  /* Quiet depth rings behind mark */
-  const halo = new THREE.Mesh(
-    new THREE.TorusGeometry(1.45, 0.004, 8, 120),
-    new THREE.MeshBasicMaterial({ color: forest, transparent: true, opacity: 0.16 }),
-  );
-  halo.rotation.x = Math.PI / 2.8;
-  world.add(halo);
-  const halo2 = new THREE.Mesh(
-    new THREE.TorusGeometry(2.15, 0.003, 8, 140),
-    new THREE.MeshBasicMaterial({ color: mid, transparent: true, opacity: 0.1 }),
-  );
-  halo2.rotation.x = Math.PI / 2.2;
-  halo2.rotation.y = 0.35;
-  world.add(halo2);
-
-  /* 01 — Systems lattice (ISE) */
-  const systems = new THREE.Group();
-  systems.position.set(2.2, 1.05, -0.35);
-  systems.scale.setScalar(1.05);
-  world.add(systems);
-  const sysShell = lineObj(systems, new THREE.IcosahedronGeometry(0.98, 1), forest, 0.48);
-  const sysCore = lineObj(systems, new THREE.OctahedronGeometry(0.4, 0), lime, 0.58);
-  const sysInner = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(0.18, 0),
-    new THREE.MeshBasicMaterial({ color: lime, transparent: true, opacity: 0.28, depthWrite: false }),
-  );
-  systems.add(sysInner);
-  const sysRing = new THREE.Mesh(
-    new THREE.TorusGeometry(1.2, 0.008, 10, 110),
-    new THREE.MeshBasicMaterial({ color: mid, transparent: true, opacity: 0.38 }),
-  );
-  sysRing.rotation.x = Math.PI / 2.6;
-  systems.add(sysRing);
-  const sysRing2 = new THREE.Mesh(
-    new THREE.TorusGeometry(1.42, 0.004, 8, 100),
-    new THREE.MeshBasicMaterial({ color: forest, transparent: true, opacity: 0.22 }),
-  );
-  sysRing2.rotation.y = Math.PI / 3;
-  systems.add(sysRing2);
-
-  /* 02 — Care flow (healthcare / pharmacy ops) */
-  const care = new THREE.Group();
-  care.position.set(-2.3, -0.9, 0.15);
-  care.scale.setScalar(1);
-  world.add(care);
-  const capsule = lineObj(care, new THREE.CapsuleGeometry(0.3, 0.9, 6, 14), mid, 0.52);
-  capsule.rotation.z = Math.PI / 5;
-  const careShell = lineObj(care, new THREE.SphereGeometry(0.78, 12, 12), forest, 0.18);
-  const careRing = new THREE.Mesh(
-    new THREE.TorusGeometry(1.12, 0.007, 10, 100),
-    new THREE.MeshBasicMaterial({ color: forest, transparent: true, opacity: 0.4 }),
-  );
-  careRing.rotation.x = Math.PI / 2.2;
-  careRing.rotation.y = 0.4;
-  care.add(careRing);
-  const careNodes = [];
-  for (let i = 0; i < 6; i++) {
-    const n = new THREE.Mesh(
-      new THREE.SphereGeometry(0.048, 10, 10),
-      new THREE.MeshBasicMaterial({ color: i % 2 ? lime : mid, transparent: true, opacity: 0.72 }),
-    );
-    care.add(n);
-    careNodes.push({ mesh: n, phase: (i / 6) * Math.PI * 2, r: 1.12 });
-  }
-
-  /* 03 — Signal / AI build */
-  const signal = new THREE.Group();
-  signal.position.set(-2.0, 1.25, -0.5);
-  signal.scale.setScalar(0.95);
-  world.add(signal);
-  const tet = lineObj(signal, new THREE.TetrahedronGeometry(0.78, 0), forest, 0.52);
-  const tet2 = lineObj(signal, new THREE.TetrahedronGeometry(0.44, 0), lime, 0.42);
-  const tet3 = lineObj(signal, new THREE.OctahedronGeometry(0.22, 0), mid, 0.35);
-  const signalRing = new THREE.Mesh(
-    new THREE.TorusGeometry(1.02, 0.005, 8, 90),
-    new THREE.MeshBasicMaterial({ color: mid, transparent: true, opacity: 0.32 }),
-  );
-  signalRing.rotation.x = Math.PI / 3;
-  signal.add(signalRing);
-  const signalNodes = [];
-  for (let i = 0; i < 3; i++) {
-    const n = new THREE.Mesh(
-      new THREE.SphereGeometry(0.035, 8, 8),
-      new THREE.MeshBasicMaterial({ color: lime, transparent: true, opacity: 0.65 }),
-    );
-    signal.add(n);
-    signalNodes.push({ mesh: n, phase: (i / 3) * Math.PI * 2, r: 1.02 });
-  }
-
-  /* 04 — Process loop (ops) */
-  const process = new THREE.Group();
-  process.position.set(2.05, -1.1, -0.25);
-  process.scale.setScalar(0.82);
-  world.add(process);
-  const knot = lineObj(process, new THREE.TorusKnotGeometry(0.58, 0.15, 100, 12), deep, 0.44);
-  const knotSoft = lineObj(process, new THREE.TorusKnotGeometry(0.38, 0.06, 80, 8), lime, 0.28);
-  const pRing = new THREE.Mesh(
-    new THREE.TorusGeometry(1.02, 0.006, 8, 90),
-    new THREE.MeshBasicMaterial({ color: lime, transparent: true, opacity: 0.3 }),
-  );
-  pRing.rotation.x = Math.PI / 2.4;
-  process.add(pRing);
-
-  /* Mid accents — small orthogons so center / edges aren't empty */
-  const accents = [];
-  const accentSpecs = [
-    { pos: [0.15, 1.85, -1.1], geo: () => new THREE.BoxGeometry(0.35, 0.35, 0.35), color: forest, op: 0.28 },
-    { pos: [-0.2, -1.75, -0.9], geo: () => new THREE.DodecahedronGeometry(0.28, 0), color: mid, op: 0.3 },
-    { pos: [3.15, 0.15, -1.4], geo: () => new THREE.OctahedronGeometry(0.32, 0), color: lime, op: 0.26 },
-    { pos: [-3.2, 0.05, -1.35], geo: () => new THREE.IcosahedronGeometry(0.3, 0), color: forest, op: 0.26 },
-  ];
-  accentSpecs.forEach((spec, i) => {
-    const g = new THREE.Group();
-    g.position.set(...spec.pos);
-    const obj = lineObj(g, spec.geo(), spec.color, spec.op);
-    world.add(g);
-    accents.push({ group: g, obj, phase: i * 1.1, baseY: spec.pos[1] });
-  });
-
   const mouse = { x: 0, y: 0 };
-  const unbindPointer = bindPointer(container, mouse, 0.22);
+  const unbindPointer = bindPointer(container, mouse, pointer);
   const unbindResize = bindResize(container, camera, renderer);
 
   let t = 0;
   let raf = 0;
+  let paused = false;
   const target = { x: 0, y: 0 };
+
   const animate = () => {
-    t += 0.0085;
-    target.x += (mouse.x - target.x) * 0.04;
-    target.y += (mouse.y - target.y) * 0.04;
-
-    world.rotation.y = target.x * 0.32;
-    world.rotation.x = target.y * 0.22;
-
-    systems.rotation.y = t * 0.35;
-    systems.rotation.x = Math.sin(t * 0.4) * 0.15;
-    sysShell.rotation.z = t * 0.12;
-    sysCore.rotation.y = -t * 0.7;
-    sysInner.rotation.x = t * 0.9;
-    sysRing.rotation.z = t * 0.25;
-    sysRing2.rotation.z = -t * 0.18;
-    systems.position.y = 1.05 + Math.sin(t * 0.7) * 0.08;
-
-    care.rotation.y = -t * 0.28;
-    capsule.rotation.y = t * 0.5;
-    careShell.rotation.y = t * 0.15;
-    careRing.rotation.z = t * 0.4;
-    careNodes.forEach((n) => {
-      const a = t * 0.7 + n.phase;
-      n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a * 1.2) * 0.25, Math.sin(a) * n.r);
-    });
-    care.position.y = -0.9 + Math.cos(t * 0.55) * 0.07;
-
-    signal.rotation.y = t * 0.45;
-    signal.rotation.z = Math.sin(t * 0.5) * 0.2;
-    tet.rotation.x = t * 0.3;
-    tet2.rotation.y = -t * 0.55;
-    tet3.rotation.z = t * 0.8;
-    signalRing.rotation.z = t * 0.35;
-    signalNodes.forEach((n) => {
-      const a = -t * 0.85 + n.phase;
-      n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a) * 0.35, Math.sin(a) * n.r * 0.6);
-    });
-    signal.position.y = 1.25 + Math.sin(t * 0.6 + 1) * 0.09;
-
-    process.rotation.x = t * 0.32;
-    process.rotation.y = t * 0.22;
-    knot.rotation.z = t * 0.4;
-    knotSoft.rotation.x = -t * 0.35;
-    pRing.rotation.z = -t * 0.3;
-    process.position.y = -1.1 + Math.cos(t * 0.65 + 0.5) * 0.08;
-
-    accents.forEach((a) => {
-      a.group.rotation.y = t * 0.25 + a.phase;
-      a.group.rotation.x = Math.sin(t * 0.4 + a.phase) * 0.35;
-      a.obj.rotation.z = t * 0.2;
-      a.group.position.y = a.baseY + Math.sin(t * 0.5 + a.phase) * 0.1;
-    });
-
-    ribbon.rotation.y = t * 0.06;
-    ribbon2.rotation.x = t * 0.05;
-    halo.rotation.z = t * 0.08;
-    halo2.rotation.z = -t * 0.05;
-    dust.rotation.y = t * 0.04;
-    dust2.rotation.y = -t * 0.03;
-    dustNear.rotation.x = t * 0.025;
-
-    renderer.render(scene, camera);
     raf = requestAnimationFrame(animate);
+    if (paused) return;
+    t += 0.007;
+    target.x += (mouse.x - target.x) * 0.045;
+    target.y += (mouse.y - target.y) * 0.045;
+    onFrame({ t, target, world, mouse });
+    renderer.render(scene, camera);
   };
   animate();
 
-  return () => {
+  const dispose = () => {
     cancelAnimationFrame(raf);
     unbindPointer();
     unbindResize();
@@ -548,4 +333,235 @@ export function initIntroScene(container) {
       renderer.domElement.parentNode.removeChild(renderer.domElement);
     }
   };
+
+  dispose.setPaused = (v) => {
+    paused = Boolean(v);
+  };
+  dispose.world = world;
+  dispose.scene = scene;
+
+  return { dispose, world, scene, camera, renderer };
+}
+
+/**
+ * Single interest motif for section mounts.
+ * @param {"systems"|"care"|"signal"|"process"} motif
+ * @param {"cream"|"forest"} tone
+ */
+export function initMotifScene(
+  container,
+  { motif = "systems", tone = "cream", compact = false, desktopOnly = true } = {},
+) {
+  if (!container || prefersReduced()) return () => {};
+  if (desktopOnly && isNarrow()) return () => {};
+
+  const colors = palette(tone);
+  const builder = MOTIF_BUILDERS[motif] || buildSystems;
+  const piece = builder(colors, compact ? 0.85 : 1);
+  const dustCount = compact ? 28 : 48;
+  const extras = { dust: null, ring: null };
+
+  const { dispose, world } = runScene(container, {
+    fov: compact ? 36 : 38,
+    z: compact ? 3.5 : 4.1,
+    pointer: 0.28,
+    onFrame: ({ t, target }) => {
+      world.rotation.y = target.x * 0.9;
+      world.rotation.x = 0.12 + target.y * 0.7;
+      piece.tick(t);
+      if (extras.dust) extras.dust.rotation.y = t * 0.05;
+      if (extras.ring) extras.ring.rotation.z = t * 0.12;
+    },
+  });
+
+  world.add(piece.group);
+  extras.dust = makeParticles(world, dustCount, colors.soft, compact ? 1.7 : 2.2, 0.012, 0.32);
+  extras.ring = new THREE.Mesh(
+    new THREE.TorusGeometry(compact ? 1.35 : 1.55, 0.004, 8, 100),
+    new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.16 }),
+  );
+  extras.ring.rotation.x = Math.PI / 2.6;
+  world.add(extras.ring);
+
+  return dispose;
+}
+
+/**
+ * Hero — interest field on forest (systems + signal + process accents).
+ */
+export function initHeroScene(container) {
+  if (!container || prefersReduced()) return () => {};
+  if (isNarrow()) return () => {};
+
+  const colors = palette("forest");
+  const systems = buildSystems(colors, 0.92);
+  const signal = buildSignal(colors, 0.72);
+  const process = buildProcess(colors, 0.62);
+  const care = buildCare(colors, 0.55);
+
+  systems.group.position.set(1.15, 0.35, 0);
+  signal.group.position.set(-1.55, 0.95, -0.6);
+  process.group.position.set(1.75, -0.95, -0.5);
+  care.group.position.set(-1.4, -0.85, -0.35);
+
+  const extras = { ribbon: null, halo: null, dust: null, dust2: null };
+
+  const { dispose, world } = runScene(container, {
+    fov: 38,
+    z: 5.1,
+    pointer: 0.22,
+    onFrame: ({ t, target }) => {
+      world.rotation.y = target.x * 0.45;
+      world.rotation.x = target.y * 0.3;
+      systems.tick(t * 0.85);
+      systems.group.position.y = 0.35 + Math.sin(t * 0.6) * 0.06;
+      signal.tick(t * 0.9);
+      signal.group.position.y = 0.95 + Math.sin(t * 0.55 + 1) * 0.07;
+      process.tick(t * 0.8);
+      process.group.position.y = -0.95 + Math.cos(t * 0.5) * 0.06;
+      care.tick(t * 0.75);
+      care.group.position.y = -0.85 + Math.cos(t * 0.45 + 0.4) * 0.06;
+      if (extras.ribbon) extras.ribbon.rotation.y = t * 0.05;
+      if (extras.halo) extras.halo.rotation.z = t * 0.07;
+      if (extras.dust) extras.dust.rotation.y = t * 0.035;
+      if (extras.dust2) extras.dust2.rotation.y = -t * 0.025;
+    },
+  });
+
+  world.add(systems.group, signal.group, process.group, care.group);
+  extras.ribbon = makeOrbitRibbon(world, colors.primary, 0.12);
+  extras.ribbon.scale.setScalar(0.72);
+  extras.halo = new THREE.Mesh(
+    new THREE.TorusGeometry(1.7, 0.004, 8, 120),
+    new THREE.MeshBasicMaterial({ color: colors.mid, transparent: true, opacity: 0.14 }),
+  );
+  extras.halo.rotation.x = Math.PI / 2.5;
+  world.add(extras.halo);
+  extras.dust = makeParticles(world, 100, colors.primary, 4.2, 0.014, 0.28);
+  extras.dust2 = makeParticles(world, 45, colors.soft, 5, 0.011, 0.18);
+
+  return dispose;
+}
+
+/** @deprecated alias — process motif on forest */
+export function initOrbitScene(container, { compact = false } = {}) {
+  return initMotifScene(container, { motif: "process", tone: "forest", compact, desktopOnly: !compact });
+}
+
+/** @deprecated alias — systems motif on cream */
+export function initLatticeScene(container) {
+  return initMotifScene(container, { motif: "systems", tone: "cream" });
+}
+
+/**
+ * Intro loader — full interest field on cream.
+ */
+export function initIntroScene(container) {
+  if (!container || prefersReduced()) return () => {};
+
+  const colors = palette("cream");
+  const systems = buildSystems(colors, 1.05);
+  const care = buildCare(colors, 1);
+  const signal = buildSignal(colors, 0.95);
+  const process = buildProcess(colors, 0.82);
+
+  systems.group.position.set(2.2, 1.05, -0.35);
+  care.group.position.set(-2.3, -0.9, 0.15);
+  signal.group.position.set(-2.0, 1.25, -0.5);
+  process.group.position.set(2.05, -1.1, -0.25);
+
+  const accents = [];
+  const accentSpecs = [
+    { pos: [0.15, 1.85, -1.1], geo: () => new THREE.BoxGeometry(0.35, 0.35, 0.35), color: colors.primary, op: 0.28 },
+    { pos: [-0.2, -1.75, -0.9], geo: () => new THREE.DodecahedronGeometry(0.28, 0), color: colors.mid, op: 0.3 },
+    { pos: [3.15, 0.15, -1.4], geo: () => new THREE.OctahedronGeometry(0.32, 0), color: colors.soft, op: 0.26 },
+    { pos: [-3.2, 0.05, -1.35], geo: () => new THREE.IcosahedronGeometry(0.3, 0), color: colors.primary, op: 0.26 },
+  ];
+  const extras = {
+    ribbon: null,
+    ribbon2: null,
+    halo: null,
+    halo2: null,
+    dust: null,
+    dust2: null,
+    dustNear: null,
+  };
+
+  const { dispose, world } = runScene(container, {
+    fov: 42,
+    z: 5.85,
+    pointer: 0.22,
+    onFrame: ({ t, target }) => {
+      world.rotation.y = target.x * 0.32;
+      world.rotation.x = target.y * 0.22;
+
+      systems.group.position.x = 2.2;
+      systems.group.position.z = -0.35;
+      care.group.position.x = -2.3;
+      care.group.position.z = 0.15;
+      signal.group.position.x = -2.0;
+      signal.group.position.z = -0.5;
+      process.group.position.x = 2.05;
+      process.group.position.z = -0.25;
+
+      systems.tick(t);
+      systems.group.position.y = 1.05 + Math.sin(t * 0.7) * 0.08;
+      care.tick(t);
+      care.group.position.y = -0.9 + Math.cos(t * 0.55) * 0.07;
+      signal.tick(t);
+      signal.group.position.y = 1.25 + Math.sin(t * 0.6 + 1) * 0.09;
+      process.tick(t);
+      process.group.position.y = -1.1 + Math.cos(t * 0.65 + 0.5) * 0.08;
+
+      accents.forEach((a) => {
+        a.group.rotation.y = t * 0.25 + a.phase;
+        a.group.rotation.x = Math.sin(t * 0.4 + a.phase) * 0.35;
+        a.obj.rotation.z = t * 0.2;
+        a.group.position.y = a.baseY + Math.sin(t * 0.5 + a.phase) * 0.1;
+      });
+
+      if (extras.ribbon) extras.ribbon.rotation.y = t * 0.06;
+      if (extras.ribbon2) extras.ribbon2.rotation.x = t * 0.05;
+      if (extras.halo) extras.halo.rotation.z = t * 0.08;
+      if (extras.halo2) extras.halo2.rotation.z = -t * 0.05;
+      if (extras.dust) extras.dust.rotation.y = t * 0.04;
+      if (extras.dust2) extras.dust2.rotation.y = -t * 0.03;
+      if (extras.dustNear) extras.dustNear.rotation.x = t * 0.025;
+    },
+  });
+
+  world.add(systems.group, care.group, signal.group, process.group);
+
+  extras.ribbon = makeOrbitRibbon(world, colors.primary, 0.18);
+  extras.ribbon2 = makeOrbitRibbon(world, colors.soft, 0.1);
+  extras.ribbon2.rotation.z = Math.PI / 2.4;
+  extras.ribbon2.scale.setScalar(0.78);
+
+  extras.halo = new THREE.Mesh(
+    new THREE.TorusGeometry(1.45, 0.004, 8, 120),
+    new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.16 }),
+  );
+  extras.halo.rotation.x = Math.PI / 2.8;
+  world.add(extras.halo);
+  extras.halo2 = new THREE.Mesh(
+    new THREE.TorusGeometry(2.15, 0.003, 8, 140),
+    new THREE.MeshBasicMaterial({ color: colors.mid, transparent: true, opacity: 0.1 }),
+  );
+  extras.halo2.rotation.x = Math.PI / 2.2;
+  extras.halo2.rotation.y = 0.35;
+  world.add(extras.halo2);
+
+  accentSpecs.forEach((spec, i) => {
+    const g = new THREE.Group();
+    g.position.set(...spec.pos);
+    const obj = lineObj(g, spec.geo(), spec.color, spec.op);
+    world.add(g);
+    accents.push({ group: g, obj, phase: i * 1.1, baseY: spec.pos[1] });
+  });
+
+  extras.dust = makeParticles(world, 160, colors.primary, 5.8, 0.018, 0.32);
+  extras.dust2 = makeParticles(world, 70, colors.soft, 6.4, 0.013, 0.22);
+  extras.dustNear = makeParticles(world, 40, colors.mid, 3.6, 0.02, 0.18);
+
+  return dispose;
 }
