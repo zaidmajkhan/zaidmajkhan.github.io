@@ -700,67 +700,66 @@
   }
 }
 
-/* Scroll flourishes — visible motion, never rest hidden */
-@media (prefers-reduced-motion: no-preference) {
-  html.motion-on .reveal,
-  html.motion-on .pin-title,
-  html.motion-on .stagger-children > *,
-  html.motion-on .stat-cell,
-  html.motion-on #experience article,
-  html.motion-on #projects .interactive-row,
-  html.motion-on .scene-mount {
-    opacity: 1;
+/* Scroll flourishes — always available (OS reduce-motion no longer blanks the site) */
+html.motion-on .reveal,
+html.motion-on .pin-title,
+html.motion-on .stagger-children > *,
+html.motion-on .stat-cell,
+html.motion-on #experience article,
+html.motion-on #projects .interactive-row,
+html.motion-on .scene-mount {
+  opacity: 1;
+  translate: 0 0;
+}
+
+html.motion-on .reveal.in,
+html.motion-on .pin-title.in,
+html.motion-on .stagger-children > *.in,
+html.motion-on .stat-cell.in,
+html.motion-on #experience article.in,
+html.motion-on #projects .interactive-row.in,
+html.motion-on .scene-mount.in {
+  animation: reveal-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html.motion-on .stagger-children > *.in:nth-child(2) {
+  animation-delay: 0.07s;
+}
+html.motion-on .stagger-children > *.in:nth-child(3) {
+  animation-delay: 0.14s;
+}
+html.motion-on .stagger-children > *.in:nth-child(4) {
+  animation-delay: 0.21s;
+}
+
+@keyframes reveal-up {
+  from {
+    translate: 0 1.35rem;
+    opacity: 0.15;
+  }
+  to {
     translate: 0 0;
-  }
-
-  html.motion-on .reveal.in,
-  html.motion-on .pin-title.in,
-  html.motion-on .stagger-children > *.in,
-  html.motion-on .stat-cell.in,
-  html.motion-on #experience article.in,
-  html.motion-on #projects .interactive-row.in,
-  html.motion-on .scene-mount.in {
-    animation: reveal-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-
-  html.motion-on .stagger-children > *.in:nth-child(2) {
-    animation-delay: 0.07s;
-  }
-  html.motion-on .stagger-children > *.in:nth-child(3) {
-    animation-delay: 0.14s;
-  }
-  html.motion-on .stagger-children > *.in:nth-child(4) {
-    animation-delay: 0.21s;
-  }
-
-  @keyframes reveal-up {
-    from {
-      translate: 0 1.35rem;
-      opacity: 0.15;
-    }
-    to {
-      translate: 0 0;
-      opacity: 1;
-    }
-  }
-
-  html.motion-on .rule-grow {
-    transform-origin: left center;
-    transform: scaleX(1);
-  }
-  html.motion-on .rule-grow.in {
-    animation: rule-grow-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-  @keyframes rule-grow-in {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
-    }
+    opacity: 1;
   }
 }
 
+html.motion-on .rule-grow {
+  transform-origin: left center;
+  transform: scaleX(1);
+}
+html.motion-on .rule-grow.in {
+  animation: rule-grow-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes rule-grow-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Reduce-motion: keep flourishes but drop endless loops / hover noise */
 @media (prefers-reduced-motion: reduce) {
   .btn,
   .surface-card,
@@ -770,7 +769,16 @@
   .nav-pill a {
     transition: none !important;
   }
-  .intro-overlay {
-    display: none !important;
+  .planet-logo {
+    animation: none !important;
+  }
+  html.motion-on .reveal.in,
+  html.motion-on .pin-title.in,
+  html.motion-on .stagger-children > *.in,
+  html.motion-on .stat-cell.in,
+  html.motion-on #experience article.in,
+  html.motion-on #projects .interactive-row.in,
+  html.motion-on .scene-mount.in {
+    animation-duration: 0.45s;
   }
 }

@@ -7,9 +7,8 @@ const INTERESTS = [
 ];
 
 /**
- * Cream loading intro — train crosses while mini objects fly by.
- * Always plays on desktop and mobile (unless reduced-motion).
- * Timers are keyed only on `active` so parent re-renders cannot cancel the loader.
+ * Loading intro — always plays on desktop and mobile.
+ * If OS reduce-motion is on, skip the 3D train but still show ZK + progress.
  */
 export default function IntroOverlay({ active, onPrepare, onDone }) {
   const countRef = useRef(null);
@@ -25,30 +24,29 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
     if (!active) return undefined;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      document.documentElement.classList.add("intro-seen");
-      onDoneRef.current?.();
-      return undefined;
-    }
-
     document.documentElement.classList.remove("intro-seen", "intro-leaving");
 
     let disposeScene = () => {};
     let cancelled = false;
-    (async () => {
-      try {
-        const { initIntroScene } = await import("../lib/scene3d.js");
-        if (cancelled || !canvasRef.current) return;
-        disposeScene = initIntroScene(canvasRef.current) || (() => {});
-      } catch {
-        disposeScene = () => {};
-      }
-    })();
 
+    /* 3D is optional — never gate the whole loader on WebGL / reduce-motion */
+    if (!reduced) {
+      (async () => {
+        try {
+          const { initIntroScene } = await import("../lib/scene3d.js");
+          if (cancelled || !canvasRef.current) return;
+          disposeScene = initIntroScene(canvasRef.current) || (() => {});
+        } catch {
+          disposeScene = () => {};
+        }
+      })();
+    }
+
+    const duration = reduced ? 1.35 : 2.05;
     const obj = { v: 0 };
     const tween = gsap.to(obj, {
       v: 100,
-      duration: 2.05,
+      duration,
       ease: "power2.inOut",
       onUpdate: () => {
         const v = Math.round(obj.v);
@@ -62,16 +60,17 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
       .fromTo(
         ".intro-chip",
         { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, delay: 0.2, ease: "power3.out" },
+        { opacity: 1, y: 0, duration: 0.45, stagger: 0.08, delay: 0.12, ease: "power3.out" },
       )
-      .to(".intro-chip", { opacity: 0, y: -8, duration: 0.35, stagger: 0.05, ease: "power2.in" }, 1.35);
+      .to(".intro-chip", { opacity: 0, y: -8, duration: 0.3, stagger: 0.04, ease: "power2.in" }, duration * 0.65);
 
+    const leaveAt = Math.round(duration * 1000) + 50;
     const prepare = window.setTimeout(() => {
       if (!preparedRef.current) {
         preparedRef.current = true;
         onPrepareRef.current?.();
       }
-    }, 1900);
+    }, Math.max(400, leaveAt - 250));
 
     const done = window.setTimeout(() => {
       document.documentElement.classList.add("intro-leaving");
@@ -79,8 +78,8 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
         document.documentElement.classList.add("intro-seen");
         document.documentElement.classList.remove("intro-leaving");
         onDoneRef.current?.();
-      }, 650);
-    }, 2100);
+      }, 550);
+    }, leaveAt);
 
     return () => {
       cancelled = true;
