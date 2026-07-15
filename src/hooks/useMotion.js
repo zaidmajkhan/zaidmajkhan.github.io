@@ -6,17 +6,16 @@ const REVEAL_SELECTOR =
   ".reveal, .pin-title, .rule-grow, .stagger-children > *, .stat-cell, #experience article, #projects .interactive-row, .scene-mount";
 
 /**
- * Motion after intro:
- * - Hero GSAP entrance
- * - Scroll reveals via scroll + IO (desktop-safe with Lenis)
- *
- * `fromIntro`: when true, hero stays hidden until the intro overlay is mid-exit
- * so content does not flash visible → hidden → visible.
+ * Motion stack:
+ * - `ready`: Lenis + hero entrance (can start under the intro overlay)
+ * - `revealsReady`: arm scroll reveals only AFTER intro is gone so desktop
+ *   never sits on opacity:0 sections waiting for a late failsafe
  */
-export function useMotion(ready = true, fromIntro = false) {
+export function useMotion(ready = true, fromIntro = false, revealsReady = true) {
   const fromIntroRef = useRef(fromIntro);
   fromIntroRef.current = fromIntro;
 
+  /* —— Lenis + hero —— */
   useLayoutEffect(() => {
     if (!ready) return undefined;
 
@@ -68,14 +67,12 @@ export function useMotion(ready = true, fromIntro = false) {
     if (reduced || !heroLines.length) {
       showHero();
     } else {
-      /* Hide immediately (under intro overlay when fromIntro) — no visible flash */
       gsap.set(heroBits, { opacity: 0, y: 10 });
       gsap.set(heroLines, { opacity: 0, y: 18 });
       gsap.set(heroBtns, { opacity: 0, y: 8 });
       gsap.set(".hero-canvas", { opacity: 0 });
 
       heroTl = gsap.timeline({
-        /* Sync with intro slide-away so hero enters once under/with the overlay */
         delay: waitedForIntro ? 0.4 : 0.04,
         defaults: { ease: "power2.out" },
         onComplete: () => {
@@ -91,79 +88,8 @@ export function useMotion(ready = true, fromIntro = false) {
         .to(heroBtns, { opacity: 1, y: 0, duration: 0.55, stagger: 0.08 }, 0.68)
         .to(".hero-meta > div", { opacity: 1, y: 0, duration: 0.55, stagger: 0.07 }, 0.78);
 
-      const heroFailsafe = window.setTimeout(showHero, waitedForIntro ? 3200 : 2600);
+      const heroFailsafe = window.setTimeout(showHero, waitedForIntro ? 2800 : 2000);
       cleanups.push(() => clearTimeout(heroFailsafe));
-    }
-
-    const collect = () => Array.from(document.querySelectorAll(REVEAL_SELECTOR));
-
-    if (reduced) {
-      collect().forEach((el) => el.classList.add("in"));
-    } else {
-      const reveal = (el) => {
-        if (!el || el.classList.contains("in")) return;
-        el.classList.add("in");
-      };
-
-      const checkReveals = () => {
-        const vh = window.innerHeight || 1;
-        collect().forEach((el) => {
-          if (el.classList.contains("in")) return;
-          const rect = el.getBoundingClientRect();
-          if (rect.top < vh * 0.92 && rect.bottom > 24) reveal(el);
-        });
-      };
-
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            reveal(entry.target);
-            io.unobserve(entry.target);
-          });
-        },
-        { root: null, rootMargin: "0px 0px -6% 0px", threshold: 0.05 },
-      );
-
-      let booted = false;
-      const boot = () => {
-        if (booted) return;
-        booted = true;
-        /*
-         * Mark in-view as .in BEFORE arming hide rules, and suppress the
-         * opacity transition for one frame so we never flash visible→hidden→visible.
-         */
-        document.documentElement.classList.add("reveals-cold");
-        checkReveals();
-        document.documentElement.classList.add("reveals-armed");
-        collect().forEach((el) => {
-          if (!el.classList.contains("in")) io.observe(el);
-        });
-        requestAnimationFrame(() => {
-          document.documentElement.classList.remove("reveals-cold");
-        });
-        window.setTimeout(checkReveals, 120);
-        window.setTimeout(checkReveals, 400);
-      };
-      requestAnimationFrame(() => {
-        requestAnimationFrame(boot);
-      });
-
-      window.addEventListener("scroll", checkReveals, { passive: true });
-      window.addEventListener("resize", checkReveals, { passive: true });
-      if (lenis) lenis.on("scroll", checkReveals);
-      cleanups.push(() => {
-        io.disconnect();
-        window.removeEventListener("scroll", checkReveals);
-        window.removeEventListener("resize", checkReveals);
-        if (lenis) lenis.off("scroll", checkReveals);
-        document.documentElement.classList.remove("reveals-armed", "reveals-cold");
-      });
-
-      const allSafe = window.setTimeout(() => {
-        collect().forEach(reveal);
-      }, 2500);
-      cleanups.push(() => clearTimeout(allSafe));
     }
 
     const onAnchor = (e) => {
@@ -202,8 +128,100 @@ export function useMotion(ready = true, fromIntro = false) {
     return () => {
       cleanups.forEach((fn) => fn());
       if (heroTl) heroTl.kill();
-      document.documentElement.classList.remove("motion-on", "reveals-armed", "reveals-cold");
+      document.documentElement.classList.remove("motion-on");
     };
-    /* Only re-boot when readiness flips — not when intro finally unmounts */
   }, [ready]);
+
+  /* —— Scroll reveals (only after intro fully gone) —— */
+  useLayoutEffect(() => {
+    if (!ready || !revealsReady) return undefined;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cleanups = [];
+    const collect = () => Array.from(document.querySelectorAll(REVEAL_SELECTOR));
+
+    if (reduced) {
+      collect().forEach((el) => el.classList.add("in"));
+      return undefined;
+    }
+
+    const reveal = (el) => {
+      if (!el || el.classList.contains("in")) return;
+      el.classList.add("in");
+    };
+
+    const checkReveals = (pad = 0.98) => {
+      const vh = window.innerHeight || 1;
+      collect().forEach((el) => {
+        if (el.classList.contains("in")) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top < vh * pad && rect.bottom > 12) reveal(el);
+      });
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          reveal(entry.target);
+          io.unobserve(entry.target);
+        });
+      },
+      { root: null, rootMargin: "12% 0px 12% 0px", threshold: 0.01 },
+    );
+
+    /* Keep Lenis metrics in sync once page can scroll again */
+    try {
+      window.__lenis?.resize?.();
+    } catch {
+      /* ignore */
+    }
+
+    document.documentElement.classList.add("reveals-cold");
+    checkReveals(1.2);
+    document.documentElement.classList.add("reveals-armed");
+    collect().forEach((el) => {
+      if (!el.classList.contains("in")) io.observe(el);
+    });
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove("reveals-cold");
+      checkReveals(1.15);
+    });
+
+    /* rAF poll — catches Lenis smooth-scroll frames IO can miss */
+    let pollFrames = 0;
+    let pollId = 0;
+    const poll = () => {
+      checkReveals(1.1);
+      pollFrames += 1;
+      if (pollFrames < 90) pollId = requestAnimationFrame(poll);
+    };
+    pollId = requestAnimationFrame(poll);
+    cleanups.push(() => cancelAnimationFrame(pollId));
+
+    const onScrollCheck = () => checkReveals(1.05);
+    const onResizeCheck = () => checkReveals(1.15);
+
+    window.addEventListener("scroll", onScrollCheck, { passive: true });
+    window.addEventListener("resize", onResizeCheck, { passive: true });
+    const lenis = window.__lenis;
+    if (lenis) lenis.on("scroll", onScrollCheck);
+    cleanups.push(() => {
+      io.disconnect();
+      window.removeEventListener("scroll", onScrollCheck);
+      window.removeEventListener("resize", onResizeCheck);
+      if (lenis) lenis.off("scroll", onScrollCheck);
+      document.documentElement.classList.remove("reveals-armed", "reveals-cold");
+    });
+
+    /* Near-viewport failsafe, then hard reveal — never leave desktop blank */
+    const nearSafe = window.setTimeout(() => checkReveals(2.2), 400);
+    const allSafe = window.setTimeout(() => collect().forEach(reveal), 1400);
+    cleanups.push(() => {
+      clearTimeout(nearSafe);
+      clearTimeout(allSafe);
+    });
+
+    return () => cleanups.forEach((fn) => fn());
+  }, [ready, revealsReady]);
 }

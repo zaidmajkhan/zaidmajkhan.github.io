@@ -19,9 +19,10 @@ export default function App() {
   const [introSeen] = useState(() => document.documentElement.classList.contains("intro-seen"));
   const [introActive, setIntroActive] = useState(() => !introSeen);
   const [motionReady, setMotionReady] = useState(introSeen);
+  const [revealsReady, setRevealsReady] = useState(introSeen);
   const [fromIntro] = useState(() => !introSeen);
 
-  /* Prime motion while overlay is still covering — prevents visible→hidden flash */
+  /* Prime Lenis + hero under the overlay — do NOT arm reveals yet */
   const onIntroPrepare = useCallback(() => {
     setMotionReady(true);
   }, []);
@@ -35,9 +36,11 @@ export default function App() {
     document.documentElement.classList.add("intro-seen");
     setIntroActive(false);
     setMotionReady(true);
+    /* Arm reveals only once the overlay is gone so sections aren't stuck opacity:0 */
+    setRevealsReady(true);
   }, []);
 
-  useMotion(motionReady, fromIntro);
+  useMotion(motionReady, fromIntro, revealsReady);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen || introActive ? "hidden" : "";
