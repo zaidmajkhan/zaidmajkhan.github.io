@@ -122,7 +122,7 @@ export default function Contact() {
 
           <div className="relative z-10 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:items-start">
             <aside>
-              <p className="eyebrow reveal text-lime">06 — Contact</p>
+              <p className="eyebrow reveal text-lime">07 — Contact</p>
               <h2 className="pin-title display-lg mt-3 text-cream">
                 Let&apos;s talk internships
                 <br />
@@ -134,6 +134,25 @@ export default function Contact() {
               </p>
 
               <div className="reveal mt-6 grid gap-2.5">
+                {siteConfig.calBookingUrl ? (
+                  <a
+                    href={siteConfig.calBookingUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between rounded-xl border border-lime/40 bg-lime/15 px-4 py-3.5 transition hover:bg-lime/25 track-cta"
+                    data-track="Book Call Contact"
+                  >
+                    <span>
+                      <span className="block text-[0.65rem] font-extrabold tracking-[0.14em] text-cream/55 uppercase">
+                        Fastest path
+                      </span>
+                      <span className="mt-0.5 block text-sm font-semibold text-cream">
+                        Book a 15-min intro call
+                      </span>
+                    </span>
+                    <span className="text-lime">↗</span>
+                  </a>
+                ) : null}
                 <a
                   href={siteConfig.linkedinUrl}
                   target="_blank"

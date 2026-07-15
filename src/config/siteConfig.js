@@ -13,11 +13,14 @@ const siteConfig = {
   formspreeEndpoint: "",
   web3formsAccessKey: "",
   formsubmitEmail: "zaidmajkhan@gmail.com",
+  /** Cal.com / Calendly intro call — leave blank to hide Book CTAs */
+  calBookingUrl: "https://cal.com/zaid-khan/intro",
   githubUrl: "https://github.com/zaidmajkhan",
   twitterUrl: "https://x.com/zaidmajkhan",
   newsletterUrl: "https://buttondown.com/zaidkhan",
   linkedinUrl: "https://linkedin.com/in/zaidmajkhan",
   phone: "(469) 919-8378",
+  blogUrl: "/blog/",
   /** Set when the todo app is deployed (Render, Railway, etc.) — never embed API keys in this static site */
   todoAppUrl: "",
   todoAppRepoUrl: "",
