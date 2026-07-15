@@ -43,6 +43,11 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
         rafId = requestAnimationFrame(tick);
         document.documentElement.classList.add("lenis", "lenis-smooth");
         window.__lenis = lenis;
+        try {
+          lenis.scrollTo(0, { immediate: true });
+        } catch {
+          /* ignore */
+        }
         cleanups.push(() => {
           cancelAnimationFrame(rafId);
           lenis.destroy();

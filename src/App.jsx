@@ -27,10 +27,22 @@ export default function App() {
   const [playedIntro] = useState(true);
 
   const onIntroPrepare = useCallback(() => {
+    window.scrollTo(0, 0);
+    try {
+      window.__lenis?.scrollTo?.(0, { immediate: true });
+    } catch {
+      /* ignore */
+    }
     setMotionReady(true);
   }, []);
 
   const onIntroDone = useCallback(() => {
+    window.scrollTo(0, 0);
+    try {
+      window.__lenis?.scrollTo?.(0, { immediate: true });
+    } catch {
+      /* ignore */
+    }
     document.documentElement.classList.add("intro-seen");
     document.documentElement.classList.remove("intro-leaving");
     setIntroActive(false);
@@ -39,6 +51,21 @@ export default function App() {
   }, []);
 
   useMotion(motionReady, playedIntro, revealsReady);
+
+  /* Pin scroll to top for every load / refresh (incl. hard refresh) */
+  useEffect(() => {
+    try {
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    } catch {
+      /* ignore */
+    }
+    window.scrollTo(0, 0);
+    const pin = () => window.scrollTo(0, 0);
+    pin();
+    requestAnimationFrame(pin);
+    window.addEventListener("load", pin);
+    return () => window.removeEventListener("load", pin);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen || introActive ? "hidden" : "";

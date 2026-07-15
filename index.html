@@ -71,8 +71,10 @@
       rel="stylesheet"
     />
     <script>
-      /* Clear legacy skip flag so desktop always gets the loader like mobile */
+      /* Always start at top on refresh — browser otherwise restores scroll mid-page */
       try {
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+        window.scrollTo(0, 0);
         sessionStorage.removeItem("introSeen");
         document.documentElement.classList.remove("intro-seen");
       } catch (e) {}
