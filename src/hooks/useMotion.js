@@ -2,6 +2,9 @@ import { useLayoutEffect } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 
+const REVEAL_SELECTOR =
+  ".reveal, .pin-title, .rule-grow, .stagger-children > *, .stat-cell, #experience article, #projects .interactive-row, .scene-mount";
+
 /**
  * Motion after intro:
  * - Hero GSAP entrance
@@ -18,7 +21,6 @@ export function useMotion(ready = true, introDelay = false) {
     const cleanups = [];
 
     document.documentElement.classList.add("motion-on");
-    /* Force a paint at opacity:0 before any .in is added (critical on tall desktops) */
     void document.documentElement.offsetHeight;
 
     if (!reduced) {
@@ -87,14 +89,10 @@ export function useMotion(ready = true, introDelay = false) {
       cleanups.push(() => clearTimeout(heroFailsafe));
     }
 
-    const revealEls = Array.from(
-      document.querySelectorAll(
-        ".reveal, .pin-title, .rule-grow, .stagger-children > *, .stat-cell, #experience article, #projects .interactive-row, .scene-mount",
-      ),
-    );
+    const collect = () => Array.from(document.querySelectorAll(REVEAL_SELECTOR));
 
     if (reduced) {
-      revealEls.forEach((el) => el.classList.add("in"));
+      collect().forEach((el) => el.classList.add("in"));
     } else {
       const reveal = (el) => {
         if (!el || el.classList.contains("in")) return;
@@ -102,12 +100,11 @@ export function useMotion(ready = true, introDelay = false) {
       };
 
       const checkReveals = () => {
-        const vh = window.innerHeight;
-        revealEls.forEach((el) => {
+        const vh = window.innerHeight || 1;
+        collect().forEach((el) => {
           if (el.classList.contains("in")) return;
           const rect = el.getBoundingClientRect();
-          /* Slightly stricter than before so desktop doesn't dump everything in at once */
-          if (rect.top < vh * 0.86 && rect.bottom > 48) reveal(el);
+          if (rect.top < vh * 0.92 && rect.bottom > 24) reveal(el);
         });
       };
 
@@ -119,19 +116,20 @@ export function useMotion(ready = true, introDelay = false) {
             io.unobserve(entry.target);
           });
         },
-        { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
+        { root: null, rootMargin: "0px 0px -6% 0px", threshold: 0.05 },
       );
 
-      /*
-       * Wait two frames after motion-on so opacity:0 is painted first.
-       * Instant .in in the same frame as motion-on skips CSS transitions on tall desktops.
-       */
       let booted = false;
       const boot = () => {
         if (booted) return;
         booted = true;
-        revealEls.forEach((el) => io.observe(el));
+        /* Arm hide rules only after observers are live — avoids blank sections */
+        document.documentElement.classList.add("reveals-armed");
+        collect().forEach((el) => io.observe(el));
         checkReveals();
+        /* Second pass after layout settles / 3D mounts */
+        window.setTimeout(checkReveals, 120);
+        window.setTimeout(checkReveals, 400);
       };
       requestAnimationFrame(() => {
         requestAnimationFrame(boot);
@@ -145,11 +143,12 @@ export function useMotion(ready = true, introDelay = false) {
         window.removeEventListener("scroll", checkReveals);
         window.removeEventListener("resize", checkReveals);
         if (lenis) lenis.off("scroll", checkReveals);
+        document.documentElement.classList.remove("reveals-armed");
       });
 
       const allSafe = window.setTimeout(() => {
-        revealEls.forEach(reveal);
-      }, 8000);
+        collect().forEach(reveal);
+      }, 2500);
       cleanups.push(() => clearTimeout(allSafe));
     }
 
@@ -189,7 +188,7 @@ export function useMotion(ready = true, introDelay = false) {
     return () => {
       cleanups.forEach((fn) => fn());
       if (heroTl) heroTl.kill();
-      document.documentElement.classList.remove("motion-on");
+      document.documentElement.classList.remove("motion-on", "reveals-armed");
     };
   }, [ready, introDelay]);
 }

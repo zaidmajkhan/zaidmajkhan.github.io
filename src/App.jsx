@@ -16,7 +16,7 @@ import { useMotion } from "./hooks/useMotion.js";
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [introSeen] = useState(() => document.documentElement.classList.contains("intro-seen"));
-  const [introActive] = useState(() => !introSeen);
+  const [introActive, setIntroActive] = useState(() => !introSeen);
   const [motionReady, setMotionReady] = useState(introSeen);
 
   const onIntroDone = useCallback(() => {
@@ -25,17 +25,19 @@ export default function App() {
     } catch {
       /* ignore */
     }
+    document.documentElement.classList.add("intro-seen");
+    setIntroActive(false);
     setMotionReady(true);
   }, []);
 
   useMotion(motionReady, introActive);
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen || (introActive && !motionReady) ? "hidden" : "";
+    document.body.style.overflow = mobileOpen || introActive ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [mobileOpen, introActive, motionReady]);
+  }, [mobileOpen, introActive]);
 
   useEffect(() => {
     const nodes = document.querySelectorAll(".track-cta");
