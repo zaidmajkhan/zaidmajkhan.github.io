@@ -14,19 +14,17 @@ import Projects from "./components/Projects.jsx";
 import siteConfig from "./config/siteConfig.js";
 import { useMotion } from "./hooks/useMotion.js";
 
+/**
+ * Portfolio always plays the loader + UI motion.
+ * OS "reduce motion" only dials back heavy effects (Lenis / 3D spin),
+ * it no longer skips the whole experience (that was killing desktop).
+ */
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  /* Always run intro on load (phone-like). Only skip for reduced-motion. */
-  const [introActive, setIntroActive] = useState(() => {
-    try {
-      return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    } catch {
-      return true;
-    }
-  });
-  const [motionReady, setMotionReady] = useState(() => !introActive);
-  const [revealsReady, setRevealsReady] = useState(() => !introActive);
-  const [playedIntro] = useState(() => introActive);
+  const [introActive, setIntroActive] = useState(true);
+  const [motionReady, setMotionReady] = useState(false);
+  const [revealsReady, setRevealsReady] = useState(false);
+  const [playedIntro] = useState(true);
 
   const onIntroPrepare = useCallback(() => {
     setMotionReady(true);

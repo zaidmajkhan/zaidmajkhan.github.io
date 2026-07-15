@@ -6,16 +6,14 @@ const REVEAL_SELECTOR =
   ".reveal, .pin-title, .rule-grow, .stagger-children > *, .stat-cell, #experience article, #projects .interactive-row, .scene-mount";
 
 /**
- * Motion that can never blank the page:
- * - Hero never rests at opacity 0
- * - Reveals only add a play-once slide (CSS); default state is always visible
- * - Lenis + nav still run
+ * Motion stack for the portfolio:
+ * - Hero entrance + scroll flourishes always run (showcase site)
+ * - Lenis only when OS is not in reduce-motion
  */
 export function useMotion(ready = true, fromIntro = false, revealsReady = true) {
   const fromIntroRef = useRef(fromIntro);
   fromIntroRef.current = fromIntro;
 
-  /* —— Lenis + hero —— */
   useLayoutEffect(() => {
     if (!ready) return undefined;
 
@@ -29,6 +27,7 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
     document.documentElement.classList.add("motion-on");
     void document.documentElement.offsetHeight;
 
+    /* Smooth scroll is the only heavy piece we still gate on reduce-motion */
     if (!reduced) {
       try {
         lenis = new Lenis({
@@ -69,15 +68,14 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
       });
     };
 
-    /* Visible under the intro overlay until it lifts, then enter */
-    if (!reduced && heroLines.length && waitedForIntro) {
+    if (heroLines.length && waitedForIntro) {
       gsap.set(heroBits, { y: 14, opacity: 0 });
       gsap.set(heroLines, { y: 22, opacity: 0 });
       gsap.set(heroBtns, { y: 10, opacity: 0 });
       gsap.set(".hero-canvas", { opacity: 0 });
 
       heroTl = gsap.timeline({
-        delay: 0.35,
+        delay: 0.3,
         defaults: { ease: "power2.out" },
         onComplete: () => {
           gsap.set(heroTargets, { clearProps: "transform" });
@@ -85,12 +83,12 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
       });
 
       heroTl
-        .to(".hero-canvas", { opacity: 0.72, duration: 1.2, ease: "power1.out" }, 0)
-        .to(heroBits, { opacity: 1, y: 0, duration: 0.6, stagger: 0.05 }, 0.08)
-        .to(heroLines, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, 0.12)
-        .to(heroBtns, { opacity: 1, y: 0, duration: 0.5, stagger: 0.07 }, 0.4);
+        .to(".hero-canvas", { opacity: 0.72, duration: 1.1, ease: "power1.out" }, 0)
+        .to(heroBits, { opacity: 1, y: 0, duration: 0.55, stagger: 0.05 }, 0.06)
+        .to(heroLines, { opacity: 1, y: 0, duration: 0.75, stagger: 0.1, ease: "power3.out" }, 0.1)
+        .to(heroBtns, { opacity: 1, y: 0, duration: 0.45, stagger: 0.06 }, 0.35);
 
-      const heroFailsafe = window.setTimeout(showHero, 2400);
+      const heroFailsafe = window.setTimeout(showHero, 2200);
       cleanups.push(() => clearTimeout(heroFailsafe));
     } else {
       showHero();
@@ -104,7 +102,7 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
       e.preventDefault();
       const top = target.getBoundingClientRect().top + window.scrollY - 72;
       if (lenis) lenis.scrollTo(top, { duration: 1.1 });
-      else window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+      else window.scrollTo({ top, behavior: "smooth" });
     };
     const anchors = document.querySelectorAll('a[href^="#"]');
     anchors.forEach((a) => a.addEventListener("click", onAnchor));
@@ -137,11 +135,9 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
     };
   }, [ready]);
 
-  /* —— Scroll flourishes (never hide resting content) —— */
   useLayoutEffect(() => {
     if (!ready || !revealsReady) return undefined;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const cleanups = [];
     const collect = () => Array.from(document.querySelectorAll(REVEAL_SELECTOR));
 
@@ -151,11 +147,6 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
     };
 
     document.documentElement.classList.add("reveals-armed");
-
-    if (reduced) {
-      collect().forEach(reveal);
-      return () => document.documentElement.classList.remove("reveals-armed");
-    }
 
     try {
       window.__lenis?.resize?.();
@@ -168,7 +159,6 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
       collect().forEach((el) => {
         if (el.classList.contains("in")) return;
         const rect = el.getBoundingClientRect();
-        /* Always readable (CSS keeps opacity 1). .in only triggers slide flourish. */
         if (rect.top < vh * 1.05 && rect.bottom > 8) reveal(el);
       });
     };
@@ -184,13 +174,10 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
       { root: null, rootMargin: "15% 0px", threshold: 0.01 },
     );
 
-    const observeAll = () => {
-      collect().forEach((el) => {
-        if (!el.classList.contains("in")) io.observe(el);
-      });
-    };
-    observeAll();
-    /* Wait 2 frames after intro so flourishes play while the page is on screen */
+    collect().forEach((el) => {
+      if (!el.classList.contains("in")) io.observe(el);
+    });
+
     let bootId = 0;
     bootId = requestAnimationFrame(() => {
       bootId = requestAnimationFrame(() => checkReveals());
@@ -216,7 +203,6 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
     const lenis = window.__lenis;
     if (lenis) lenis.on("scroll", onScrollCheck);
 
-    /* Safety: never leave first two viewports without flourish class */
     const nearSafe = window.setTimeout(() => {
       const vh = window.innerHeight || 1;
       collect().forEach((el) => {
