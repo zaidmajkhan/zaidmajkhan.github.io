@@ -9,11 +9,17 @@ function isNarrow() {
 }
 
 function makeRenderer(container) {
-  const renderer = new THREE.WebGLRenderer({
-    alpha: true,
-    antialias: true,
-    powerPreference: "high-performance",
-  });
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance",
+    });
+  } catch {
+    return null;
+  }
+  if (!renderer) return null;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 0);
   container.appendChild(renderer.domElement);
@@ -451,6 +457,15 @@ function runScene(container, { fov = 38, z = 4.2, pointer = 0.25, onFrame }) {
   const camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 80);
   camera.position.z = z;
   const renderer = makeRenderer(container);
+  if (!renderer) {
+    return {
+      dispose: () => {},
+      world: new THREE.Group(),
+      scene,
+      camera,
+      renderer: null,
+    };
+  }
   const world = new THREE.Group();
   scene.add(world);
 
