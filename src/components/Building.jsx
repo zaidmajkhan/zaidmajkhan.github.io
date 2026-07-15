@@ -1,8 +1,14 @@
 import { lazy, Suspense } from "react";
 import siteConfig from "../config/siteConfig.js";
 
-const RiveMark = lazy(() => import("./RiveMark.jsx"));
 const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
+
+const TAG_CLASS = {
+  Shipped: "chip chip--shipped",
+  Live: "chip chip--live",
+  Deploying: "chip chip--deploying",
+  Planned: "chip chip--planned",
+};
 
 export default function Building({ todoAppUrl }) {
   const projects = [
@@ -30,29 +36,24 @@ export default function Building({ todoAppUrl }) {
   ];
 
   return (
-    <section id="building" className="section scroll-mt-24">
+    <section id="building" className="section section-band scroll-mt-24">
       <div className="wrap">
         <div className="surface mx-auto p-5 md:p-8 lg:p-10">
-          <div className="grid items-end gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="grid items-end gap-5 lg:grid-cols-[1.35fr_0.65fr]">
             <div>
               <p className="eyebrow reveal text-green">03 — Building</p>
               <h2 className="pin-title display-lg mt-3 text-forest">Personal projects, shipped separately.</h2>
               <p className="body reveal mt-4 max-w-lg text-mute">
-                Side projects exploring AI and full-stack tooling. Cards flip to live links when
-                something ships.
+                Side projects exploring AI and full-stack tooling. Rows open when something ships.
               </p>
             </div>
-            <div className="reveal relative hidden h-44 overflow-hidden rounded-xl bg-forest lg:block">
+            <div className="reveal relative mx-auto hidden h-28 w-full max-w-[14rem] overflow-hidden rounded-lg bg-forest/95 lg:block">
               <Suspense fallback={null}>
                 <SceneCanvas
                   variant="signal"
                   tone="forest"
                   compact
-                  className="absolute inset-0 h-full w-full opacity-80"
-                />
-                <RiveMark
-                  src="/assets/vehicles.riv"
-                  className="absolute inset-0 h-full w-full opacity-30 mix-blend-screen"
+                  className="absolute inset-0 h-full w-full opacity-55"
                 />
               </Suspense>
             </div>
@@ -62,13 +63,13 @@ export default function Building({ todoAppUrl }) {
             {projects.map((p, i) => (
               <article
                 key={p.num}
-                className={`flex min-h-[15rem] flex-col justify-between p-5 transition-colors duration-300 hover:bg-forest/[0.03] ${
+                className={`flex min-h-[14rem] flex-col justify-between p-5 transition-colors duration-300 hover:bg-forest/[0.03] ${
                   i < 2 ? "md:border-r md:border-forest/12" : ""
                 } border-b border-forest/12 last:border-b-0 md:border-b-0`}
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-display text-3xl text-forest">{p.num}</span>
-                  <span className="chip">{p.tag}</span>
+                  <span className={TAG_CLASS[p.tag] || "chip"}>{p.tag}</span>
                 </div>
                 <div className="mt-8">
                   <h3 className="font-display text-xl leading-snug tracking-[-0.02em] text-forest">{p.title}</h3>

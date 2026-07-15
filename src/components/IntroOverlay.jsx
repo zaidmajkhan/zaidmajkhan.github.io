@@ -3,9 +3,7 @@ import gsap from "gsap";
 
 const INTERESTS = [
   { key: "systems", label: "Systems", detail: "ISE · design" },
-  { key: "care", label: "Care flow", detail: "Healthcare ops" },
   { key: "signal", label: "Signal", detail: "AI · build" },
-  { key: "loop", label: "Process", detail: "Ops · improve" },
 ];
 
 /**
@@ -50,11 +48,14 @@ export default function IntroOverlay({ active, onDone }) {
       },
     });
 
-    gsap.fromTo(
-      ".intro-chip",
-      { opacity: 0, y: 12 },
-      { opacity: 1, y: 0, duration: 0.55, stagger: 0.08, delay: 0.28, ease: "power3.out" },
-    );
+    const chipsTl = gsap.timeline();
+    chipsTl
+      .fromTo(
+        ".intro-chip",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.45, stagger: 0.1, delay: 0.22, ease: "power3.out" },
+      )
+      .to(".intro-chip", { opacity: 0, y: -6, duration: 0.35, stagger: 0.05, ease: "power2.in" }, 1.35);
 
     const done = window.setTimeout(() => {
       document.documentElement.classList.add("intro-leaving");
@@ -62,12 +63,13 @@ export default function IntroOverlay({ active, onDone }) {
         document.documentElement.classList.add("intro-seen");
         document.documentElement.classList.remove("intro-leaving");
         onDone?.();
-      }, 700);
-    }, 2300);
+      }, 650);
+    }, 2100);
 
     return () => {
       cancelled = true;
       tween.kill();
+      chipsTl.kill();
       clearTimeout(done);
       disposeScene();
     };

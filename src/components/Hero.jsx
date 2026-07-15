@@ -1,7 +1,5 @@
-import { lazy, Suspense, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import siteConfig from "../config/siteConfig.js";
-
-const RiveMark = lazy(() => import("./RiveMark.jsx"));
 
 export default function Hero() {
   const canvasRef = useRef(null);
@@ -32,11 +30,6 @@ export default function Hero() {
             <p className="hero-eyebrow eyebrow text-lime">
               Open to internships · Summer & Fall 2026
             </p>
-            <div className="hero-rive hidden h-20 w-20 shrink-0 md:block lg:h-24 lg:w-24">
-              <Suspense fallback={null}>
-                <RiveMark src="/assets/motion.riv" className="h-full w-full opacity-90" />
-              </Suspense>
-            </div>
           </div>
 
           <div className="relative z-10 shrink-0 py-5 md:py-6 lg:py-7">

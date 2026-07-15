@@ -29,7 +29,7 @@ export default function Projects({ todoAppUrl }) {
   ];
 
   return (
-    <section id="projects" className="section scroll-mt-24 relative overflow-hidden bg-cream-soft">
+    <section id="projects" className="section section-quiet scroll-mt-24 relative overflow-hidden">
       <div
         className="motif-bleed motif-bleed--cream pointer-events-none absolute -right-6 top-8 hidden h-72 w-72 opacity-70 md:block"
         aria-hidden="true"
@@ -66,7 +66,21 @@ export default function Projects({ todoAppUrl }) {
               </span>
               <span className="hidden text-sm text-mute md:block">{row.cat}</span>
               <span className="hidden text-sm text-mute md:block">{row.year}</span>
-              <span className="chip">{row.flag}</span>
+              <span
+                className={
+                  row.flag === "Done"
+                    ? "chip chip--shipped"
+                    : row.flag === "Live"
+                      ? "chip chip--live"
+                      : row.flag === "Soon"
+                        ? "chip chip--deploying"
+                        : row.flag === "Focus"
+                          ? "chip chip--focus"
+                          : "chip"
+                }
+              >
+                {row.flag}
+              </span>
             </a>
           ))}
         </div>
