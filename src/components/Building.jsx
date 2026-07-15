@@ -1,7 +1,6 @@
 import { lazy, Suspense } from "react";
 import siteConfig from "../config/siteConfig.js";
 
-const RiveMark = lazy(() => import("./RiveMark.jsx"));
 const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
 
 export default function Building({ todoAppUrl }) {
@@ -42,17 +41,13 @@ export default function Building({ todoAppUrl }) {
                 something ships.
               </p>
             </div>
-            <div className="reveal relative hidden h-44 overflow-hidden rounded-xl bg-forest lg:block">
+            <div className="reveal relative hidden h-52 overflow-hidden rounded-xl bg-forest lg:block">
               <Suspense fallback={null}>
                 <SceneCanvas
-                  variant="signal"
+                  variant="garage"
                   tone="forest"
                   compact
-                  className="absolute inset-0 h-full w-full opacity-80"
-                />
-                <RiveMark
-                  src="/assets/vehicles.riv"
-                  className="absolute inset-0 h-full w-full opacity-30 mix-blend-screen"
+                  className="absolute inset-0 h-full w-full opacity-95"
                 />
               </Suspense>
             </div>

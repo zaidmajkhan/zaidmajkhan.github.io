@@ -33,12 +33,12 @@ export default function Credentials() {
   return (
     <section id="credentials" className="section scroll-mt-24 relative overflow-hidden">
       <div
-        className="motif-bleed motif-bleed--left pointer-events-none absolute -left-8 bottom-0 hidden h-72 w-72 opacity-45 lg:block"
+        className="motif-bleed motif-bleed--left pointer-events-none absolute -left-8 bottom-0 hidden h-80 w-80 opacity-70 lg:block"
         aria-hidden="true"
       >
         <div className="scene-mount absolute inset-0">
           <Suspense fallback={null}>
-            <SceneCanvas variant="systems" tone="cream" compact className="h-full w-full" />
+            <SceneCanvas variant="sedan" tone="cream" compact className="h-full w-full" />
           </Suspense>
         </div>
       </div>

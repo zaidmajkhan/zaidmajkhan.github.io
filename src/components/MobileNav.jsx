@@ -8,7 +8,6 @@ const LINKS = [
   { href: "#projects", label: "Work" },
   { href: "#faq", label: "FAQ" },
   { href: "#contact", label: "Contact" },
-  { href: siteConfig.blogUrl, label: "Blog" },
 ];
 
 export default function MobileNav({ mobileOpen, setMobileOpen }) {

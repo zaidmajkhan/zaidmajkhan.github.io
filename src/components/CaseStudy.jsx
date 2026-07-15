@@ -1,8 +1,23 @@
+import { lazy, Suspense } from "react";
+
+const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
+
 export default function CaseStudy() {
   return (
-    <section id="case-study" className="section scroll-mt-24 bg-cream-soft">
-      <div className="wrap">
-        <div className="mx-auto max-w-3xl">
+    <section id="case-study" className="section scroll-mt-24 relative overflow-hidden bg-cream-soft">
+      <div
+        className="motif-bleed motif-bleed--cream pointer-events-none absolute inset-y-4 right-0 hidden w-[min(36vw,26rem)] opacity-85 lg:block"
+        aria-hidden="true"
+      >
+        <div className="scene-mount absolute inset-0">
+          <Suspense fallback={null}>
+            <SceneCanvas variant="ambulance" tone="cream" className="h-full w-full" />
+          </Suspense>
+        </div>
+      </div>
+
+      <div className="wrap relative z-10">
+        <div className="mx-auto max-w-3xl lg:mx-0 lg:max-w-xl">
           <p className="eyebrow reveal text-green">Case study</p>
           <h2 className="pin-title display-lg mt-3 text-forest">
             CVS pharmacy workflow — 47% wait reduction
@@ -45,7 +60,7 @@ export default function CaseStudy() {
           </article>
         </div>
 
-        <blockquote className="reveal surface mx-auto mt-8 max-w-3xl border-l-4 border-green p-5 md:p-7">
+        <blockquote className="reveal surface mx-auto mt-8 max-w-3xl border-l-4 border-green p-5 md:p-7 lg:mx-0">
           <p className="font-display text-xl leading-snug tracking-[-0.02em] text-forest md:text-2xl">
             &ldquo;Every role is practice in mapping how systems behave under constraint — pharmacy
             floors included.&rdquo;

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 function prefersReduced() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -387,40 +388,44 @@ export function initMotifScene(
 }
 
 /**
- * Hero — interest field on forest (systems + signal + process accents).
+ * Hero — vehicles + medical interest motifs on forest.
  */
 export function initHeroScene(container) {
   if (!container || prefersReduced()) return () => {};
   if (isNarrow()) return () => {};
 
   const colors = palette("forest");
-  const systems = buildSystems(colors, 0.92);
-  const signal = buildSignal(colors, 0.72);
-  const process = buildProcess(colors, 0.62);
+  const systems = buildSystems(colors, 0.72);
   const care = buildCare(colors, 0.55);
+  const medical = buildMedicalProps(colors, 0.9);
 
-  systems.group.position.set(1.15, 0.35, 0);
-  signal.group.position.set(-1.55, 0.95, -0.6);
-  process.group.position.set(1.75, -0.95, -0.5);
-  care.group.position.set(-1.4, -0.85, -0.35);
+  systems.group.position.set(-1.85, 1.05, -0.55);
+  care.group.position.set(-2.0, -0.95, -0.2);
+  medical.group.position.set(0.15, -1.25, -0.4);
 
+  const vehicles = { ambulance: null, race: null };
   const extras = { ribbon: null, halo: null, dust: null, dust2: null };
 
   const { dispose, world } = runScene(container, {
     fov: 38,
-    z: 5.1,
+    z: 5.4,
     pointer: 0.22,
     onFrame: ({ t, target }) => {
-      world.rotation.y = target.x * 0.45;
-      world.rotation.x = target.y * 0.3;
+      world.rotation.y = target.x * 0.4;
+      world.rotation.x = target.y * 0.28;
       systems.tick(t * 0.85);
-      systems.group.position.y = 0.35 + Math.sin(t * 0.6) * 0.06;
-      signal.tick(t * 0.9);
-      signal.group.position.y = 0.95 + Math.sin(t * 0.55 + 1) * 0.07;
-      process.tick(t * 0.8);
-      process.group.position.y = -0.95 + Math.cos(t * 0.5) * 0.06;
+      systems.group.position.y = 1.05 + Math.sin(t * 0.6) * 0.06;
       care.tick(t * 0.75);
-      care.group.position.y = -0.85 + Math.cos(t * 0.45 + 0.4) * 0.06;
+      care.group.position.y = -0.95 + Math.cos(t * 0.45 + 0.4) * 0.06;
+      medical.tick(t);
+      if (vehicles.ambulance) {
+        vehicles.ambulance.rotation.y = t * 0.28;
+        vehicles.ambulance.position.y = 0.15 + Math.sin(t * 0.55) * 0.08;
+      }
+      if (vehicles.race) {
+        vehicles.race.rotation.y = -t * 0.35 + 0.6;
+        vehicles.race.position.y = -0.55 + Math.cos(t * 0.5) * 0.07;
+      }
       if (extras.ribbon) extras.ribbon.rotation.y = t * 0.05;
       if (extras.halo) extras.halo.rotation.z = t * 0.07;
       if (extras.dust) extras.dust.rotation.y = t * 0.035;
@@ -428,7 +433,7 @@ export function initHeroScene(container) {
     },
   });
 
-  world.add(systems.group, signal.group, process.group, care.group);
+  world.add(systems.group, care.group, medical.group);
   extras.ribbon = makeOrbitRibbon(world, colors.primary, 0.12);
   extras.ribbon.scale.setScalar(0.72);
   extras.halo = new THREE.Mesh(
@@ -440,7 +445,31 @@ export function initHeroScene(container) {
   extras.dust = makeParticles(world, 100, colors.primary, 4.2, 0.014, 0.28);
   extras.dust2 = makeParticles(world, 45, colors.soft, 5, 0.011, 0.18);
 
-  return dispose;
+  let cancelled = false;
+  (async () => {
+    const [ambulance, race] = await Promise.all([
+      loadVehicle("ambulance"),
+      loadVehicle("race"),
+    ]);
+    if (cancelled || !ambulance || !race) return;
+    ambulance.scale.setScalar(1.15);
+    ambulance.position.set(1.55, 0.15, 0.2);
+    ambulance.rotation.set(0.15, -0.55, 0.08);
+    race.scale.setScalar(1.05);
+    race.position.set(2.05, -0.55, -0.55);
+    race.rotation.set(0.2, 0.85, -0.05);
+    world.add(ambulance, race);
+    vehicles.ambulance = ambulance;
+    vehicles.race = race;
+  })();
+
+  const baseDispose = dispose;
+  const wrapped = () => {
+    cancelled = true;
+    baseDispose();
+  };
+  wrapped.setPaused = dispose.setPaused;
+  return wrapped;
 }
 
 /** @deprecated alias — process motif on forest */
@@ -564,4 +593,211 @@ export function initIntroScene(container) {
   extras.dustNear = makeParticles(world, 40, colors.mid, 3.6, 0.02, 0.18);
 
   return dispose;
+}
+
+/* —— GLTF vehicles (Kenney Car Kit, CC0) + medical props —— */
+
+const VEHICLE_URLS = {
+  ambulance: "/models/ambulance.glb",
+  race: "/models/race.glb",
+  sedan: "/models/sedan-sports.glb",
+  hatchback: "/models/hatchback-sports.glb",
+};
+
+const gltfCache = new Map();
+const gltfLoader = new GLTFLoader();
+
+async function loadVehicle(name) {
+  const url = VEHICLE_URLS[name];
+  if (!url) return null;
+  try {
+    if (!gltfCache.has(url)) {
+      const gltf = await gltfLoader.loadAsync(url);
+      gltfCache.set(url, gltf.scene);
+    }
+    const root = gltfCache.get(url).clone(true);
+    root.traverse((obj) => {
+      if (obj.isMesh) {
+        obj.castShadow = false;
+        obj.receiveShadow = false;
+        if (obj.material) {
+          const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+          mats.forEach((m) => {
+            m.transparent = false;
+            m.depthWrite = true;
+          });
+        }
+      }
+    });
+    return root;
+  } catch {
+    return null;
+  }
+}
+
+/** Procedural pharmacy / care props — capsule, cross, vial */
+function buildMedicalProps(colors, scale = 1) {
+  const group = new THREE.Group();
+  group.scale.setScalar(scale);
+
+  const capsule = lineObj(group, new THREE.CapsuleGeometry(0.22, 0.55, 6, 12), colors.mid, 0.55);
+  capsule.rotation.z = Math.PI / 7;
+  capsule.position.set(-0.35, 0.1, 0);
+
+  const cross = new THREE.Group();
+  const barH = new THREE.Mesh(
+    new THREE.BoxGeometry(0.55, 0.12, 0.12),
+    new THREE.MeshBasicMaterial({ color: colors.soft, transparent: true, opacity: 0.75 }),
+  );
+  const barV = new THREE.Mesh(
+    new THREE.BoxGeometry(0.12, 0.55, 0.12),
+    new THREE.MeshBasicMaterial({ color: colors.soft, transparent: true, opacity: 0.75 }),
+  );
+  cross.add(barH, barV);
+  cross.position.set(0.45, 0.15, 0.1);
+  group.add(cross);
+
+  const vial = lineObj(group, new THREE.CylinderGeometry(0.12, 0.12, 0.42, 12), colors.primary, 0.4);
+  vial.position.set(0.05, -0.35, -0.15);
+
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(0.85, 0.006, 8, 80),
+    new THREE.MeshBasicMaterial({ color: colors.mid, transparent: true, opacity: 0.28 }),
+  );
+  ring.rotation.x = Math.PI / 2.3;
+  group.add(ring);
+
+  return {
+    group,
+    tick(t) {
+      group.rotation.y = t * 0.3;
+      capsule.rotation.y = t * 0.4;
+      cross.rotation.z = Math.sin(t * 0.7) * 0.15;
+      vial.rotation.y = -t * 0.5;
+      ring.rotation.z = t * 0.2;
+      group.position.y += 0;
+    },
+  };
+}
+
+/**
+ * Showcase a Kenney vehicle (ambulance / race / sedan / hatchback).
+ */
+export function initVehicleScene(
+  container,
+  { model = "ambulance", tone = "forest", compact = false, desktopOnly = true } = {},
+) {
+  if (!container || prefersReduced()) return () => {};
+  if (desktopOnly && isNarrow()) return () => {};
+
+  const colors = palette(tone);
+  const medical = model === "ambulance" ? buildMedicalProps(colors, compact ? 0.7 : 0.85) : null;
+  const state = { vehicle: null };
+  const extras = { dust: null, ring: null };
+
+  const { dispose, world } = runScene(container, {
+    fov: compact ? 34 : 36,
+    z: compact ? 3.8 : 4.4,
+    pointer: 0.3,
+    onFrame: ({ t, target }) => {
+      world.rotation.y = target.x * 0.85;
+      world.rotation.x = 0.18 + target.y * 0.55;
+      if (state.vehicle) {
+        state.vehicle.rotation.y = t * 0.35;
+        state.vehicle.position.y = Math.sin(t * 0.6) * 0.06;
+      }
+      if (medical) medical.tick(t * 0.8);
+      if (extras.dust) extras.dust.rotation.y = t * 0.04;
+      if (extras.ring) extras.ring.rotation.z = t * 0.15;
+    },
+  });
+
+  extras.dust = makeParticles(world, compact ? 30 : 50, colors.soft, 2.1, 0.012, 0.3);
+  extras.ring = new THREE.Mesh(
+    new THREE.TorusGeometry(compact ? 1.3 : 1.55, 0.005, 8, 100),
+    new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.2 }),
+  );
+  extras.ring.rotation.x = Math.PI / 2.5;
+  world.add(extras.ring);
+  if (medical) {
+    medical.group.position.set(compact ? -0.95 : -1.15, 0.55, -0.3);
+    medical.group.scale.multiplyScalar(0.85);
+    world.add(medical.group);
+  }
+
+  let cancelled = false;
+  (async () => {
+    const vehicle = await loadVehicle(model);
+    if (cancelled || !vehicle) return;
+    vehicle.scale.setScalar(compact ? 1.15 : 1.35);
+    vehicle.rotation.x = 0.18;
+    world.add(vehicle);
+    state.vehicle = vehicle;
+  })();
+
+  const wrapped = () => {
+    cancelled = true;
+    dispose();
+  };
+  wrapped.setPaused = dispose.setPaused;
+  return wrapped;
+}
+
+/**
+ * Dual vehicle pad — sports car + ambulance for building / projects.
+ */
+export function initGarageScene(container, { tone = "forest", compact = false } = {}) {
+  if (!container || prefersReduced()) return () => {};
+  if (!compact && isNarrow()) return () => {};
+
+  const colors = palette(tone);
+  const state = { race: null, sedan: null };
+  const extras = { dust: null };
+
+  const { dispose, world } = runScene(container, {
+    fov: 36,
+    z: compact ? 4.2 : 4.8,
+    pointer: 0.25,
+    onFrame: ({ t, target }) => {
+      world.rotation.y = target.x * 0.55;
+      world.rotation.x = 0.12 + target.y * 0.4;
+      if (state.race) {
+        state.race.rotation.y = t * 0.32;
+        state.race.position.y = 0.1 + Math.sin(t * 0.55) * 0.05;
+      }
+      if (state.sedan) {
+        state.sedan.rotation.y = -t * 0.28 + 0.8;
+        state.sedan.position.y = -0.35 + Math.cos(t * 0.5) * 0.05;
+      }
+      if (extras.dust) extras.dust.rotation.y = t * 0.04;
+    },
+  });
+
+  extras.dust = makeParticles(world, 40, colors.soft, 2.4, 0.012, 0.28);
+  let cancelled = false;
+  (async () => {
+    const [race, sedan] = await Promise.all([loadVehicle("race"), loadVehicle("sedan")]);
+    if (cancelled) return;
+    if (race) {
+      race.scale.setScalar(1.05);
+      race.position.set(0.55, 0.1, 0.1);
+      race.rotation.x = 0.2;
+      world.add(race);
+      state.race = race;
+    }
+    if (sedan) {
+      sedan.scale.setScalar(0.95);
+      sedan.position.set(-0.75, -0.35, -0.35);
+      sedan.rotation.set(0.15, 1.0, 0);
+      world.add(sedan);
+      state.sedan = sedan;
+    }
+  })();
+
+  const wrapped = () => {
+    cancelled = true;
+    dispose();
+  };
+  wrapped.setPaused = dispose.setPaused;
+  return wrapped;
 }

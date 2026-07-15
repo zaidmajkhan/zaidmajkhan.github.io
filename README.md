@@ -38,10 +38,12 @@ Edit [`src/config/siteConfig.js`](src/config/siteConfig.js):
 | `todoAppUrl` | Live project URL when AI Todo App deploys |
 | `resumeUrl` | PDF path under `public/assets/` |
 
+3D vehicle models (Kenney Car Kit, CC0) live in `public/models/`.
+
 Replace Rive files:
 
 - `public/assets/motion.riv` — hero mark
-- `public/assets/vehicles.riv` — building section showcase
+- `public/assets/vehicles.riv` — optional motion marks
 
 ## Discoverability
 
@@ -51,7 +53,3 @@ Static SEO files live in `public/` (copied to the site root on build):
 - Open Graph / Twitter tags + JSON-LD Person schema in `index.html`
 - Favicon + apple-touch-icon + OG image under `public/assets/`
 - Plausible analytics (`script.tagged-events.js`) with CTA `data-track` events
-
-## Content
-
-Build log posts live at `/blog/` (`public/blog/`). Keep `sitemap.xml` in sync when adding posts.

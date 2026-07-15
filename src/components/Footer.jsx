@@ -66,9 +66,6 @@ export default function Footer() {
               <a href="#contact" className="hover:text-green">
                 Contact
               </a>
-              <a href={siteConfig.blogUrl} className="hover:text-green">
-                Blog
-              </a>
             </nav>
           </div>
           <div>
@@ -116,20 +113,22 @@ export default function Footer() {
           </div>
           <div>
             <p className="text-[0.65rem] font-extrabold tracking-[0.14em] text-mute uppercase">
-              Newsletter
+              Connect
             </p>
             <p className="mt-3 text-sm leading-relaxed text-mute">
-              Build log notes on systems, ops, and personal AI experiments — no spam.
+              Open to Summer & Fall 2026 internships — LinkedIn is fastest.
             </p>
-            <a
-              href={siteConfig.newsletterUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-3 inline-block text-sm font-bold text-forest underline underline-offset-4 transition-opacity hover:opacity-70 track-cta"
-              data-track="Newsletter Footer"
-            >
-              Subscribe →
-            </a>
+            {siteConfig.calBookingUrl ? (
+              <a
+                href={siteConfig.calBookingUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 inline-block text-sm font-bold text-forest underline underline-offset-4 transition-opacity hover:opacity-70 track-cta"
+                data-track="Book Call Footer Nav"
+              >
+                Book a call →
+              </a>
+            ) : null}
           </div>
         </div>
 

@@ -115,7 +115,7 @@ export default function Contact() {
           >
             <div className="scene-mount absolute inset-0">
               <Suspense fallback={null}>
-                <SceneCanvas variant="process" tone="forest" compact className="h-full w-full" />
+                <SceneCanvas variant="hatchback" tone="forest" compact className="h-full w-full" />
               </Suspense>
             </div>
           </div>
