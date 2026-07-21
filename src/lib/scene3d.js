@@ -565,7 +565,7 @@ export function initMotifScene(
 }
 
 /**
- * Hero — one primary systems motif + one soft signal accent.
+ * Hero — one primary systems motif + light dust.
  */
 export function initHeroScene(container) {
   if (!container || prefersReduced()) return () => {};
