@@ -565,7 +565,7 @@ export function initMotifScene(
 }
 
 /**
- * Hero — one primary systems motif + one soft signal accent.
+ * Hero — one primary systems motif + light dust.
  */
 export function initHeroScene(container) {
   if (!container || prefersReduced()) return () => {};
@@ -573,33 +573,29 @@ export function initHeroScene(container) {
 
   try {
     const colors = palette("forest");
-    const systems = buildSystems(colors, 1.05);
-    const signal = buildSignal(colors, 0.55);
+    const systems = buildSystems(colors, 1.15);
 
-    systems.group.position.set(1.35, 0.15, -0.15);
-    signal.group.position.set(-1.75, 0.75, -0.85);
+    systems.group.position.set(1.55, 0.1, -0.2);
 
     const extras = { dust: null };
 
     const { dispose, world, renderer } = runScene(container, {
       fov: 36,
-      z: 5.2,
-      pointer: 0.18,
+      z: 5.0,
+      pointer: 0.16,
       onFrame: ({ t, target, world: w }) => {
-        w.rotation.y = target.x * 0.32;
-        w.rotation.x = target.y * 0.2;
-        systems.tick(t * 0.7);
-        systems.group.position.y = 0.15 + Math.sin(t * 0.45) * 0.045;
-        signal.tick(t * 0.6);
-        signal.group.position.y = 0.75 + Math.sin(t * 0.4 + 1) * 0.05;
-        if (extras.dust) extras.dust.rotation.y = t * 0.025;
+        w.rotation.y = target.x * 0.28;
+        w.rotation.x = target.y * 0.16;
+        systems.tick(t * 0.65);
+        systems.group.position.y = 0.1 + Math.sin(t * 0.4) * 0.04;
+        if (extras.dust) extras.dust.rotation.y = t * 0.02;
       },
     });
 
     if (!renderer || !world) return dispose || (() => {});
 
-    world.add(systems.group, signal.group);
-    extras.dust = makeParticles(world, 55, colors.primary, 4.0, 0.012, 0.2);
+    world.add(systems.group);
+    extras.dust = makeParticles(world, 28, colors.primary, 3.6, 0.011, 0.16);
 
     return dispose;
   } catch {

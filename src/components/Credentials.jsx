@@ -1,7 +1,3 @@
-import { lazy, Suspense } from "react";
-
-const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
-
 const CREDS = [
   {
     year: "Fall '25",
@@ -31,18 +27,7 @@ const CREDS = [
 
 export default function Credentials() {
   return (
-    <section id="credentials" className="section section-band scroll-mt-24 relative overflow-hidden">
-      <div
-        className="motif-bleed motif-bleed--left pointer-events-none absolute -left-8 bottom-0 hidden h-80 w-80 opacity-60 md:block"
-        aria-hidden="true"
-      >
-        <div className="scene-mount absolute inset-0">
-          <Suspense fallback={null}>
-            <SceneCanvas variant="systems" tone="cream" compact className="h-full w-full" />
-          </Suspense>
-        </div>
-      </div>
-
+    <section id="credentials" className="section section-quiet scroll-mt-24 relative overflow-hidden">
       <div className="wrap relative z-10">
         <div className="mx-auto max-w-2xl text-center">
           <p className="eyebrow reveal text-green">05 — Proof</p>

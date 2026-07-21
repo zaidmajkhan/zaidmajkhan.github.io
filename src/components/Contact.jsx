@@ -1,7 +1,5 @@
-import { useMemo, useState, lazy, Suspense } from "react";
+import { useMemo, useState } from "react";
 import siteConfig from "../config/siteConfig.js";
-
-const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
 
 const TOPICS = [
   { value: "recruiter", label: "Internship" },
@@ -127,18 +125,7 @@ export default function Contact() {
   return (
     <section id="contact" className="section scroll-mt-24">
       <div className="wrap">
-        <div className="surface band-forest relative overflow-hidden p-5 sm:p-7 lg:p-9">
-          <div
-            className="motif-bleed pointer-events-none absolute -right-4 -top-6 hidden h-48 w-48 opacity-45 md:block"
-            aria-hidden="true"
-          >
-            <div className="scene-mount absolute inset-0">
-              <Suspense fallback={null}>
-                <SceneCanvas variant="process" tone="forest" compact className="h-full w-full" />
-              </Suspense>
-            </div>
-          </div>
-
+        <div className="surface band-forest relative overflow-hidden p-6 sm:p-8 lg:p-10">
           <div className="relative z-10 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:items-start">
             <aside>
               <p className="eyebrow reveal text-lime">06 — Contact</p>
@@ -194,7 +181,7 @@ export default function Contact() {
               </div>
             </aside>
 
-            <div className="reveal border-t border-cream/15 pt-6 lg:border-t-0 lg:border-l lg:border-cream/15 lg:pl-10 lg:pt-0">
+            <div className="reveal rounded-2xl border border-cream/15 bg-cream/[0.06] p-5 md:p-6 lg:border-0 lg:bg-transparent lg:p-0 lg:pl-10 lg:border-l lg:border-cream/15 lg:rounded-none">
               {success ? (
                 <div className="flex min-h-64 flex-col justify-center">
                   <p className="eyebrow text-lime">Sent</p>
@@ -220,22 +207,22 @@ export default function Contact() {
                   <p className="mt-2 max-w-sm text-sm text-cream/55">
                     Same note as LinkedIn — role, team, and timeline help most.
                   </p>
-                  <form className="mt-5 grid gap-4" onSubmit={onSubmit}>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <label className="grid gap-1.5">
+                  <form className="mt-6 grid gap-5" onSubmit={onSubmit}>
+                    <div className="grid gap-5 sm:grid-cols-2">
+                      <label className="grid gap-2">
                         <span className="form-label !text-cream/55">Name</span>
                         <input
-                          className="form-input !border-cream/20 !bg-transparent !text-cream placeholder:!text-cream/30 focus:!border-lime focus:!shadow-[0_0_0_3px_rgba(200,232,106,0.12)]"
+                          className="form-input form-input--on-forest"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           required
                           placeholder="Your name"
                         />
                       </label>
-                      <label className="grid gap-1.5">
+                      <label className="grid gap-2">
                         <span className="form-label !text-cream/55">Email</span>
                         <input
-                          className="form-input !border-cream/20 !bg-transparent !text-cream placeholder:!text-cream/30 focus:!border-lime focus:!shadow-[0_0_0_3px_rgba(200,232,106,0.12)]"
+                          className="form-input form-input--on-forest"
                           type="email"
                           value={formEmail}
                           onChange={(e) => setFormEmail(e.target.value)}
@@ -244,9 +231,9 @@ export default function Contact() {
                         />
                       </label>
                     </div>
-                    <div className="grid gap-1.5">
+                    <div className="grid gap-2">
                       <span className="form-label !text-cream/55">Topic</span>
-                      <div className="flex flex-wrap gap-x-4 gap-y-2 border-b border-cream/15 pb-3">
+                      <div className="flex flex-wrap gap-x-5 gap-y-2 border-b border-cream/15 pb-3.5">
                         {TOPICS.map((t) => (
                           <button
                             key={t.value}
@@ -263,10 +250,10 @@ export default function Contact() {
                         ))}
                       </div>
                     </div>
-                    <label className="grid gap-1.5">
+                    <label className="grid gap-2">
                       <span className="form-label !text-cream/55">Message</span>
                       <textarea
-                        className="form-input min-h-28 !border-cream/20 !bg-transparent !text-cream placeholder:!text-cream/30 focus:!border-lime focus:!shadow-[0_0_0_3px_rgba(200,232,106,0.12)]"
+                        className="form-input form-input--on-forest min-h-32"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         required
