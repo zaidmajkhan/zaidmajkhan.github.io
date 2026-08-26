@@ -1,6 +1,6 @@
 # zaidmajkhan.github.io
 
-Personal portfolio for **Zaid Khan** — ISEN @ Texas A&M.
+Personal portfolio for **Zaid Khan** — ISEN @ Texas A&M, building at the intersection of AI, systems engineering, and healthcare access.
 
 **Live:** https://zaidmajkhan.github.io
 

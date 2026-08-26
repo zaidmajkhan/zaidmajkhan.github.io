@@ -102,7 +102,7 @@ export default function App() {
         <About />
         <Experience />
         <Building todoAppUrl={siteConfig.todoAppUrl} />
-        <Projects todoAppUrl={siteConfig.todoAppUrl} />
+        <Projects />
         <Credentials />
         <Contact />
       </main>

@@ -1,5 +1,11 @@
 const ITEMS = [
   {
+    date: "Jul 2026 — Now",
+    type: "Research",
+    title: "ACE Lab, Texas A&M — Undergraduate Research (Dr. Sasangohar, Dr. Smith)",
+    body: "CITI human-subjects + Huron IRB certified. Parent/caregiver interviews for a parenting coaching app — qualitative methods and human-centered design.",
+  },
+  {
     date: "2025 — 2029",
     type: "Education",
     title: "Texas A&M — B.S. Industrial & Systems Engineering",
@@ -33,7 +39,7 @@ export default function Experience() {
           <div>
             <p className="eyebrow reveal text-lime">02 — Experience</p>
             <h2 className="pin-title display-lg mt-3 text-cream">
-              Pharmacy floors, school ops, competitions.
+              Pharmacy floors, research labs, shipped software.
             </h2>
           </div>
           <p className="reveal body max-w-md text-cream/65 md:justify-self-end md:text-right">

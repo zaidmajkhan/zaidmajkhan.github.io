@@ -1,27 +1,26 @@
 import siteConfig from "../config/siteConfig.js";
 
-export default function Projects({ todoAppUrl }) {
+export default function Projects() {
   const rows = [
-    { num: "01", title: "Healthcare Systems", cat: "Systems Design", year: "2026", flag: "Focus", href: "#about" },
     {
-      num: "02",
+      num: "01",
       title: "AI Lead Follow-Up Agent",
-      cat: "Python · APIs",
-      year: "2025",
+      cat: "Python · Claude · Gmail",
+      year: "2026",
       flag: "Done",
       href: "https://github.com/zaidmajkhan/lead-followup-agent",
       external: true,
     },
     {
-      num: "03",
-      title: "AI Todo App",
-      cat: "Full-stack",
+      num: "02",
+      title: "ACE Lab Research",
+      cat: "Human-centered design",
       year: "2026",
-      flag: todoAppUrl ? "Live" : "Soon",
-      href: todoAppUrl || "#building",
-      external: Boolean(todoAppUrl),
+      flag: "Active",
+      href: "#experience",
     },
-    { num: "04", title: "CVS Pharmacy Workflow", cat: "Process", year: "2025", flag: "47% ↓", href: "#experience" },
+    { num: "03", title: "CVS Pharmacy Workflow", cat: "Process", year: "2025", flag: "47% ↓", href: "#experience" },
+    { num: "04", title: "Healthcare Systems", cat: "Systems Design", year: "2026", flag: "Focus", href: "#about" },
     { num: "05", title: "Wharton Investment Comp", cat: "Strategy", year: "2023", flag: "Top 6%", href: "#credentials" },
   ];
 
@@ -34,7 +33,7 @@ export default function Projects({ todoAppUrl }) {
             <h2 className="pin-title display-lg mt-3 text-forest">Selected index</h2>
           </div>
           <p className="reveal body max-w-sm text-mute md:text-right">
-            From pharmacy process redesign to personal AI tooling.
+            From a shipped Python agent to pharmacy process redesign.
           </p>
         </div>
 
@@ -56,7 +55,7 @@ export default function Projects({ todoAppUrl }) {
                 className={
                   row.flag === "Done"
                     ? "chip chip--shipped"
-                    : row.flag === "Live"
+                    : row.flag === "Live" || row.flag === "Active"
                       ? "chip chip--live"
                       : row.flag === "Soon"
                         ? "chip chip--deploying"

@@ -3,6 +3,7 @@ import siteConfig from "../config/siteConfig.js";
 const TAG_CLASS = {
   Shipped: "chip chip--shipped",
   Live: "chip chip--live",
+  Active: "chip chip--live",
   Deploying: "chip chip--deploying",
   Planned: "chip chip--planned",
 };
@@ -13,22 +14,22 @@ export default function Building({ todoAppUrl }) {
       num: "01",
       title: "AI Lead Follow-Up Agent",
       tag: "Shipped",
-      body: "Python + Claude API + Gmail. Lead ingest, outreach, send tracking.",
+      body: "Autonomous outreach: JSON leads → Claude-personalized campaigns → Gmail OAuth. Dry-run mode, sent-tracking dedup, rate limiting, structured errors, GitHub Actions CI/CD.",
       href: "https://github.com/zaidmajkhan/lead-followup-agent",
     },
     {
       num: "02",
+      title: "ACE Lab research",
+      tag: "Active",
+      body: "Qualitative research + HCD with Dr. Farzan Sasangohar and Dr. Alec Smith. CITI / IRB certified.",
+      href: "#experience",
+    },
+    {
+      num: "03",
       title: "AI Todo App",
       tag: todoAppUrl ? "Live" : "Deploying",
       body: "FastAPI + SQLite + Claude on the server. Keys never hit the browser.",
       href: todoAppUrl || null,
-    },
-    {
-      num: "03",
-      title: "Healthcare Workflow Tools",
-      tag: "Planned",
-      body: "Process-mapping experiments from pharmacy ops — hand-offs and bottlenecks.",
-      href: null,
     },
   ];
 
@@ -39,7 +40,8 @@ export default function Building({ todoAppUrl }) {
           <p className="eyebrow reveal text-green">03 — Building</p>
           <h2 className="pin-title display-lg mt-3 text-forest">Personal projects, shipped separately.</h2>
           <p className="body reveal mt-4 max-w-lg text-mute">
-            Side projects exploring AI and full-stack tooling. Links open when something ships.
+            From a production-style Python agent to lab research — software and systems in the same
+            toolkit.
           </p>
         </div>
 
@@ -63,8 +65,9 @@ export default function Building({ todoAppUrl }) {
                 {p.href ? (
                   <a
                     href={p.href}
-                    target="_blank"
-                    rel="noreferrer"
+                    {...(p.href.startsWith("http")
+                      ? { target: "_blank", rel: "noreferrer" }
+                      : {})}
                     className="mt-4 inline-block text-xs font-extrabold tracking-[0.12em] text-green uppercase transition-opacity hover:opacity-70"
                   >
                     Open ↗

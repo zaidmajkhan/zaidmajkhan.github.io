@@ -1,5 +1,17 @@
 const CREDS = [
   {
+    year: "Aug '26",
+    title: "Nebius Agentic AI Builder",
+    badge: "Certified",
+    desc: "Agentic AI builder certification.",
+  },
+  {
+    year: "Jul '26",
+    title: "CITI / Huron IRB",
+    badge: "Certified",
+    desc: "Human subjects training for ACE Lab research.",
+  },
+  {
     year: "Fall '25",
     title: "Engineering Academies Resume Challenge",
     badge: "Winner",

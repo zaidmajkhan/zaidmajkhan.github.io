@@ -135,8 +135,8 @@ export default function Contact() {
                 <span className="text-green">and what&apos;s next.</span>
               </h2>
               <p className="reveal body mt-4 max-w-md text-cream/70">
-                Open to Summer & Fall 2026. Recruiters — LinkedIn is fastest. Weekday replies
-                within 24h.
+                Open to Summer & Fall 2026 — software engineering, applied AI, and ISE internships.
+                Recruiters — LinkedIn is fastest. Weekday replies within 24h.
               </p>
 
               <div className="reveal mt-7 border-y border-cream/15">

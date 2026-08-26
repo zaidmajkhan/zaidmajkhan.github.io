@@ -32,7 +32,7 @@ export default function Hero() {
         <div className="hero-shell-content flex min-h-[min(32rem,calc(100dvh-6rem))] flex-col justify-between p-5 sm:p-7 md:min-h-[min(34rem,calc(100dvh-5.5rem))] md:p-9 lg:min-h-[min(36rem,calc(100dvh-5.25rem))] lg:p-11">
           <div className="relative z-10 flex shrink-0 items-start justify-between gap-4">
             <p className="hero-eyebrow eyebrow text-lime">
-              Open to internships · Summer & Fall 2026
+              Open to SWE · applied AI · ISE · Summer & Fall 2026
             </p>
           </div>
 
@@ -50,8 +50,8 @@ export default function Hero() {
           <div className="relative z-10 grid shrink-0 gap-5 border-t border-cream/20 pt-5 md:grid-cols-[1.35fr_0.65fr] md:items-end">
             <div>
               <p className="hero-copy max-w-xl text-base leading-[1.7] text-cream/75 md:text-lg">
-                ISEN @ Texas A&M. Healthcare systems, process design, and tools that make complex
-                operations work.
+                ISEN @ Texas A&M. Building at the intersection of AI, systems engineering, and
+                healthcare access.
               </p>
               <div className="hero-actions mt-5 flex flex-wrap gap-2.5">
                 <a
@@ -74,7 +74,7 @@ export default function Hero() {
             <div className="hero-meta grid grid-cols-3 gap-3 border-t border-cream/15 pt-4 md:border-t-0 md:pt-0 md:text-right">
               {[
                 ["4.0", "GPA"],
-                ["47%", "Wait ↓"],
+                ["Python", "Claude API"],
                 ["CPhT", "Licensed"],
               ].map(([v, l]) => (
                 <div key={l}>

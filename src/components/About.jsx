@@ -10,7 +10,9 @@ export default function About() {
             </h2>
             <p className="body reveal mt-5 text-mute">
               I grew up watching my family navigate a healthcare system that felt designed to lose
-              people in the cracks. An engineer looks at that and sees fixable problems.
+              people in the cracks. An engineer looks at that and sees fixable problems — and the
+              toolkit is software as much as operations: Python agents, APIs, and human-centered
+              research alongside pharmacy-floor process design.
             </p>
           </div>
 
@@ -38,12 +40,17 @@ export default function About() {
           {[
             ["Studying", "ISEN @ Texas A&M", "Engineering Academies · 4.0 GPA · May 2029"],
             ["Working", "CPhT · CVS Health", "Claims, bottlenecks, and patient flow on the floor"],
-            ["Building", "AI · automation", "Python, FastAPI, Claude API — personal projects"],
-          ].map(([k, t, d], i) => (
+            ["Researching", "ACE Lab @ Texas A&M", "Qualitative methods, HCD · CITI / IRB certified"],
+            [
+              "Building",
+              "AI Lead Follow-Up Agent",
+              "Python, Claude API, Gmail API · GitHub Actions CI/CD",
+            ],
+          ].map(([k, t, d], i, rows) => (
             <article
               key={k}
               className={`grid gap-2 py-5 md:grid-cols-[7.5rem_1fr_1.2fr] md:items-baseline md:gap-6 ${
-                i < 2 ? "border-b border-forest/12" : ""
+                i < rows.length - 1 ? "border-b border-forest/12" : ""
               }`}
             >
               <span className="text-[0.65rem] font-extrabold tracking-[0.14em] text-green uppercase">
