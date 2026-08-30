@@ -7,18 +7,18 @@ export function createBeadCurtain(THREE, opts = {}) {
     typeof window !== "undefined" && window.matchMedia("(max-width: 700px)").matches;
 
   const {
-    cols = narrow ? 16 : opts.mode === "intro" ? 36 : 32,
-    rows = narrow ? 12 : opts.mode === "intro" ? 26 : 18,
-    spacingX = opts.mode === "intro" ? 0.22 : 0.155,
-    spacingY = opts.mode === "intro" ? 0.175 : 0.14,
-    beadRadius = opts.mode === "intro" ? 0.048 : 0.07,
+    cols = narrow ? 16 : opts.mode === "intro" ? 36 : 34,
+    rows = narrow ? 14 : opts.mode === "intro" ? 26 : 22,
+    spacingX = opts.mode === "intro" ? 0.22 : 0.145,
+    spacingY = opts.mode === "intro" ? 0.175 : 0.13,
+    beadRadius = opts.mode === "intro" ? 0.048 : 0.062,
     gravity = 0.0032,
     damping = 0.972,
-    mouseRadius = opts.mode === "hero" ? 1.25 : 0.92,
-    mouseStrength = opts.mode === "hero" ? 0.14 : 0.085,
+    mouseRadius = opts.mode === "hero" ? 1.45 : 0.92,
+    mouseStrength = opts.mode === "hero" ? 0.16 : 0.085,
     partSpread = 2.15,
-    xOffset = opts.mode === "hero" ? 0.45 : 0,
-    yTop = opts.mode === "hero" ? 1.4 : 2.15,
+    xOffset = opts.mode === "hero" ? 0.2 : 0,
+    yTop = opts.mode === "hero" ? 1.52 : 2.15,
     zJitter = 0.22,
     tone = "forest",
     mode = "hero",
@@ -33,7 +33,7 @@ export function createBeadCurtain(THREE, opts = {}) {
   const dummy = new THREE.Object3D();
 
   const strands = [];
-  const restLen = spacingY * 0.98;
+  const restLen = spacingY;
   const width = (cols - 1) * spacingX;
 
   for (let i = 0; i < cols; i++) {
@@ -143,78 +143,43 @@ export function createBeadCurtain(THREE, opts = {}) {
   function tick({ camera, part = 0, t = 0 }) {
     projectMouse(camera);
 
-    const wind = mode === "intro" ? 0.00055 : 0.0004;
+    const wind = mode === "intro" ? 0.05 : 0.04;
     const spread = part * partSpread;
 
     for (let s = 0; s < strands.length; s++) {
       const strand = strands[s];
       const beads = strand.beads;
       const pinShift = strand.side * spread;
+      const sway = Math.sin(t * 1.05 + strand.phase) * wind;
 
       for (let j = 0; j < beads.length; j++) {
         const p = beads[j];
-        if (p.pinned) {
-          p.x = p.restX + pinShift;
-          p.y = p.restY;
-          p.z = p.restZ;
-          p.ox = p.x;
-          p.oy = p.y;
-          p.oz = p.z;
-          continue;
-        }
+        const hangX = p.restX + pinShift + sway * (1 + j * 0.12);
+        const hangY = p.restY;
+        const hangZ = p.restZ + Math.sin(t * 0.7 + strand.phase) * 0.03;
 
-        let vx = (p.x - p.ox) * damping;
-        let vy = (p.y - p.oy) * damping;
-        let vz = (p.z - p.oz) * damping;
-        p.ox = p.x;
-        p.oy = p.y;
-        p.oz = p.z;
-
-        vx += Math.sin(t * 1.15 + strand.phase) * wind;
-        vy += gravity;
-        vx += strand.side * part * 0.012;
-
+        let pushX = 0;
+        let pushY = 0;
         if (mouse.active) {
-          const dx = p.x - mouse.x;
-          const dy = p.y - mouse.y;
+          const dx = hangX - mouse.x;
+          const dy = hangY - mouse.y;
           const d2 = dx * dx + dy * dy;
           const r2 = mouseRadius * mouseRadius;
           if (d2 < r2 && d2 > 0.0002) {
             const d = Math.sqrt(d2);
-            const f = (1 - d / mouseRadius) * mouseStrength;
-            vx += (dx / d) * f;
-            vy += (dy / d) * f;
+            const f = (1 - d / mouseRadius) * mouseStrength * (8 + j * 0.35);
+            pushX = (dx / d) * f;
+            pushY = (dy / d) * f * 0.55;
           }
         }
 
-        p.x += vx;
-        p.y += vy;
-        p.z += vz;
-      }
-
-      for (let k = 0; k < 3; k++) {
-        for (let j = 1; j < beads.length; j++) {
-          const a = beads[j - 1];
-          const b = beads[j];
-          const dx = b.x - a.x;
-          const dy = b.y - a.y;
-          const dz = b.z - a.z;
-          const d = Math.sqrt(dx * dx + dy * dy + dz * dz) || 0.0001;
-          const diff = (d - restLen) / d;
-          if (a.pinned) {
-            b.x -= dx * diff;
-            b.y -= dy * diff;
-            b.z -= dz * diff;
-          } else {
-            const half = diff * 0.5;
-            a.x += dx * half;
-            a.y += dy * half;
-            a.z += dz * half;
-            b.x -= dx * half;
-            b.y -= dy * half;
-            b.z -= dz * half;
-          }
-        }
+        const targetX = hangX + pushX + strand.side * part * j * 0.04;
+        const targetY = hangY + pushY;
+        const targetZ = hangZ;
+        const ease = p.pinned ? 1 : 0.28;
+        p.x += (targetX - p.x) * ease;
+        p.y += (targetY - p.y) * ease;
+        p.z += (targetZ - p.z) * ease;
       }
     }
 

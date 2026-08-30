@@ -582,8 +582,8 @@ export function initHeroScene(container) {
     const extras = { dust: null };
 
     const { dispose, world, renderer } = runScene(container, {
-      fov: 36,
-      z: 5.0,
+      fov: 40,
+      z: 5.2,
       pointer: 0.08,
       onFrame: ({ t, camera }) => {
         curtain.tick({ camera, t, part: 0 });
