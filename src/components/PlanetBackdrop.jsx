@@ -37,12 +37,12 @@ export default function PlanetBackdrop({ visible = true }) {
       const t = (now - start) / 1000;
       /* Figure-eight-ish idle path so it never sits still */
       const idleX =
-        Math.sin(t * 0.28) * Math.min(42, vw * 0.035) + Math.sin(t * 0.13) * 14;
+        Math.sin(t * 0.22) * Math.min(18, vw * 0.016) + Math.sin(t * 0.11) * 6;
       const idleY =
-        Math.cos(t * 0.22) * Math.min(34, vh * 0.028) + Math.sin(t * 0.37) * 10;
+        Math.cos(t * 0.18) * Math.min(14, vh * 0.012) + Math.sin(t * 0.29) * 4;
       /* Scroll also nudges it horizontally across the right half */
-      const scrollX = Math.sin(progress * Math.PI * 2) * Math.min(88, vw * 0.065);
-      const scale = 1 + Math.sin(t * 0.17) * 0.04;
+      const scrollX = Math.sin(progress * Math.PI * 2) * Math.min(36, vw * 0.028);
+      const scale = 1 + Math.sin(t * 0.14) * 0.02;
 
       el.style.setProperty("--planet-x", `${scrollX + idleX}px`);
       el.style.setProperty("--planet-y", `${y + idleY}px`);

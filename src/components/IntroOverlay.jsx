@@ -8,7 +8,7 @@ const INTERESTS = [
 
 /**
  * Loading intro — always plays on desktop and mobile.
- * If OS reduce-motion is on, skip the 3D train but still show ZK + progress.
+ * If OS reduce-motion is on, skip the 3D curtain but still show ZK + progress.
  */
 export default function IntroOverlay({ active, onPrepare, onDone }) {
   const countRef = useRef(null);
@@ -42,7 +42,7 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
       })();
     }
 
-    const duration = reduced ? 1.35 : 2.05;
+    const duration = reduced ? 1.35 : 2.6;
     const obj = { v: 0 };
     const tween = gsap.to(obj, {
       v: 100,
