@@ -16,7 +16,7 @@ import { useMotion } from "./hooks/useMotion.js";
 
 /**
  * Portfolio always plays the loader + UI motion.
- * OS "reduce motion" only dials back heavy effects (Lenis / 3D spin),
+ * OS "reduce motion" only dials back heavy effects (Lenis / 3D),
  * it no longer skips the whole experience (that was killing desktop).
  */
 export default function App() {

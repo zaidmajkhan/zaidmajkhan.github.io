@@ -20,6 +20,11 @@
   --color-void: #f7e9dc;
   --font-display: "Newsreader", "Instrument Serif", Georgia, serif;
   --font-sans: "Figtree", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-hover: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-major: 0.5s;
+  --duration-micro: 0.2s;
+  --reveal-rise: 12px;
 }
 
 @layer base {
@@ -127,15 +132,15 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     transition:
-      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-      background 0.35s ease,
-      color 0.35s ease,
-      border-color 0.35s ease,
-      box-shadow 0.4s ease,
-      opacity 0.3s ease;
+      transform var(--duration-micro) var(--ease-hover),
+      background var(--duration-micro) var(--ease-hover),
+      color var(--duration-micro) var(--ease-hover),
+      border-color var(--duration-micro) var(--ease-hover),
+      box-shadow var(--duration-major) var(--ease-enter),
+      opacity var(--duration-micro) var(--ease-hover);
   }
   .btn:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
   .btn:active {
     transform: translateY(0);
@@ -265,6 +270,8 @@
     z-index: 0;
     overflow: hidden;
     border-radius: inherit;
+    will-change: transform;
+    transition: transform 0.12s linear;
     background:
       radial-gradient(ellipse 65% 50% at 82% 28%, rgba(200, 232, 106, 0.12), transparent 58%),
       radial-gradient(ellipse 40% 35% at 12% 80%, rgba(52, 211, 153, 0.08), transparent 50%),
@@ -273,6 +280,8 @@
   .hero-shell-content {
     position: relative;
     z-index: 1;
+    will-change: transform;
+    transition: transform 0.12s linear;
   }
   /* Keep oversized serif glyphs fully visible */
   .hero-shell .display-xl {
@@ -293,28 +302,21 @@
     pointer-events: none;
     opacity: 0;
     color: var(--color-forest);
-    transform: translate3d(var(--planet-x, 0px), var(--planet-y, 8vh), 0)
-      scale(var(--planet-scale, 1));
+    transform: translate3d(var(--planet-x, 0px), var(--planet-y, 8vh), 0);
     will-change: transform;
-    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 0.8s var(--ease-enter);
     /* Soft fade at edges so the roaming mark doesn't clip hard */
     mask-image: radial-gradient(ellipse 72% 68% at 58% 48%, #000 42%, transparent 90%);
     -webkit-mask-image: radial-gradient(ellipse 72% 68% at 58% 48%, #000 42%, transparent 90%);
   }
   .planet-backdrop.is-on {
-    opacity: 0.52;
+    opacity: 0.14;
   }
   .planet-logo {
     display: block;
     width: 100%;
     height: 100%;
-    animation: planet-spin 38s linear infinite;
-    filter: drop-shadow(0 14px 36px rgba(0, 40, 0, 0.14));
-  }
-  @keyframes planet-spin {
-    to {
-      transform: rotate(360deg);
-    }
+    filter: drop-shadow(0 10px 24px rgba(0, 40, 0, 0.1));
   }
   @media (max-width: 900px) {
     .planet-backdrop {
@@ -324,7 +326,7 @@
       z-index: 0;
     }
     .planet-backdrop.is-on {
-      opacity: 0.28;
+      opacity: 0.1;
     }
     .motif-bleed {
       display: none !important;
@@ -332,7 +334,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .planet-logo {
-      animation: none;
+      filter: drop-shadow(0 10px 24px rgba(0, 40, 0, 0.1));
     }
   }
 
@@ -355,20 +357,10 @@
     display: none;
   }
   html.intro-leaving .intro-overlay {
-    animation: intro-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: intro-up 0.55s var(--ease-enter) forwards;
   }
   .intro-canvas {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0;
-    animation: intro-fade 0.8s ease 0.05s forwards;
-  }
-  .intro-canvas canvas {
-    display: block;
-    width: 100% !important;
-    height: 100% !important;
+    display: none;
   }
   .intro-mark {
     position: relative;
@@ -379,7 +371,7 @@
     line-height: 1;
     letter-spacing: -0.03em;
     opacity: 0;
-    animation: intro-mark-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards;
+    animation: intro-mark-in 0.5s var(--ease-enter) 0.06s forwards;
   }
   .intro-chips {
     position: absolute;
@@ -481,7 +473,7 @@
     text-transform: uppercase;
     color: var(--color-mute);
     opacity: 0;
-    animation: intro-fade 0.55s ease 0.18s forwards;
+    animation: intro-fade 0.45s var(--ease-enter) 0.12s forwards;
   }
   .intro-count {
     display: flex;
@@ -491,7 +483,7 @@
     font-size: clamp(1.65rem, 3.2vw, 2.75rem);
     letter-spacing: -0.02em;
     opacity: 0;
-    animation: intro-fade 0.55s ease 0.18s forwards;
+    animation: intro-fade 0.45s var(--ease-enter) 0.12s forwards;
   }
   .intro-count i {
     font-style: normal;
@@ -524,7 +516,7 @@
   @keyframes intro-mark-in {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(6px);
     }
     to {
       opacity: 1;
@@ -550,7 +542,9 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    opacity: 0.72;
+    opacity: 0.68;
+    will-change: transform;
+    transition: transform 0.12s linear;
   }
   .hero-canvas canvas,
   .scene-mount canvas {
@@ -559,7 +553,6 @@
     height: 100% !important;
   }
   .scene-mount {
-    perspective: 800px;
     transform-style: preserve-3d;
   }
   .motif-bleed {
@@ -610,9 +603,8 @@
     text-transform: uppercase;
     color: rgba(0, 40, 0, 0.58);
     transition:
-      background 0.28s ease,
-      color 0.28s ease,
-      transform 0.28s ease;
+      background var(--duration-micro) var(--ease-hover),
+      color var(--duration-micro) var(--ease-hover);
   }
   .nav-pill a:hover,
   .nav-pill a.active,
@@ -631,7 +623,10 @@
     font: inherit;
     font-size: 0.95rem;
     border-radius: 0.75rem;
-    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+    transition:
+      border-color var(--duration-micro) var(--ease-hover),
+      box-shadow var(--duration-micro) var(--ease-hover),
+      background var(--duration-micro) var(--ease-hover);
   }
   .form-input:focus {
     outline: none;
@@ -674,10 +669,9 @@
     text-transform: uppercase;
     cursor: pointer;
     transition:
-      background 0.28s ease,
-      color 0.28s ease,
-      border-color 0.28s ease,
-      transform 0.28s ease;
+      background var(--duration-micro) var(--ease-hover),
+      color var(--duration-micro) var(--ease-hover),
+      border-color var(--duration-micro) var(--ease-hover);
   }
   .topic.active,
   .topic:hover {
@@ -688,39 +682,45 @@
 
   .interactive-row {
     transition:
-      background 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      padding-left 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.3s ease;
+      background var(--duration-major) var(--ease-enter),
+      padding-left var(--duration-major) var(--ease-enter),
+      border-color var(--duration-micro) var(--ease-hover);
   }
   .interactive-row:hover {
-    background: rgba(0, 40, 0, 0.035);
-    padding-left: 0.45rem;
+    background: rgba(0, 40, 0, 0.03);
+    padding-left: 0.3rem;
   }
   .interactive-row .row-title {
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform var(--duration-micro) var(--ease-hover);
   }
   .interactive-row:hover .row-title {
-    transform: translateX(4px);
+    transform: translateX(2px);
   }
 
+  .depth-card,
   .surface-card {
     transition:
-      border-color 0.35s ease,
-      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      transform var(--duration-micro) var(--ease-hover),
+      border-color var(--duration-major) var(--ease-enter),
+      box-shadow var(--duration-major) var(--ease-enter),
+      background var(--duration-major) var(--ease-enter);
+    transform-style: preserve-3d;
   }
+  .depth-card:hover,
   .surface-card:hover {
-    border-color: color-mix(in srgb, var(--color-green) 40%, var(--color-line));
-    transform: translateY(-3px);
-    box-shadow: 0 14px 36px rgba(0, 40, 0, 0.08);
+    border-color: color-mix(in srgb, var(--color-green) 32%, var(--color-line));
+    transform: perspective(900px) rotateX(2deg) rotateY(-2deg) translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0, 40, 0, 0.07);
   }
 
   .exp-row {
-    transition: background 0.3s ease, padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transition:
+      background var(--duration-major) var(--ease-enter),
+      padding-left var(--duration-major) var(--ease-enter);
   }
   .exp-row:hover {
-    background: rgba(247, 233, 220, 0.04);
-    padding-left: 0.35rem;
+    background: rgba(247, 233, 220, 0.03);
+    padding-left: 0.25rem;
   }
 
   .band-forest {
@@ -739,42 +739,35 @@
   }
 }
 
-/* Scroll flourishes — always available (OS reduce-motion no longer blanks the site) */
-html.motion-on .reveal,
-html.motion-on .pin-title,
-html.motion-on .stagger-children > *,
-html.motion-on .stat-cell,
-html.motion-on #experience article,
-html.motion-on #projects .interactive-row,
-html.motion-on .scene-mount {
-  opacity: 1;
-  translate: 0 0;
+/* Scroll reveals — viewport-triggered, staggered via --reveal-delay */
+html.reveals-armed.motion-on .reveal:not(.in),
+html.reveals-armed.motion-on .pin-title:not(.in),
+html.reveals-armed.motion-on .stagger-children > *:not(.in),
+html.reveals-armed.motion-on .stat-cell:not(.in),
+html.reveals-armed.motion-on #experience article:not(.in),
+html.reveals-armed.motion-on #projects .interactive-row:not(.in),
+html.reveals-armed.motion-on .scene-mount:not(.in),
+html.reveals-armed.motion-on .depth-card:not(.in) {
+  opacity: 0;
+  translate: 0 var(--reveal-rise);
 }
 
-html.motion-on .reveal.in,
-html.motion-on .pin-title.in,
-html.motion-on .stagger-children > *.in,
-html.motion-on .stat-cell.in,
-html.motion-on #experience article.in,
-html.motion-on #projects .interactive-row.in,
-html.motion-on .scene-mount.in {
-  animation: reveal-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-html.motion-on .stagger-children > *.in:nth-child(2) {
-  animation-delay: 0.07s;
-}
-html.motion-on .stagger-children > *.in:nth-child(3) {
-  animation-delay: 0.14s;
-}
-html.motion-on .stagger-children > *.in:nth-child(4) {
-  animation-delay: 0.21s;
+html.reveals-armed.motion-on .reveal.in,
+html.reveals-armed.motion-on .pin-title.in,
+html.reveals-armed.motion-on .stagger-children > *.in,
+html.reveals-armed.motion-on .stat-cell.in,
+html.reveals-armed.motion-on #experience article.in,
+html.reveals-armed.motion-on #projects .interactive-row.in,
+html.reveals-armed.motion-on .scene-mount.in,
+html.reveals-armed.motion-on .depth-card.in {
+  animation: reveal-up var(--duration-major) var(--ease-enter) both;
+  animation-delay: var(--reveal-delay, 0ms);
 }
 
 @keyframes reveal-up {
   from {
-    translate: 0 1.35rem;
-    opacity: 0.15;
+    translate: 0 var(--reveal-rise);
+    opacity: 0;
   }
   to {
     translate: 0 0;
@@ -782,12 +775,13 @@ html.motion-on .stagger-children > *.in:nth-child(4) {
   }
 }
 
-html.motion-on .rule-grow {
+html.reveals-armed.motion-on .rule-grow:not(.in) {
   transform-origin: left center;
-  transform: scaleX(1);
+  transform: scaleX(0);
 }
-html.motion-on .rule-grow.in {
-  animation: rule-grow-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+html.reveals-armed.motion-on .rule-grow.in {
+  animation: rule-grow-in var(--duration-major) var(--ease-enter) both;
+  animation-delay: var(--reveal-delay, 0ms);
 }
 @keyframes rule-grow-in {
   from {
@@ -801,6 +795,7 @@ html.motion-on .rule-grow.in {
 /* Reduce-motion: keep flourishes but drop endless loops / hover noise */
 @media (prefers-reduced-motion: reduce) {
   .btn,
+  .depth-card,
   .surface-card,
   .interactive-row,
   .interactive-row .row-title,
@@ -808,16 +803,14 @@ html.motion-on .rule-grow.in {
   .nav-pill a {
     transition: none !important;
   }
-  .planet-logo {
-    animation: none !important;
-  }
-  html.motion-on .reveal.in,
-  html.motion-on .pin-title.in,
-  html.motion-on .stagger-children > *.in,
-  html.motion-on .stat-cell.in,
-  html.motion-on #experience article.in,
-  html.motion-on #projects .interactive-row.in,
-  html.motion-on .scene-mount.in {
-    animation-duration: 0.45s;
+  html.reveals-armed.motion-on .reveal.in,
+  html.reveals-armed.motion-on .pin-title.in,
+  html.reveals-armed.motion-on .stagger-children > *.in,
+  html.reveals-armed.motion-on .stat-cell.in,
+  html.reveals-armed.motion-on #experience article.in,
+  html.reveals-armed.motion-on #projects .interactive-row.in,
+  html.reveals-armed.motion-on .scene-mount.in,
+  html.reveals-armed.motion-on .depth-card.in {
+    animation-duration: 0.35s;
   }
 }

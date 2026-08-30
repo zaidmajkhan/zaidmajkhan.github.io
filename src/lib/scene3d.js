@@ -175,14 +175,14 @@ function buildSystems(colors, scale = 1) {
   return {
     group,
     tick(t) {
-      group.rotation.y = t * 0.35;
-      group.rotation.x = Math.sin(t * 0.4) * 0.15;
-      shell.rotation.z = t * 0.12;
-      core.rotation.y = -t * 0.7;
-      inner.rotation.x = t * 0.9;
-      ring.rotation.z = t * 0.25;
-      ring2.rotation.z = -t * 0.18;
-      group.position.y = baseY + Math.sin(t * 0.7) * 0.08;
+      group.rotation.y = t * 0.11;
+      group.rotation.x = Math.sin(t * 0.35) * 0.05;
+      shell.rotation.z = t * 0.04;
+      core.rotation.y = -t * 0.22;
+      inner.rotation.x = t * 0.25;
+      ring.rotation.z = t * 0.08;
+      ring2.rotation.z = -t * 0.06;
+      group.position.y = baseY + Math.sin(t * 0.55) * 0.025;
     },
   };
 }
@@ -218,15 +218,15 @@ function buildCare(colors, scale = 1) {
   return {
     group,
     tick(t) {
-      group.rotation.y = -t * 0.28;
-      capsule.rotation.y = t * 0.5;
-      shell.rotation.y = t * 0.15;
-      ring.rotation.z = t * 0.4;
+      group.rotation.y = -t * 0.09;
+      capsule.rotation.y = t * 0.16;
+      shell.rotation.y = t * 0.05;
+      ring.rotation.z = t * 0.12;
       nodes.forEach((n) => {
-        const a = t * 0.7 + n.phase;
-        n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a * 1.2) * 0.25, Math.sin(a) * n.r);
+        const a = t * 0.22 + n.phase;
+        n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a * 1.2) * 0.12, Math.sin(a) * n.r);
       });
-      group.position.y = baseY + Math.cos(t * 0.55) * 0.07;
+      group.position.y = baseY + Math.cos(t * 0.45) * 0.025;
     },
   };
 }
@@ -257,17 +257,17 @@ function buildSignal(colors, scale = 1) {
   return {
     group,
     tick(t) {
-      group.rotation.y = t * 0.45;
-      group.rotation.z = Math.sin(t * 0.5) * 0.2;
-      tet.rotation.x = t * 0.3;
-      tet2.rotation.y = -t * 0.55;
-      tet3.rotation.z = t * 0.8;
-      ring.rotation.z = t * 0.35;
+      group.rotation.y = t * 0.14;
+      group.rotation.z = Math.sin(t * 0.35) * 0.06;
+      tet.rotation.x = t * 0.1;
+      tet2.rotation.y = -t * 0.18;
+      tet3.rotation.z = t * 0.22;
+      ring.rotation.z = t * 0.1;
       nodes.forEach((n) => {
-        const a = -t * 0.85 + n.phase;
-        n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a) * 0.35, Math.sin(a) * n.r * 0.6);
+        const a = -t * 0.28 + n.phase;
+        n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a) * 0.2, Math.sin(a) * n.r * 0.6);
       });
-      group.position.y = baseY + Math.sin(t * 0.6 + 1) * 0.09;
+      group.position.y = baseY + Math.sin(t * 0.45 + 1) * 0.03;
     },
   };
 }
@@ -288,12 +288,12 @@ function buildProcess(colors, scale = 1) {
   return {
     group,
     tick(t) {
-      group.rotation.x = t * 0.32;
-      group.rotation.y = t * 0.22;
-      knot.rotation.z = t * 0.4;
-      soft.rotation.x = -t * 0.35;
-      ring.rotation.z = -t * 0.3;
-      group.position.y = baseY + Math.cos(t * 0.65 + 0.5) * 0.08;
+      group.rotation.x = t * 0.1;
+      group.rotation.y = t * 0.07;
+      knot.rotation.z = t * 0.12;
+      soft.rotation.x = -t * 0.1;
+      ring.rotation.z = -t * 0.09;
+      group.position.y = baseY + Math.cos(t * 0.5 + 0.5) * 0.025;
     },
   };
 }
@@ -487,9 +487,9 @@ function runScene(container, { fov = 38, z = 4.2, pointer = 0.25, onFrame }) {
   const animate = () => {
     raf = requestAnimationFrame(animate);
     if (paused) return;
-    t += 0.007;
-    target.x += (mouse.x - target.x) * 0.045;
-    target.y += (mouse.y - target.y) * 0.045;
+    t += 0.004;
+    target.x += (mouse.x - target.x) * 0.035;
+    target.y += (mouse.y - target.y) * 0.035;
     onFrame({ t, target, world, mouse });
     renderer.render(scene, camera);
   };
@@ -537,10 +537,10 @@ export function initMotifScene(
     const { dispose, world, renderer } = runScene(container, {
       fov: compact ? 36 : 38,
       z: compact ? 3.5 : 4.1,
-      pointer: 0.28,
+      pointer: 0.08,
       onFrame: ({ t, target, world: w }) => {
-        w.rotation.y = target.x * 0.9;
-        w.rotation.x = 0.12 + target.y * 0.7;
+        w.rotation.y = target.x * 0.2;
+        w.rotation.x = 0.08 + target.y * 0.16;
         piece.tick(t);
         if (extras.dust) extras.dust.rotation.y = t * 0.05;
         if (extras.ring) extras.ring.rotation.z = t * 0.12;
@@ -582,12 +582,12 @@ export function initHeroScene(container) {
     const { dispose, world, renderer } = runScene(container, {
       fov: 36,
       z: 5.0,
-      pointer: 0.16,
+      pointer: 0.05,
       onFrame: ({ t, target, world: w }) => {
-        w.rotation.y = target.x * 0.28;
-        w.rotation.x = target.y * 0.16;
-        systems.tick(t * 0.65);
-        systems.group.position.y = 0.1 + Math.sin(t * 0.4) * 0.04;
+        w.rotation.y = target.x * 0.08;
+        w.rotation.x = target.y * 0.05;
+        systems.tick(t * 0.45);
+        systems.group.position.y = 0.1 + Math.sin(t * 0.35) * 0.02;
         if (extras.dust) extras.dust.rotation.y = t * 0.02;
       },
     });

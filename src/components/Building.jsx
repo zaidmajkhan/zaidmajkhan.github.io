@@ -49,7 +49,7 @@ export default function Building({ todoAppUrl }) {
           {projects.map((p, i) => (
             <article
               key={p.num}
-              className={`flex min-h-[14rem] flex-col justify-between p-5 transition-colors duration-300 hover:bg-forest/[0.03] ${
+              className={`depth-card flex min-h-[14rem] flex-col justify-between p-5 transition-colors duration-500 hover:bg-forest/[0.03] ${
                 i < 2 ? "md:border-r md:border-forest/12" : ""
               } border-b border-forest/12 last:border-b-0 md:border-b-0`}
             >

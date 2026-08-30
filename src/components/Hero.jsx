@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react";
 import siteConfig from "../config/siteConfig.js";
+import { useHeroParallax } from "../hooks/useHeroParallax.js";
 
 export default function Hero() {
+  const shellRef = useRef(null);
   const canvasRef = useRef(null);
+  useHeroParallax(shellRef);
 
   useEffect(() => {
     let cleanup = () => {};
@@ -24,7 +27,7 @@ export default function Hero() {
 
   return (
     <section id="hero" className="bg-cream px-2.5 pb-2 pt-[5.1rem] md:px-4 md:pb-3 md:pt-[5.4rem]">
-      <div className="hero-shell">
+      <div ref={shellRef} className="hero-shell">
         <div className="hero-shell-media" aria-hidden="true">
           <div ref={canvasRef} className="hero-canvas" />
         </div>
@@ -39,10 +42,10 @@ export default function Hero() {
           <div className="relative z-10 shrink-0 py-5 md:py-6 lg:py-7">
             <h1 className="display-xl text-cream">
               <span className="hero-line">
-                <span className="will-change-transform">Zaid</span>
+                <span>Zaid</span>
               </span>
               <span className="hero-line">
-                <span className="will-change-transform text-lime">Khan</span>
+                <span className="text-lime">Khan</span>
               </span>
             </h1>
           </div>
