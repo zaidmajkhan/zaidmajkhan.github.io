@@ -7,18 +7,18 @@ export function createBeadCurtain(THREE, opts = {}) {
     typeof window !== "undefined" && window.matchMedia("(max-width: 700px)").matches;
 
   const {
-    cols = narrow ? 16 : opts.mode === "intro" ? 36 : 26,
-    rows = narrow ? 12 : opts.mode === "intro" ? 26 : 16,
-    spacingX = opts.mode === "intro" ? 0.22 : 0.175,
-    spacingY = opts.mode === "intro" ? 0.175 : 0.155,
-    beadRadius = 0.042,
+    cols = narrow ? 16 : opts.mode === "intro" ? 36 : 32,
+    rows = narrow ? 12 : opts.mode === "intro" ? 26 : 18,
+    spacingX = opts.mode === "intro" ? 0.22 : 0.155,
+    spacingY = opts.mode === "intro" ? 0.175 : 0.14,
+    beadRadius = opts.mode === "intro" ? 0.048 : 0.07,
     gravity = 0.0032,
     damping = 0.972,
-    mouseRadius = 0.92,
-    mouseStrength = 0.085,
+    mouseRadius = opts.mode === "hero" ? 1.25 : 0.92,
+    mouseStrength = opts.mode === "hero" ? 0.14 : 0.085,
     partSpread = 2.15,
-    xOffset = opts.mode === "hero" ? 1.15 : 0,
-    yTop = opts.mode === "hero" ? 1.62 : 2.15,
+    xOffset = opts.mode === "hero" ? 0.45 : 0,
+    yTop = opts.mode === "hero" ? 1.4 : 2.15,
     zJitter = 0.22,
     tone = "forest",
     mode = "hero",
@@ -31,10 +31,8 @@ export function createBeadCurtain(THREE, opts = {}) {
 
   const group = new THREE.Group();
   const dummy = new THREE.Object3D();
-  const color = new THREE.Color();
 
   const strands = [];
-  let count = 0;
   const restLen = spacingY * 0.98;
   const width = (cols - 1) * spacingX;
 
@@ -58,34 +56,37 @@ export function createBeadCurtain(THREE, opts = {}) {
         scale: 0.78 + ((i + j * 3) % 5) * 0.07 + (j === len - 1 ? 0.18 : 0),
         colorIndex: (i * 3 + j * 2 + (j === len - 1 ? 1 : 0)) % palette.length,
       });
-      count += 1;
     }
     strands.push({ beads, side: i < cols / 2 ? -1 : 1, phase: i * 0.37 });
   }
 
-  const geo = new THREE.SphereGeometry(beadRadius, 10, 8);
-  const mat = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    vertexColors: true,
-    transparent: true,
-    opacity: tone === "cream" ? 0.82 : 0.9,
-    depthWrite: false,
-  });
-  const mesh = new THREE.InstancedMesh(geo, mat, count);
-  mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-  mesh.frustumCulled = false;
-  group.add(mesh);
-
-  let idx = 0;
+  const geo = new THREE.SphereGeometry(beadRadius, 12, 10);
+  const opacity = tone === "cream" ? 0.88 : 0.94;
+  const buckets = palette.map(() => []);
   strands.forEach((s) => {
-    s.beads.forEach((b) => {
-      color.setHex(palette[b.colorIndex]);
-      mesh.setColorAt(idx, color);
-      b.index = idx;
-      idx += 1;
-    });
+    s.beads.forEach((b) => buckets[b.colorIndex].push(b));
   });
-  if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+  const meshes = [];
+  const materials = [];
+  buckets.forEach((beads, ci) => {
+    if (!beads.length) return;
+    const mat = new THREE.MeshBasicMaterial({
+      color: palette[ci],
+      transparent: true,
+      opacity,
+      depthWrite: false,
+    });
+    const mesh = new THREE.InstancedMesh(geo, mat, beads.length);
+    mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    mesh.frustumCulled = false;
+    beads.forEach((b, i) => {
+      b.mesh = mesh;
+      b.instance = i;
+    });
+    group.add(mesh);
+    meshes.push(mesh);
+    materials.push(mat);
+  });
 
   const threadCount = strands.reduce((n, s) => n + Math.max(0, s.beads.length - 1), 0);
   const threadPos = new Float32Array(threadCount * 2 * 3);
@@ -94,7 +95,7 @@ export function createBeadCurtain(THREE, opts = {}) {
   const threadMat = new THREE.LineBasicMaterial({
     color: tone === "cream" ? 0x0d6b48 : 0xc8e86a,
     transparent: true,
-    opacity: 0.18,
+    opacity: tone === "cream" ? 0.22 : 0.28,
     depthWrite: false,
   });
   const threads = new THREE.LineSegments(threadGeo, threadMat);
@@ -217,7 +218,6 @@ export function createBeadCurtain(THREE, opts = {}) {
       }
     }
 
-    let bi = 0;
     let ti = 0;
     for (let s = 0; s < strands.length; s++) {
       const beads = strands[s].beads;
@@ -226,7 +226,7 @@ export function createBeadCurtain(THREE, opts = {}) {
         dummy.position.set(p.x, p.y, p.z);
         dummy.scale.setScalar(p.scale);
         dummy.updateMatrix();
-        mesh.setMatrixAt(p.index, dummy.matrix);
+        p.mesh.setMatrixAt(p.instance, dummy.matrix);
         if (j > 0) {
           const a = beads[j - 1];
           threadPos[ti++] = a.x;
@@ -236,12 +236,12 @@ export function createBeadCurtain(THREE, opts = {}) {
           threadPos[ti++] = p.y;
           threadPos[ti++] = p.z;
         }
-        bi += 1;
       }
     }
-    mesh.instanceMatrix.needsUpdate = true;
+    meshes.forEach((m) => {
+      m.instanceMatrix.needsUpdate = true;
+    });
     threadGeo.attributes.position.needsUpdate = true;
-    void bi;
   }
 
   function dispose() {
@@ -251,10 +251,12 @@ export function createBeadCurtain(THREE, opts = {}) {
       window.removeEventListener("pointerleave", onLeave);
     }
     geo.dispose();
-    mat.dispose();
+    materials.forEach((m) => m.dispose());
+    meshes.forEach((m) => {
+      if (m.parent) m.parent.remove(m);
+    });
     threadGeo.dispose();
     threadMat.dispose();
-    if (mesh.parent) mesh.parent.remove(mesh);
     if (threads.parent) threads.parent.remove(threads);
   }
 
