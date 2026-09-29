@@ -53,8 +53,8 @@ export default function Hero() {
           <div className="relative z-10 grid shrink-0 gap-5 border-t border-cream/20 pt-5 md:grid-cols-[1.35fr_0.65fr] md:items-end">
             <div>
               <p className="hero-copy max-w-xl text-base leading-[1.7] text-cream/75 md:text-lg">
-                ISEN @ Texas A&M (4.0). Research labs, a shipped Python agent, and pharmacy-floor
-                process work — systems engineering with a software toolkit.
+                ISEN @ Texas A&M (4.0). Research labs in motion, a shipped Python agent, and
+                pharmacy-floor systems engineered under pressure.
               </p>
               <div className="hero-actions mt-5 flex flex-wrap gap-2.5">
                 <a

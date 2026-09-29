@@ -2,16 +2,18 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const INTERESTS = [
-  { key: "systems", label: "Systems", detail: "ISE · design" },
+  { key: "systems", label: "Systems", detail: "ISE · labs" },
   { key: "signal", label: "Signal", detail: "AI · build" },
+  { key: "care", label: "Care", detail: "Pharmacy · ops" },
 ];
 
 /**
- * Calm loading intro — typography + progress only (no 3D).
+ * Loading intro — rocket launch 3D + ZK + progress.
  */
 export default function IntroOverlay({ active, onPrepare, onDone }) {
   const countRef = useRef(null);
   const barRef = useRef(null);
+  const canvasRef = useRef(null);
   const preparedRef = useRef(false);
   const onPrepareRef = useRef(onPrepare);
   const onDoneRef = useRef(onDone);
@@ -24,12 +26,27 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.documentElement.classList.remove("intro-seen", "intro-leaving");
 
-    const duration = reduced ? 1.1 : 1.65;
+    let disposeScene = () => {};
+    let cancelled = false;
+
+    if (!reduced) {
+      (async () => {
+        try {
+          const { initIntroScene } = await import("../lib/scene3d.js");
+          if (cancelled || !canvasRef.current) return;
+          disposeScene = initIntroScene(canvasRef.current) || (() => {});
+        } catch {
+          disposeScene = () => {};
+        }
+      })();
+    }
+
+    const duration = reduced ? 1.2 : 2.05;
     const obj = { v: 0 };
     const tween = gsap.to(obj, {
       v: 100,
       duration,
-      ease: "power1.inOut",
+      ease: "power2.inOut",
       onUpdate: () => {
         const v = Math.round(obj.v);
         if (countRef.current) countRef.current.textContent = String(v);
@@ -42,23 +59,31 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
       chipsTl
         .fromTo(
           ".intro-chip",
-          { opacity: 0, y: 6 },
-          { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, delay: 0.1, ease: "power1.out" },
+          { opacity: 0, y: 14, scale: 0.96 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.48,
+            stagger: 0.08,
+            delay: 0.12,
+            ease: "power3.out",
+          },
         )
         .to(
           ".intro-chip",
-          { opacity: 0, y: -4, duration: 0.28, stagger: 0.03, ease: "power1.in" },
+          { opacity: 0, y: -10, duration: 0.32, stagger: 0.04, ease: "power2.in" },
           duration * 0.62,
         );
     }
 
-    const leaveAt = Math.round(duration * 1000) + 40;
+    const leaveAt = Math.round(duration * 1000) + 50;
     const prepare = window.setTimeout(() => {
       if (!preparedRef.current) {
         preparedRef.current = true;
         onPrepareRef.current?.();
       }
-    }, Math.max(350, leaveAt - 220));
+    }, Math.max(400, leaveAt - 250));
 
     const done = window.setTimeout(() => {
       document.documentElement.classList.add("intro-leaving");
@@ -66,14 +91,16 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
         document.documentElement.classList.add("intro-seen");
         document.documentElement.classList.remove("intro-leaving");
         onDoneRef.current?.();
-      }, 480);
+      }, 550);
     }, leaveAt);
 
     return () => {
+      cancelled = true;
       tween.kill();
       chipsTl.kill();
       clearTimeout(prepare);
       clearTimeout(done);
+      disposeScene();
     };
   }, [active]);
 
@@ -81,6 +108,8 @@ export default function IntroOverlay({ active, onPrepare, onDone }) {
 
   return (
     <div className="intro-overlay" id="introOverlay" aria-hidden="true">
+      <div ref={canvasRef} className="intro-canvas" />
+
       <div className="intro-chips" aria-hidden="true">
         {INTERESTS.map((item) => (
           <div key={item.key} className={`intro-chip intro-chip--${item.key}`}>

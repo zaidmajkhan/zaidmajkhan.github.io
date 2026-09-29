@@ -311,13 +311,13 @@
     -webkit-mask-image: radial-gradient(ellipse 72% 68% at 58% 48%, #000 42%, transparent 90%);
   }
   .planet-backdrop.is-on {
-    opacity: 0.24;
+    opacity: 0.3;
   }
   .planet-logo {
     display: block;
     width: 100%;
     height: 100%;
-    animation: planet-spin 48s linear infinite;
+    animation: planet-spin 36s linear infinite;
     filter: drop-shadow(0 12px 28px rgba(0, 40, 0, 0.12));
   }
   @keyframes planet-spin {
@@ -368,7 +368,17 @@
     animation: intro-up 0.55s var(--ease-enter) forwards;
   }
   .intro-canvas {
-    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    animation: intro-fade 0.8s ease 0.05s forwards;
+  }
+  .intro-canvas canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
   }
   .intro-mark {
     position: relative;

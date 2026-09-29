@@ -1,4 +1,8 @@
+import { lazy, Suspense } from "react";
 import siteConfig from "../config/siteConfig.js";
+
+const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
+const RiveMark = lazy(() => import("./RiveMark.jsx"));
 
 const TAG_CLASS = {
   Shipped: "chip chip--shipped",
@@ -36,58 +40,78 @@ export default function Building() {
   return (
     <section id="building" className="section scroll-mt-24">
       <div className="wrap">
-        <div className="mx-auto max-w-3xl">
-          <p className="eyebrow reveal text-green">03 — Building</p>
-          <h2 className="pin-title display-lg mt-3 text-forest">Projects, labs, pharmacy floor.</h2>
-          <p className="body reveal mt-4 max-w-lg text-mute">
-            A shipped Python agent, human-centered lab research, and process work under real
-            patient load — same toolkit.
-          </p>
-        </div>
+        <div className="surface mx-auto overflow-hidden p-5 md:p-8 lg:p-10">
+          <div className="grid items-end gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+            <div>
+              <p className="eyebrow reveal text-green">03 — Building</p>
+              <h2 className="pin-title display-lg mt-3 text-forest">
+                Projects, labs, pharmacy floor.
+              </h2>
+              <p className="body reveal mt-4 max-w-lg text-mute">
+                A shipped Python agent, human-centered lab research, and process work under real
+                patient load — same toolkit.
+              </p>
+            </div>
+            <div className="reveal relative hidden h-48 overflow-hidden rounded-xl bg-forest lg:block">
+              <Suspense fallback={null}>
+                <SceneCanvas
+                  variant="rocket"
+                  tone="forest"
+                  compact
+                  className="absolute inset-0 h-full w-full opacity-90"
+                />
+                <RiveMark
+                  src="/assets/vehicles.riv"
+                  className="absolute inset-0 h-full w-full opacity-28 mix-blend-screen"
+                />
+              </Suspense>
+            </div>
+          </div>
 
-        <div className="stagger-children mt-8 grid border-y border-forest/12 md:grid-cols-3">
-          {PROJECTS.map((p, i) => (
-            <article
-              key={p.num}
-              className={`depth-card flex min-h-[14rem] flex-col justify-between p-5 transition-colors duration-500 hover:bg-forest/[0.03] ${
-                i < 2 ? "md:border-r md:border-forest/12" : ""
-              } border-b border-forest/12 last:border-b-0 md:border-b-0`}
+          <div className="stagger-children mt-8 grid border-y border-forest/12 md:grid-cols-3">
+            {PROJECTS.map((p, i) => (
+              <article
+                key={p.num}
+                className={`depth-card flex min-h-[14rem] flex-col justify-between p-5 transition-colors duration-500 hover:bg-forest/[0.03] ${
+                  i < 2 ? "md:border-r md:border-forest/12" : ""
+                } border-b border-forest/12 last:border-b-0 md:border-b-0`}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-display text-3xl text-forest">{p.num}</span>
+                  <span className={TAG_CLASS[p.tag] || "chip"}>{p.tag}</span>
+                </div>
+                <div className="mt-8">
+                  <h3 className="font-display text-xl leading-snug tracking-[-0.02em] text-forest">
+                    {p.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-mute">{p.body}</p>
+                  {p.href ? (
+                    <a
+                      href={p.href}
+                      {...(p.href.startsWith("http")
+                        ? { target: "_blank", rel: "noreferrer" }
+                        : {})}
+                      className="mt-4 inline-block text-xs font-extrabold tracking-[0.12em] text-green uppercase transition-opacity hover:opacity-70"
+                    >
+                      Open ↗
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="reveal mt-7">
+            <a
+              href={siteConfig.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-green track-cta"
+              data-track="GitHub Building"
             >
-              <div className="flex items-center justify-between gap-2">
-                <span className="font-display text-3xl text-forest">{p.num}</span>
-                <span className={TAG_CLASS[p.tag] || "chip"}>{p.tag}</span>
-              </div>
-              <div className="mt-8">
-                <h3 className="font-display text-xl leading-snug tracking-[-0.02em] text-forest">
-                  {p.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-mute">{p.body}</p>
-                {p.href ? (
-                  <a
-                    href={p.href}
-                    {...(p.href.startsWith("http")
-                      ? { target: "_blank", rel: "noreferrer" }
-                      : {})}
-                    className="mt-4 inline-block text-xs font-extrabold tracking-[0.12em] text-green uppercase transition-opacity hover:opacity-70"
-                  >
-                    Open ↗
-                  </a>
-                ) : null}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="reveal mt-7">
-          <a
-            href={siteConfig.githubUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-green track-cta"
-            data-track="GitHub Building"
-          >
-            View GitHub
-          </a>
+              View GitHub
+            </a>
+          </div>
         </div>
       </div>
     </section>

@@ -175,14 +175,14 @@ function buildSystems(colors, scale = 1) {
   return {
     group,
     tick(t) {
-      group.rotation.y = t * 0.24;
-      group.rotation.x = Math.sin(t * 0.38) * 0.09;
-      shell.rotation.z = t * 0.09;
-      core.rotation.y = -t * 0.48;
-      inner.rotation.x = t * 0.52;
-      ring.rotation.z = t * 0.16;
-      ring2.rotation.z = -t * 0.12;
-      group.position.y = baseY + Math.sin(t * 0.6) * 0.04;
+      group.rotation.y = t * 0.32;
+      group.rotation.x = Math.sin(t * 0.42) * 0.12;
+      shell.rotation.z = t * 0.12;
+      core.rotation.y = -t * 0.62;
+      inner.rotation.x = t * 0.68;
+      ring.rotation.z = t * 0.22;
+      ring2.rotation.z = -t * 0.16;
+      group.position.y = baseY + Math.sin(t * 0.7) * 0.05;
     },
   };
 }
@@ -218,15 +218,15 @@ function buildCare(colors, scale = 1) {
   return {
     group,
     tick(t) {
-      group.rotation.y = -t * 0.2;
-      capsule.rotation.y = t * 0.34;
-      shell.rotation.y = t * 0.12;
-      ring.rotation.z = t * 0.26;
+      group.rotation.y = -t * 0.28;
+      capsule.rotation.y = t * 0.45;
+      shell.rotation.y = t * 0.16;
+      ring.rotation.z = t * 0.34;
       nodes.forEach((n) => {
-        const a = t * 0.48 + n.phase;
-        n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a * 1.2) * 0.18, Math.sin(a) * n.r);
+        const a = t * 0.62 + n.phase;
+        n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a * 1.2) * 0.22, Math.sin(a) * n.r);
       });
-      group.position.y = baseY + Math.cos(t * 0.5) * 0.04;
+      group.position.y = baseY + Math.cos(t * 0.58) * 0.05;
     },
   };
 }
@@ -257,17 +257,17 @@ function buildSignal(colors, scale = 1) {
   return {
     group,
     tick(t) {
-      group.rotation.y = t * 0.3;
-      group.rotation.z = Math.sin(t * 0.42) * 0.12;
-      tet.rotation.x = t * 0.2;
-      tet2.rotation.y = -t * 0.36;
-      tet3.rotation.z = t * 0.48;
-      ring.rotation.z = t * 0.22;
+      group.rotation.y = t * 0.4;
+      group.rotation.z = Math.sin(t * 0.5) * 0.15;
+      tet.rotation.x = t * 0.28;
+      tet2.rotation.y = -t * 0.48;
+      tet3.rotation.z = t * 0.62;
+      ring.rotation.z = t * 0.3;
       nodes.forEach((n) => {
-        const a = -t * 0.55 + n.phase;
-        n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a) * 0.28, Math.sin(a) * n.r * 0.6);
+        const a = -t * 0.7 + n.phase;
+        n.mesh.position.set(Math.cos(a) * n.r, Math.sin(a) * 0.32, Math.sin(a) * n.r * 0.6);
       });
-      group.position.y = baseY + Math.sin(t * 0.52 + 1) * 0.05;
+      group.position.y = baseY + Math.sin(t * 0.62 + 1) * 0.06;
     },
   };
 }
@@ -288,12 +288,12 @@ function buildProcess(colors, scale = 1) {
   return {
     group,
     tick(t) {
-      group.rotation.x = t * 0.22;
-      group.rotation.y = t * 0.16;
-      knot.rotation.z = t * 0.28;
-      soft.rotation.x = -t * 0.22;
-      ring.rotation.z = -t * 0.2;
-      group.position.y = baseY + Math.cos(t * 0.58 + 0.5) * 0.045;
+      group.rotation.x = t * 0.3;
+      group.rotation.y = t * 0.22;
+      knot.rotation.z = t * 0.38;
+      soft.rotation.x = -t * 0.3;
+      ring.rotation.z = -t * 0.28;
+      group.position.y = baseY + Math.cos(t * 0.68 + 0.5) * 0.055;
     },
   };
 }
@@ -394,7 +394,64 @@ function buildPlanet(colors, scale = 1, opts = {}) {
   };
 }
 
-/** Wireframe locomotive — rolls across the intro. */
+/** Wireframe rocket — intro launch + hero orbit. */
+function buildRocket(colors, scale = 1) {
+  const group = new THREE.Group();
+  group.scale.setScalar(scale);
+
+  const body = lineObj(group, new THREE.CylinderGeometry(0.22, 0.28, 1.15, 12), colors.primary, 0.55);
+  body.position.y = 0.1;
+
+  const nose = lineObj(group, new THREE.ConeGeometry(0.22, 0.42, 12), colors.soft, 0.6);
+  nose.position.y = 0.88;
+
+  const collar = lineObj(group, new THREE.TorusGeometry(0.24, 0.02, 6, 24), colors.mid, 0.45);
+  collar.rotation.x = Math.PI / 2;
+  collar.position.y = 0.55;
+
+  const window = lineObj(group, new THREE.TorusGeometry(0.09, 0.018, 6, 20), colors.soft, 0.55);
+  window.position.set(0, 0.28, 0.22);
+
+  const fins = [];
+  for (let i = 0; i < 3; i++) {
+    const fin = lineObj(group, new THREE.ConeGeometry(0.14, 0.38, 4), colors.mid, 0.5);
+    const a = (i / 3) * Math.PI * 2;
+    fin.position.set(Math.cos(a) * 0.32, -0.42, Math.sin(a) * 0.32);
+    fin.rotation.z = Math.cos(a) * 0.55;
+    fin.rotation.x = Math.sin(a) * 0.55;
+    fins.push(fin);
+  }
+
+  const nozzle = lineObj(group, new THREE.CylinderGeometry(0.16, 0.22, 0.18, 10), colors.primary, 0.4);
+  nozzle.position.y = -0.58;
+
+  const flame = new THREE.Mesh(
+    new THREE.ConeGeometry(0.14, 0.45, 8),
+    new THREE.MeshBasicMaterial({
+      color: colors.soft,
+      transparent: true,
+      opacity: 0.35,
+      depthWrite: false,
+    }),
+  );
+  flame.rotation.x = Math.PI;
+  flame.position.y = -0.92;
+  group.add(flame);
+
+  return {
+    group,
+    tick(t, thrust = 1) {
+      group.rotation.y = t * 0.55;
+      fins.forEach((f, i) => {
+        f.rotation.y = t * 0.4 + i;
+      });
+      flame.scale.setScalar(0.75 + Math.sin(t * 14) * 0.28 * thrust);
+      flame.material.opacity = 0.22 + Math.sin(t * 11) * 0.14 * thrust;
+    },
+  };
+}
+
+/** Wireframe locomotive — kept for compatibility. */
 function buildTrain(colors, scale = 1) {
   const group = new THREE.Group();
   group.scale.setScalar(scale);
@@ -453,6 +510,7 @@ const MOTIF_BUILDERS = {
   signal: buildSignal,
   process: buildProcess,
   planet: buildPlanet,
+  rocket: buildRocket,
 };
 
 /**
@@ -487,7 +545,7 @@ function runScene(container, { fov = 38, z = 4.2, pointer = 0.25, onFrame }) {
   const animate = () => {
     raf = requestAnimationFrame(animate);
     if (paused) return;
-    t += 0.006;
+    t += 0.008;
     target.x += (mouse.x - target.x) * 0.035;
     target.y += (mouse.y - target.y) * 0.035;
     onFrame({ t, target, world, mouse });
@@ -517,7 +575,7 @@ function runScene(container, { fov = 38, z = 4.2, pointer = 0.25, onFrame }) {
 
 /**
  * Single interest motif for section mounts.
- * @param {"systems"|"care"|"signal"|"process"} motif
+ * @param {"systems"|"care"|"signal"|"process"|"rocket"|"planet"} motif
  * @param {"cream"|"forest"} tone
  */
 export function initMotifScene(
@@ -531,29 +589,29 @@ export function initMotifScene(
     const colors = palette(tone);
     const builder = MOTIF_BUILDERS[motif] || buildSystems;
     const piece = builder(colors, compact ? 0.85 : 1);
-    const dustCount = compact ? 28 : 48;
+    const dustCount = compact ? 36 : 64;
     const extras = { dust: null, ring: null };
 
     const { dispose, world, renderer } = runScene(container, {
       fov: compact ? 36 : 38,
       z: compact ? 3.5 : 4.1,
-      pointer: 0.1,
+      pointer: 0.18,
       onFrame: ({ t, target, world: w }) => {
-        w.rotation.y = target.x * 0.18;
-        w.rotation.x = 0.06 + target.y * 0.12;
+        w.rotation.y = target.x * 0.28;
+        w.rotation.x = 0.06 + target.y * 0.18;
         piece.tick(t);
-        if (extras.dust) extras.dust.rotation.y = t * 0.05;
-        if (extras.ring) extras.ring.rotation.z = t * 0.12;
+        if (extras.dust) extras.dust.rotation.y = t * 0.08;
+        if (extras.ring) extras.ring.rotation.z = t * 0.18;
       },
     });
 
     if (!renderer || !world) return dispose || (() => {});
 
     world.add(piece.group);
-    extras.dust = makeParticles(world, dustCount, colors.soft, compact ? 1.7 : 2.2, 0.012, 0.32);
+    extras.dust = makeParticles(world, dustCount, colors.soft, compact ? 1.7 : 2.2, 0.014, 0.38);
     extras.ring = new THREE.Mesh(
       new THREE.TorusGeometry(compact ? 1.35 : 1.55, 0.004, 8, 100),
-      new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.16 }),
+      new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.2 }),
     );
     extras.ring.rotation.x = Math.PI / 2.6;
     world.add(extras.ring);
@@ -565,7 +623,7 @@ export function initMotifScene(
 }
 
 /**
- * Hero — one primary systems motif + light dust.
+ * Hero — systems lattice + orbiting rocket + dust field.
  */
 export function initHeroScene(container) {
   if (!container || prefersReduced()) return () => {};
@@ -573,29 +631,49 @@ export function initHeroScene(container) {
 
   try {
     const colors = palette("forest");
-    const systems = buildSystems(colors, 1.15);
+    const systems = buildSystems(colors, 1.12);
+    const rocket = buildRocket(colors, 0.42);
+    const signal = buildSignal(colors, 0.38);
 
-    systems.group.position.set(1.55, 0.1, -0.2);
+    systems.group.position.set(1.45, 0.05, -0.15);
+    signal.group.position.set(-1.55, -0.55, -0.8);
 
-    const extras = { dust: null };
+    const extras = { dust: null, dust2: null, ribbon: null };
 
     const { dispose, world, renderer } = runScene(container, {
       fov: 36,
       z: 5.0,
-      pointer: 0.12,
+      pointer: 0.22,
       onFrame: ({ t, target, world: w }) => {
-        w.rotation.y = target.x * 0.16;
-        w.rotation.x = target.y * 0.1;
-        systems.tick(t * 0.62);
-        systems.group.position.y = 0.1 + Math.sin(t * 0.42) * 0.035;
-        if (extras.dust) extras.dust.rotation.y = t * 0.04;
+        w.rotation.y = target.x * 0.22;
+        w.rotation.x = target.y * 0.14;
+        systems.tick(t * 0.78);
+        systems.group.position.y = 0.08 + Math.sin(t * 0.5) * 0.045;
+        signal.tick(t * 0.9);
+        signal.group.rotation.y = t * 0.35;
+
+        const a = t * 0.55;
+        rocket.group.position.set(
+          Math.cos(a) * 2.15 + 0.35,
+          Math.sin(a * 1.15) * 0.85 + 0.15,
+          Math.sin(a) * 0.9 - 0.4,
+        );
+        rocket.group.rotation.z = -0.9 + Math.sin(a) * 0.25;
+        rocket.group.rotation.x = 0.35;
+        rocket.tick(t * 1.4, 1.1);
+
+        if (extras.dust) extras.dust.rotation.y = t * 0.06;
+        if (extras.dust2) extras.dust2.rotation.y = -t * 0.04;
+        if (extras.ribbon) extras.ribbon.rotation.y = t * 0.05;
       },
     });
 
     if (!renderer || !world) return dispose || (() => {});
 
-    world.add(systems.group);
-    extras.dust = makeParticles(world, 28, colors.primary, 3.6, 0.011, 0.16);
+    world.add(systems.group, rocket.group, signal.group);
+    extras.dust = makeParticles(world, 56, colors.primary, 3.8, 0.012, 0.22);
+    extras.dust2 = makeParticles(world, 28, colors.soft, 4.4, 0.009, 0.14);
+    extras.ribbon = makeOrbitRibbon(world, colors.mid, 0.14);
 
     return dispose;
   } catch {
@@ -614,87 +692,73 @@ export function initLatticeScene(container) {
 }
 
 /**
- * Intro loader — train crossing + mini flybys (no Saturn).
+ * Intro loader — rocket launch + spinning flybys.
  */
 export function initIntroScene(container) {
   if (!container || prefersReduced()) return () => {};
 
   try {
     const colors = palette("cream");
-    const train = buildTrain(colors, 1.05);
+    const rocket = buildRocket(colors, 1.15);
 
     const flyers = [];
     const flyerSpecs = [
-      { geo: () => new THREE.IcosahedronGeometry(0.22, 0), color: colors.primary, y: 1.35, z: -0.8, speed: 1.15, phase: 0.0, spin: 0.9 },
-      { geo: () => new THREE.OctahedronGeometry(0.2, 0), color: colors.soft, y: 0.85, z: -1.1, speed: 0.9, phase: 1.2, spin: 1.1 },
-      { geo: () => new THREE.BoxGeometry(0.28, 0.28, 0.28), color: colors.mid, y: -0.95, z: -0.6, speed: 1.05, phase: 2.1, spin: 0.7 },
-      { geo: () => new THREE.TetrahedronGeometry(0.24, 0), color: colors.primary, y: -1.35, z: -1.0, speed: 0.8, phase: 0.55, spin: 1.3 },
-      { geo: () => new THREE.DodecahedronGeometry(0.18, 0), color: colors.soft, y: 1.75, z: -1.4, speed: 1.25, phase: 2.8, spin: 0.85 },
-      { geo: () => new THREE.CapsuleGeometry(0.1, 0.22, 4, 8), color: colors.mid, y: -0.35, z: -1.3, speed: 0.95, phase: 1.7, spin: 1.0 },
+      { geo: () => new THREE.IcosahedronGeometry(0.22, 0), color: colors.primary, y: 1.35, z: -0.8, speed: 1.25, phase: 0.0, spin: 1.1 },
+      { geo: () => new THREE.OctahedronGeometry(0.2, 0), color: colors.soft, y: 0.85, z: -1.1, speed: 1.0, phase: 1.2, spin: 1.3 },
+      { geo: () => new THREE.BoxGeometry(0.28, 0.28, 0.28), color: colors.mid, y: -0.95, z: -0.6, speed: 1.15, phase: 2.1, spin: 0.85 },
+      { geo: () => new THREE.TetrahedronGeometry(0.24, 0), color: colors.primary, y: -1.35, z: -1.0, speed: 0.9, phase: 0.55, spin: 1.45 },
+      { geo: () => new THREE.DodecahedronGeometry(0.18, 0), color: colors.soft, y: 1.75, z: -1.4, speed: 1.35, phase: 2.8, spin: 1.0 },
+      { geo: () => new THREE.CapsuleGeometry(0.1, 0.22, 4, 8), color: colors.mid, y: -0.35, z: -1.3, speed: 1.05, phase: 1.7, spin: 1.15 },
     ];
 
-    const track = new THREE.Group();
-    const railMat = new THREE.LineBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.22 });
-    for (const y of [-0.12, 0.12]) {
-      const pts = [new THREE.Vector3(-8, 0, y), new THREE.Vector3(8, 0, y)];
-      const geo = new THREE.BufferGeometry().setFromPoints(pts);
-      track.add(new THREE.Line(geo, railMat));
-    }
-    for (let i = -10; i <= 10; i++) {
-      const tie = lineObj(track, new THREE.BoxGeometry(0.08, 0.02, 0.38), colors.primary, 0.16);
-      tie.position.set(i * 0.7, -0.08, 0);
-    }
-    track.position.set(0, -0.85, 0);
-
     const extras = { dust: null, dust2: null };
-    const trainStart = -5.8;
-    const trainEnd = 5.8;
     const tripSec = 2.05;
     const startedAt = performance.now();
 
     const { dispose, world, renderer } = runScene(container, {
       fov: 42,
-      z: 7.2,
-      pointer: 0.12,
+      z: 7.0,
+      pointer: 0.16,
       onFrame: ({ t, target, world: w }) => {
-        w.rotation.y = target.x * 0.12;
-        w.rotation.x = target.y * 0.08;
+        w.rotation.y = target.x * 0.14;
+        w.rotation.x = target.y * 0.1;
 
         const elapsed = (performance.now() - startedAt) / 1000;
         const u = Math.min(1, Math.max(0, elapsed / tripSec));
         const ease = u * u * (3 - 2 * u);
-        train.group.position.x = trainStart + (trainEnd - trainStart) * ease;
-        train.group.position.y = -0.55;
-        train.group.position.z = 0.2;
-        train.tick(t, 1.2 + ease);
+
+        /* Diagonal launch: bottom-left → upper-right */
+        rocket.group.position.x = -4.2 + ease * 8.6;
+        rocket.group.position.y = -2.4 + ease * 5.2;
+        rocket.group.position.z = 0.3;
+        rocket.group.rotation.z = -0.95 + ease * 0.35;
+        rocket.group.rotation.x = 0.25;
+        rocket.tick(t * 1.6, 1.2 + ease);
 
         flyers.forEach((f) => {
-          const local = (elapsed * f.speed * 0.35 + f.phase) % 1.0;
-          f.group.position.x = 4.8 - local * 9.6;
-          f.group.position.y = f.baseY + Math.sin(t * 0.8 + f.phase) * 0.12;
+          const local = (elapsed * f.speed * 0.42 + f.phase) % 1.0;
+          f.group.position.x = 5.0 - local * 10.2;
+          f.group.position.y = f.baseY + Math.sin(t * 1.1 + f.phase) * 0.16;
           f.group.position.z = f.baseZ;
           f.group.rotation.x = t * f.spin;
-          f.group.rotation.y = t * f.spin * 0.7;
+          f.group.rotation.y = t * f.spin * 0.75;
         });
 
-        track.position.x = ((elapsed * 1.4) % 0.7) - 0.35;
-
-        if (extras.dust) extras.dust.rotation.y = t * 0.04;
-        if (extras.dust2) extras.dust2.rotation.y = -t * 0.03;
+        if (extras.dust) extras.dust.rotation.y = t * 0.06;
+        if (extras.dust2) extras.dust2.rotation.y = -t * 0.045;
       },
     });
 
     if (!renderer || !world) return dispose || (() => {});
 
-    world.add(train.group, track);
+    world.add(rocket.group);
 
     flyerSpecs.forEach((spec) => {
       const g = new THREE.Group();
-      const obj = lineObj(g, spec.geo(), spec.color, 0.42);
+      lineObj(g, spec.geo(), spec.color, 0.45);
       world.add(g);
       flyers.push({
         group: g,
-        obj,
         baseY: spec.y,
         baseZ: spec.z,
         speed: spec.speed,
@@ -703,8 +767,8 @@ export function initIntroScene(container) {
       });
     });
 
-    extras.dust = makeParticles(world, 90, colors.primary, 6.2, 0.014, 0.22);
-    extras.dust2 = makeParticles(world, 40, colors.soft, 7.0, 0.01, 0.14);
+    extras.dust = makeParticles(world, 110, colors.primary, 6.4, 0.015, 0.26);
+    extras.dust2 = makeParticles(world, 50, colors.soft, 7.2, 0.011, 0.16);
 
     return dispose;
   } catch {

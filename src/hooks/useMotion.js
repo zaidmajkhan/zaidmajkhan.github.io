@@ -74,13 +74,13 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
     };
 
     if (heroLines.length && waitedForIntro && !reduced) {
-      gsap.set(heroBits, { y: 10, opacity: 0 });
-      gsap.set(heroLines, { y: 14, opacity: 0, scale: 0.985 });
-      gsap.set(heroBtns, { y: 8, opacity: 0 });
-      gsap.set(".hero-canvas", { opacity: 0, scale: 0.98 });
+      gsap.set(heroBits, { y: 14, opacity: 0 });
+      gsap.set(heroLines, { y: 22, opacity: 0, scale: 0.96 });
+      gsap.set(heroBtns, { y: 12, opacity: 0 });
+      gsap.set(".hero-canvas", { opacity: 0, scale: 0.92 });
 
       heroTl = gsap.timeline({
-        delay: 0.22,
+        delay: 0.18,
         defaults: { ease: ENTER_EASE },
         onComplete: () => {
           gsap.set(heroTargets, { clearProps: "transform" });
@@ -89,10 +89,10 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
       });
 
       heroTl
-        .to(".hero-canvas", { opacity: 0.72, scale: 1, duration: 0.65 }, 0)
-        .to(heroBits, { opacity: 1, y: 0, duration: 0.5, stagger: 0.06 }, 0.06)
-        .to(heroLines, { opacity: 1, y: 0, scale: 1, duration: 0.62, stagger: 0.09 }, 0.1)
-        .to(heroBtns, { opacity: 1, y: 0, duration: 0.45, stagger: 0.06 }, 0.28);
+        .to(".hero-canvas", { opacity: 0.85, scale: 1, duration: 0.85 }, 0)
+        .to(heroBits, { opacity: 1, y: 0, duration: 0.55, stagger: 0.07 }, 0.08)
+        .to(heroLines, { opacity: 1, y: 0, scale: 1, duration: 0.72, stagger: 0.1 }, 0.12)
+        .to(heroBtns, { opacity: 1, y: 0, duration: 0.5, stagger: 0.07 }, 0.32);
 
       const heroFailsafe = window.setTimeout(showHero, 1800);
       cleanups.push(() => clearTimeout(heroFailsafe));

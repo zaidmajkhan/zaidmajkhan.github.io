@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 
-const MOTIFS = new Set(["systems", "care", "signal", "process"]);
+const MOTIFS = new Set(["systems", "care", "signal", "process", "rocket", "planet"]);
 
 /**
  * Lazy-loads a Three.js scene. Starts immediately on desktop so motifs
  * don't wait on IntersectionObserver (which Lenis can starve).
- * @param {"hero"|"orbit"|"lattice"|"systems"|"care"|"signal"|"process"} variant
+ * @param {"hero"|"orbit"|"lattice"|"systems"|"care"|"signal"|"process"|"rocket"|"planet"} variant
  * @param {"cream"|"forest"} tone
  */
 export default function SceneCanvas({
