@@ -35,7 +35,7 @@ export default function Hero() {
         <div className="hero-shell-content flex min-h-[min(32rem,calc(100dvh-6rem))] flex-col justify-between p-5 sm:p-7 md:min-h-[min(34rem,calc(100dvh-5.5rem))] md:p-9 lg:min-h-[min(36rem,calc(100dvh-5.25rem))] lg:p-11">
           <div className="relative z-10 flex shrink-0 items-start justify-between gap-4">
             <p className="hero-eyebrow eyebrow text-lime">
-              Handshake AI Fellow · Open to SWE · applied AI · ISE · 2026
+              Open to SWE · applied AI · ISE · Summer & Fall 2026
             </p>
           </div>
 
@@ -53,8 +53,8 @@ export default function Hero() {
           <div className="relative z-10 grid shrink-0 gap-5 border-t border-cream/20 pt-5 md:grid-cols-[1.35fr_0.65fr] md:items-end">
             <div>
               <p className="hero-copy max-w-xl text-base leading-[1.7] text-cream/75 md:text-lg">
-                ISEN @ Texas A&M (4.0). Evaluating frontier models at Handshake AI, shipping Python
-                agents, and researching human-centered systems on campus.
+                ISEN @ Texas A&M (4.0). Research labs, a shipped Python agent, and pharmacy-floor
+                process work — systems engineering with a software toolkit.
               </p>
               <div className="hero-actions mt-5 flex flex-wrap gap-2.5">
                 <a

@@ -1,11 +1,5 @@
 const ITEMS = [
   {
-    date: "Jun 2026 — Now",
-    type: "AI",
-    title: "Handshake AI — Fellow, Project Lighthouse",
-    body: "Write persona-grounded finance prompts that stress-test frontier models against synthetic financial workspace data. Build and score grading rubrics (Critical Elements, Failure Justifications, Golden Trajectory) for accuracy and reasoning quality.",
-  },
-  {
     date: "Jul 2026 — Now",
     type: "Research",
     title: "ACE Lab, Texas A&M — Undergraduate Researcher (Dr. Sasangohar, Dr. Smith)",
@@ -22,6 +16,12 @@ const ITEMS = [
     type: "Healthcare",
     title: "CVS Health — Certified Pharmacy Technician",
     body: "RxConnect for 200+ patients daily. Peak-hour task sequencing rewrite — 47% wait reduction. Licensed CPhT (PTCB) + Texas RPhT.",
+  },
+  {
+    date: "Jun 2026 — Now",
+    type: "AI",
+    title: "Handshake AI — Fellow, Project Lighthouse",
+    body: "Write persona-grounded finance prompts that stress-test frontier models against synthetic financial workspace data. Build and score grading rubrics (Critical Elements, Failure Justifications, Golden Trajectory) for accuracy and reasoning quality.",
   },
   {
     date: "2025 — Dec 2028",
@@ -45,7 +45,7 @@ export default function Experience() {
           <div>
             <p className="eyebrow reveal text-lime">02 — Experience</p>
             <h2 className="pin-title display-lg mt-3 text-cream">
-              AI eval, research labs, pharmacy floors.
+              Research labs, pharmacy floors, shipped software.
             </h2>
           </div>
           <p className="reveal body max-w-md text-cream/65 md:justify-self-end md:text-right">

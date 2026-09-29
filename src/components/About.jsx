@@ -1,20 +1,20 @@
 const CURRENTLY = [
   ["Studying", "ISEN @ Texas A&M", "4.0 GPA · Dec 2028"],
   [
-    "Evaluating",
-    "Handshake AI · Project Lighthouse",
-    "Finance prompts + grading rubrics for frontier models",
-  ],
-  [
     "Researching",
     "ACE Lab + HFCS Lab",
     "HCD interviews · haptic teleoperation (Dr. Ferris)",
   ],
-  ["Working", "CPhT · CVS Health", "200+ patients/day · 47% wait reduction"],
   [
     "Building",
     "AI Lead Follow-Up Agent",
     "Python, Claude API, Gmail API · GitHub Actions CI/CD",
+  ],
+  ["Working", "CPhT · CVS Health", "200+ patients/day · 47% wait reduction"],
+  [
+    "Also",
+    "Handshake AI · Project Lighthouse",
+    "Finance prompts + grading rubrics for frontier models",
   ],
 ];
 
@@ -43,8 +43,8 @@ export default function About() {
             <p className="body reveal mt-5 text-mute">
               I grew up watching my family navigate a healthcare system that felt designed to lose
               people in the cracks. An engineer looks at that and sees fixable problems — and the
-              toolkit is software as much as operations: Python agents, model evaluation, and
-              human-centered research alongside pharmacy-floor process design.
+              toolkit is software as much as operations: Python agents, human-centered research,
+              and pharmacy-floor process design.
             </p>
           </div>
 

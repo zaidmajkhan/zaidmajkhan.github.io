@@ -1,9 +1,15 @@
 const CREDS = [
   {
-    year: "Jun '26",
-    title: "Handshake AI — Project Lighthouse Fellow",
-    badge: "Active",
-    desc: "Frontier model evaluation: finance prompts and grading rubrics.",
+    year: "Jul '26",
+    title: "CITI / Huron IRB",
+    badge: "Certified",
+    desc: "Human subjects training for ACE Lab research.",
+  },
+  {
+    year: "Oct '25",
+    title: "CPhT (PTCB) + Texas RPhT",
+    badge: "Licensed",
+    desc: "National PTCB exam and Texas State Board of Pharmacy registration.",
   },
   {
     year: "Aug '26",
@@ -12,22 +18,16 @@ const CREDS = [
     desc: "Agentic AI builder certification.",
   },
   {
-    year: "Jul '26",
-    title: "CITI / Huron IRB",
-    badge: "Certified",
-    desc: "Human subjects training for ACE Lab research.",
-  },
-  {
     year: "Fall '25",
     title: "Engineering Academies Resume Challenge",
     badge: "Winner",
     desc: "Sole winner across all 13 TAMU Engineering Academy campuses.",
   },
   {
-    year: "Oct '25",
-    title: "CPhT (PTCB) + Texas RPhT",
-    badge: "Licensed",
-    desc: "National PTCB exam and Texas State Board of Pharmacy registration.",
+    year: "Jun '26",
+    title: "Handshake AI — Project Lighthouse Fellow",
+    badge: "Active",
+    desc: "Frontier model evaluation: finance prompts and grading rubrics.",
   },
   {
     year: "2023–25",

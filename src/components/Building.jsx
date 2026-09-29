@@ -18,16 +18,16 @@ const PROJECTS = [
   },
   {
     num: "02",
-    title: "Handshake AI · Project Lighthouse",
+    title: "ACE Lab + HFCS Lab",
     tag: "Active",
-    body: "Persona-grounded finance prompts and grading rubrics (Critical Elements, Failure Justifications, Golden Trajectory) to evaluate frontier model accuracy and reasoning.",
+    body: "Parent/caregiver interviews for a coaching app (CITI/IRB). Multi-year plan with Dr. Ferris on haptic teleoperation for remote medical exam.",
     href: "#experience",
   },
   {
     num: "03",
-    title: "ACE Lab + HFCS Lab",
-    tag: "Active",
-    body: "Parent/caregiver interviews for a coaching app (CITI/IRB). Multi-year plan with Dr. Ferris on haptic teleoperation for remote medical exam.",
+    title: "CVS Pharmacy Workflow",
+    tag: "Live",
+    body: "High-volume RxConnect ops for 200+ patients daily. Peak-hour sequencing rewrite drove a 47% wait-time cut — measured from floor data.",
     href: "#experience",
   },
 ];
@@ -38,10 +38,10 @@ export default function Building() {
       <div className="wrap">
         <div className="mx-auto max-w-3xl">
           <p className="eyebrow reveal text-green">03 — Building</p>
-          <h2 className="pin-title display-lg mt-3 text-forest">Shipped software, active research.</h2>
+          <h2 className="pin-title display-lg mt-3 text-forest">Projects, labs, pharmacy floor.</h2>
           <p className="body reveal mt-4 max-w-lg text-mute">
-            A production-style Python agent, frontier-model eval work, and human-centered lab
-            research — same toolkit.
+            A shipped Python agent, human-centered lab research, and process work under real
+            patient load — same toolkit.
           </p>
         </div>
 

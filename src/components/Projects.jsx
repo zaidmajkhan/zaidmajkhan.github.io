@@ -12,14 +12,6 @@ const ROWS = [
   },
   {
     num: "02",
-    title: "Handshake AI · Project Lighthouse",
-    cat: "Model evaluation",
-    year: "2026",
-    flag: "Active",
-    href: "#experience",
-  },
-  {
-    num: "03",
     title: "ACE Lab Research",
     cat: "Human-centered design",
     year: "2026",
@@ -27,7 +19,7 @@ const ROWS = [
     href: "#experience",
   },
   {
-    num: "04",
+    num: "03",
     title: "HFCS Lab · Haptic Teleoperation",
     cat: "Human factors",
     year: "2026",
@@ -35,11 +27,19 @@ const ROWS = [
     href: "#experience",
   },
   {
-    num: "05",
+    num: "04",
     title: "CVS Pharmacy Workflow",
     cat: "Process",
     year: "2025",
     flag: "47% ↓",
+    href: "#experience",
+  },
+  {
+    num: "05",
+    title: "Handshake AI · Project Lighthouse",
+    cat: "Model evaluation",
+    year: "2026",
+    flag: "Active",
     href: "#experience",
   },
   {
@@ -62,7 +62,7 @@ export default function Projects() {
             <h2 className="pin-title display-lg mt-3 text-forest">Selected index</h2>
           </div>
           <p className="reveal body max-w-sm text-mute md:text-right">
-            Shipped agent, model eval, lab research, pharmacy process redesign.
+            Shipped agent, lab research, pharmacy process redesign.
           </p>
         </div>
 
