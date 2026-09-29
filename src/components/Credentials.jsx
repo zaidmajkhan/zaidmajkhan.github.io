@@ -1,5 +1,11 @@
 const CREDS = [
   {
+    year: "Jun '26",
+    title: "Handshake AI — Project Lighthouse Fellow",
+    badge: "Active",
+    desc: "Frontier model evaluation: finance prompts and grading rubrics.",
+  },
+  {
     year: "Aug '26",
     title: "Nebius Agentic AI Builder",
     badge: "Certified",
@@ -18,22 +24,22 @@ const CREDS = [
     desc: "Sole winner across all 13 TAMU Engineering Academy campuses.",
   },
   {
-    year: "2025",
-    title: "4.0 GPA",
-    badge: "Active",
-    desc: "Maintained across all engineering coursework.",
-  },
-  {
     year: "Oct '25",
-    title: "Certified Pharmacy Technician (CPhT)",
-    badge: "Certified",
-    desc: "PTCB national exam. State-licensed.",
+    title: "CPhT (PTCB) + Texas RPhT",
+    badge: "Licensed",
+    desc: "National PTCB exam and Texas State Board of Pharmacy registration.",
   },
   {
-    year: "Dec '23",
+    year: "2023–25",
     title: "Wharton Global Investment Competition",
     badge: "Top 6%",
-    desc: "~4,000 teams · 100+ countries.",
+    desc: "Investment Club · Founders Classical Academy · ~4,000 teams.",
+  },
+  {
+    year: "2024–25",
+    title: "Senior Thesis — The Rise and Fall of Empires",
+    badge: "Published",
+    desc: "40-page interdisciplinary analysis of systemic collapse.",
   },
 ];
 

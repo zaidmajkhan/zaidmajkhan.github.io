@@ -1,6 +1,6 @@
 # zaidmajkhan.github.io
 
-Personal portfolio for **Zaid Khan** — ISEN @ Texas A&M, building at the intersection of AI, systems engineering, and healthcare access.
+Personal portfolio for **Zaid Khan** — ISEN @ Texas A&M (4.0), Handshake AI Fellow, shipping Python agents and researching human-centered systems.
 
 **Live:** https://zaidmajkhan.github.io
 

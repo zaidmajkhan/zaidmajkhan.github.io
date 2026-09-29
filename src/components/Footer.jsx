@@ -37,7 +37,7 @@ export default function Footer() {
               href={siteConfig.resumeUrl}
               className="hover:text-green track-cta"
               data-track="Resume Footer"
-              download="Zaid-Khan-Resume.pdf"
+              download={siteConfig.resumeDownloadName}
             >
               Resume
             </a>

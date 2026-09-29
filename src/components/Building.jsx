@@ -8,45 +8,45 @@ const TAG_CLASS = {
   Planned: "chip chip--planned",
 };
 
-export default function Building({ todoAppUrl }) {
-  const projects = [
-    {
-      num: "01",
-      title: "AI Lead Follow-Up Agent",
-      tag: "Shipped",
-      body: "Autonomous outreach: JSON leads → Claude-personalized campaigns → Gmail OAuth. Dry-run mode, sent-tracking dedup, rate limiting, structured errors, GitHub Actions CI/CD.",
-      href: "https://github.com/zaidmajkhan/lead-followup-agent",
-    },
-    {
-      num: "02",
-      title: "ACE Lab research",
-      tag: "Active",
-      body: "Qualitative research + HCD with Dr. Farzan Sasangohar and Dr. Alec Smith. CITI / IRB certified.",
-      href: "#experience",
-    },
-    {
-      num: "03",
-      title: "AI Todo App",
-      tag: todoAppUrl ? "Live" : "Deploying",
-      body: "FastAPI + SQLite + Claude on the server. Keys never hit the browser.",
-      href: todoAppUrl || null,
-    },
-  ];
+const PROJECTS = [
+  {
+    num: "01",
+    title: "AI Lead Follow-Up Agent",
+    tag: "Shipped",
+    body: "Autonomous outreach: JSON leads → Claude-personalized campaigns → Gmail OAuth. Dry-run mode, sent-tracking dedup, rate limiting, structured errors, GitHub Actions CI/CD.",
+    href: "https://github.com/zaidmajkhan/lead-followup-agent",
+  },
+  {
+    num: "02",
+    title: "Handshake AI · Project Lighthouse",
+    tag: "Active",
+    body: "Persona-grounded finance prompts and grading rubrics (Critical Elements, Failure Justifications, Golden Trajectory) to evaluate frontier model accuracy and reasoning.",
+    href: "#experience",
+  },
+  {
+    num: "03",
+    title: "ACE Lab + HFCS Lab",
+    tag: "Active",
+    body: "Parent/caregiver interviews for a coaching app (CITI/IRB). Multi-year plan with Dr. Ferris on haptic teleoperation for remote medical exam.",
+    href: "#experience",
+  },
+];
 
+export default function Building() {
   return (
     <section id="building" className="section scroll-mt-24">
       <div className="wrap">
         <div className="mx-auto max-w-3xl">
           <p className="eyebrow reveal text-green">03 — Building</p>
-          <h2 className="pin-title display-lg mt-3 text-forest">Personal projects, shipped separately.</h2>
+          <h2 className="pin-title display-lg mt-3 text-forest">Shipped software, active research.</h2>
           <p className="body reveal mt-4 max-w-lg text-mute">
-            From a production-style Python agent to lab research — software and systems in the same
-            toolkit.
+            A production-style Python agent, frontier-model eval work, and human-centered lab
+            research — same toolkit.
           </p>
         </div>
 
         <div className="stagger-children mt-8 grid border-y border-forest/12 md:grid-cols-3">
-          {projects.map((p, i) => (
+          {PROJECTS.map((p, i) => (
             <article
               key={p.num}
               className={`depth-card flex min-h-[14rem] flex-col justify-between p-5 transition-colors duration-500 hover:bg-forest/[0.03] ${

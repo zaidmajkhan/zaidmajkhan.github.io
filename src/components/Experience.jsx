@@ -1,33 +1,39 @@
 const ITEMS = [
   {
-    date: "Jul 2026 — Now",
-    type: "Research",
-    title: "ACE Lab, Texas A&M — Undergraduate Research (Dr. Sasangohar, Dr. Smith)",
-    body: "CITI human-subjects + Huron IRB certified. Parent/caregiver interviews for a parenting coaching app — qualitative methods and human-centered design.",
+    date: "Jun 2026 — Now",
+    type: "AI",
+    title: "Handshake AI — Fellow, Project Lighthouse",
+    body: "Write persona-grounded finance prompts that stress-test frontier models against synthetic financial workspace data. Build and score grading rubrics (Critical Elements, Failure Justifications, Golden Trajectory) for accuracy and reasoning quality.",
   },
   {
-    date: "2025 — 2029",
-    type: "Education",
-    title: "Texas A&M — B.S. Industrial & Systems Engineering",
-    body: "Engineering Academies pathway via Collin College. 4.0 GPA. Sole winner of the TAMU Engineering Academies Resume Challenge across all 13 Academy campuses.",
+    date: "Jul 2026 — Now",
+    type: "Research",
+    title: "ACE Lab, Texas A&M — Undergraduate Researcher (Dr. Sasangohar, Dr. Smith)",
+    body: "CITI human-subjects + Huron IRB certified. Structured parent/caregiver interviews for a parenting coaching app — qualitative methods and human-centered design on usability and engagement.",
+  },
+  {
+    date: "Jul 2026 — Now",
+    type: "Research",
+    title: "Human Factors & Cognitive Systems Lab — Research Volunteer (Dr. Ferris)",
+    body: "Developing a multi-year research plan with Dr. Thomas Ferris, focused on the lab’s haptic teleoperation project for remote medical examination.",
   },
   {
     date: "Mar 2025 — Now",
     type: "Healthcare",
     title: "CVS Health — Certified Pharmacy Technician",
-    body: "RXConnect for 200+ patients daily. Peak-hour sequencing rewrite — 47% wait reduction. Licensed CPhT (PTCB) + Texas RPhT.",
+    body: "RxConnect for 200+ patients daily. Peak-hour task sequencing rewrite — 47% wait reduction. Licensed CPhT (PTCB) + Texas RPhT.",
+  },
+  {
+    date: "2025 — Dec 2028",
+    type: "Education",
+    title: "Texas A&M — B.S. Industrial & Systems Engineering",
+    body: "4.0 GPA. Coursework includes CSCE 111, ISEN 210, STAT 211, Java. Sole winner of the TAMU Engineering Academies Resume Challenge across 13 Academy campuses.",
   },
   {
     date: "2021 — 2026",
     type: "Operations",
-    title: "IACC Sunday School — Operations Team Leader",
-    body: "Facility ops for 600+ students weekly. Teacher setup redesign — 73% time cut. 120+ service hours.",
-  },
-  {
-    date: "2023",
-    type: "Competition",
-    title: "Wharton Global Investment Competition",
-    body: "Top 6% globally across ~4,000 teams from 100+ countries.",
+    title: "IACC Sunday School — Operations Team Leader / Teacher",
+    body: "Facility and classroom ops for 600+ students weekly. Teacher setup redesign — 73% time cut, adopted program-wide.",
   },
 ];
 
@@ -39,7 +45,7 @@ export default function Experience() {
           <div>
             <p className="eyebrow reveal text-lime">02 — Experience</p>
             <h2 className="pin-title display-lg mt-3 text-cream">
-              Pharmacy floors, research labs, shipped software.
+              AI eval, research labs, pharmacy floors.
             </h2>
           </div>
           <p className="reveal body max-w-md text-cream/65 md:justify-self-end md:text-right">

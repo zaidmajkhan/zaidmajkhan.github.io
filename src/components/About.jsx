@@ -1,3 +1,35 @@
+const CURRENTLY = [
+  ["Studying", "ISEN @ Texas A&M", "4.0 GPA · Dec 2028"],
+  [
+    "Evaluating",
+    "Handshake AI · Project Lighthouse",
+    "Finance prompts + grading rubrics for frontier models",
+  ],
+  [
+    "Researching",
+    "ACE Lab + HFCS Lab",
+    "HCD interviews · haptic teleoperation (Dr. Ferris)",
+  ],
+  ["Working", "CPhT · CVS Health", "200+ patients/day · 47% wait reduction"],
+  [
+    "Building",
+    "AI Lead Follow-Up Agent",
+    "Python, Claude API, Gmail API · GitHub Actions CI/CD",
+  ],
+];
+
+const SKILLS = [
+  "Python",
+  "Java",
+  "JavaScript",
+  "Claude API",
+  "CI/CD",
+  "Prompt engineering",
+  "Process improvement",
+  "Root cause analysis",
+  "Operations leadership",
+];
+
 export default function About() {
   return (
     <section id="about" className="section section-quiet scroll-mt-24 relative overflow-hidden">
@@ -11,8 +43,8 @@ export default function About() {
             <p className="body reveal mt-5 text-mute">
               I grew up watching my family navigate a healthcare system that felt designed to lose
               people in the cracks. An engineer looks at that and sees fixable problems — and the
-              toolkit is software as much as operations: Python agents, APIs, and human-centered
-              research alongside pharmacy-floor process design.
+              toolkit is software as much as operations: Python agents, model evaluation, and
+              human-centered research alongside pharmacy-floor process design.
             </p>
           </div>
 
@@ -37,16 +69,7 @@ export default function About() {
         </div>
 
         <div className="stagger-children mt-2 border-y border-forest/12">
-          {[
-            ["Studying", "ISEN @ Texas A&M", "Engineering Academies · 4.0 GPA · May 2029"],
-            ["Working", "CPhT · CVS Health", "Claims, bottlenecks, and patient flow on the floor"],
-            ["Researching", "ACE Lab @ Texas A&M", "Qualitative methods, HCD · CITI / IRB certified"],
-            [
-              "Building",
-              "AI Lead Follow-Up Agent",
-              "Python, Claude API, Gmail API · GitHub Actions CI/CD",
-            ],
-          ].map(([k, t, d], i, rows) => (
+          {CURRENTLY.map(([k, t, d], i, rows) => (
             <article
               key={k}
               className={`grid gap-2 py-5 md:grid-cols-[7.5rem_1fr_1.2fr] md:items-baseline md:gap-6 ${
@@ -61,6 +84,17 @@ export default function About() {
               </h3>
               <p className="text-sm leading-relaxed text-mute md:text-right">{d}</p>
             </article>
+          ))}
+        </div>
+
+        <div className="reveal mt-8 flex flex-wrap gap-x-4 gap-y-2 border-t border-forest/12 pt-6">
+          {SKILLS.map((skill) => (
+            <span
+              key={skill}
+              className="text-[0.68rem] font-semibold tracking-[0.08em] text-mute uppercase"
+            >
+              {skill}
+            </span>
           ))}
         </div>
       </div>

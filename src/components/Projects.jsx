@@ -1,29 +1,58 @@
 import siteConfig from "../config/siteConfig.js";
 
-export default function Projects() {
-  const rows = [
-    {
-      num: "01",
-      title: "AI Lead Follow-Up Agent",
-      cat: "Python · Claude · Gmail",
-      year: "2026",
-      flag: "Done",
-      href: "https://github.com/zaidmajkhan/lead-followup-agent",
-      external: true,
-    },
-    {
-      num: "02",
-      title: "ACE Lab Research",
-      cat: "Human-centered design",
-      year: "2026",
-      flag: "Active",
-      href: "#experience",
-    },
-    { num: "03", title: "CVS Pharmacy Workflow", cat: "Process", year: "2025", flag: "47% ↓", href: "#experience" },
-    { num: "04", title: "Healthcare Systems", cat: "Systems Design", year: "2026", flag: "Focus", href: "#about" },
-    { num: "05", title: "Wharton Investment Comp", cat: "Strategy", year: "2023", flag: "Top 6%", href: "#credentials" },
-  ];
+const ROWS = [
+  {
+    num: "01",
+    title: "AI Lead Follow-Up Agent",
+    cat: "Python · Claude · Gmail",
+    year: "2026",
+    flag: "Done",
+    href: "https://github.com/zaidmajkhan/lead-followup-agent",
+    external: true,
+  },
+  {
+    num: "02",
+    title: "Handshake AI · Project Lighthouse",
+    cat: "Model evaluation",
+    year: "2026",
+    flag: "Active",
+    href: "#experience",
+  },
+  {
+    num: "03",
+    title: "ACE Lab Research",
+    cat: "Human-centered design",
+    year: "2026",
+    flag: "Active",
+    href: "#experience",
+  },
+  {
+    num: "04",
+    title: "HFCS Lab · Haptic Teleoperation",
+    cat: "Human factors",
+    year: "2026",
+    flag: "Active",
+    href: "#experience",
+  },
+  {
+    num: "05",
+    title: "CVS Pharmacy Workflow",
+    cat: "Process",
+    year: "2025",
+    flag: "47% ↓",
+    href: "#experience",
+  },
+  {
+    num: "06",
+    title: "Wharton Investment Comp",
+    cat: "Strategy",
+    year: "2023",
+    flag: "Top 6%",
+    href: "#credentials",
+  },
+];
 
+export default function Projects() {
   return (
     <section id="projects" className="section section-band scroll-mt-24 relative overflow-hidden">
       <div className="wrap relative z-10">
@@ -33,12 +62,12 @@ export default function Projects() {
             <h2 className="pin-title display-lg mt-3 text-forest">Selected index</h2>
           </div>
           <p className="reveal body max-w-sm text-mute md:text-right">
-            From a shipped Python agent to pharmacy process redesign.
+            Shipped agent, model eval, lab research, pharmacy process redesign.
           </p>
         </div>
 
         <div className="border-t border-forest/12">
-          {rows.map((row) => (
+          {ROWS.map((row) => (
             <a
               key={row.num}
               href={row.href}
@@ -59,9 +88,7 @@ export default function Projects() {
                       ? "chip chip--live"
                       : row.flag === "Soon"
                         ? "chip chip--deploying"
-                        : row.flag === "Focus"
-                          ? "chip chip--focus"
-                          : "chip"
+                        : "chip"
                 }
               >
                 {row.flag}
@@ -75,7 +102,7 @@ export default function Projects() {
           <a
             href={siteConfig.resumeUrl}
             className="font-bold text-forest underline underline-offset-4 transition-opacity hover:opacity-70"
-            download="Zaid-Khan-Resume.pdf"
+            download={siteConfig.resumeDownloadName}
           >
             Download resume
           </a>

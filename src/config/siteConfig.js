@@ -2,7 +2,9 @@
 const siteConfig = {
   url: "https://zaidmajkhan.github.io",
   plausibleDomain: "zaidmajkhan.github.io",
-  resumeUrl: "/assets/zaid-khan-resume.pdf",
+  /** Place the PDF at public/assets/ with this exact filename before deploy. */
+  resumeUrl: "/assets/Zaid Khan - Main Resume.pdf",
+  resumeDownloadName: "Zaid Khan - Main Resume.pdf",
   contactEmail: "zaidmajkhan@gmail.com",
   /**
    * Contact form backend (pick one — first match wins):
@@ -18,9 +20,6 @@ const siteConfig = {
   newsletterUrl: "https://buttondown.com/zaidkhan",
   linkedinUrl: "https://linkedin.com/in/zaidmajkhan",
   phone: "(469) 919-8378",
-  /** Set when the todo app is deployed (Render, Railway, etc.) — never embed API keys in this static site */
-  todoAppUrl: "",
-  todoAppRepoUrl: "",
 };
 
 export default siteConfig;

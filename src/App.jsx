@@ -11,7 +11,6 @@ import IntroOverlay from "./components/IntroOverlay.jsx";
 import MobileNav from "./components/MobileNav.jsx";
 import PlanetBackdrop from "./components/PlanetBackdrop.jsx";
 import Projects from "./components/Projects.jsx";
-import siteConfig from "./config/siteConfig.js";
 import { useMotion } from "./hooks/useMotion.js";
 
 /**
@@ -101,7 +100,7 @@ export default function App() {
         <Hero />
         <About />
         <Experience />
-        <Building todoAppUrl={siteConfig.todoAppUrl} />
+        <Building />
         <Projects />
         <Credentials />
         <Contact />

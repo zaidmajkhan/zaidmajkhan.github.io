@@ -17,7 +17,7 @@ export default function MobileNav({ mobileOpen, setMobileOpen }) {
           href={siteConfig.resumeUrl}
           className="btn btn-green mb-4 w-full track-cta"
           data-track="Resume Mobile"
-          download="Zaid-Khan-Resume.pdf"
+          download={siteConfig.resumeDownloadName}
           onClick={() => setMobileOpen(false)}
         >
           Download resume

@@ -45,7 +45,7 @@ export default function Header({ mobileOpen, setMobileOpen }) {
             href={siteConfig.resumeUrl}
             className="btn btn-ghost track-cta"
             data-track="Resume Header"
-            download="Zaid-Khan-Resume.pdf"
+            download={siteConfig.resumeDownloadName}
           >
             Resume
           </a>
