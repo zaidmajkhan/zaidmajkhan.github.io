@@ -31,10 +31,12 @@ export function useMotion(ready = true, fromIntro = false, revealsReady = true) 
     if (!reduced) {
       try {
         lenis = new Lenis({
-          duration: 1.15,
+          duration: 1.05,
           easing: (t) => 1 - (1 - t) ** 3,
           smoothWheel: true,
           touchMultiplier: 1,
+          // Sync to display refresh without stacking extra work inside Lenis
+          autoRaf: false,
         });
         const tick = (time) => {
           lenis.raf(time);

@@ -1,7 +1,3 @@
-import { lazy, Suspense } from "react";
-
-const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
-
 const CURRENTLY = [
   ["Studying", "ISEN @ Texas A&M", "4.0 GPA · Dec 2028"],
   [
@@ -37,17 +33,6 @@ const SKILLS = [
 export default function About() {
   return (
     <section id="about" className="section section-quiet scroll-mt-24 relative overflow-hidden">
-      <div
-        className="motif-bleed motif-bleed--cream pointer-events-none absolute inset-y-0 right-0 hidden w-[min(40vw,26rem)] opacity-75 lg:block"
-        aria-hidden="true"
-      >
-        <div className="scene-mount absolute inset-0">
-          <Suspense fallback={null}>
-            <SceneCanvas variant="systems" tone="cream" className="h-full w-full" />
-          </Suspense>
-        </div>
-      </div>
-
       <div className="wrap relative z-10">
         <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">

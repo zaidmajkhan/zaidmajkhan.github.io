@@ -3,8 +3,7 @@ import { useEffect, useRef } from "react";
 const MOTIFS = new Set(["systems", "care", "signal", "process", "rocket", "planet"]);
 
 /**
- * Lazy-loads a Three.js scene. Starts immediately on desktop so motifs
- * don't wait on IntersectionObserver (which Lenis can starve).
+ * Lazy-loads a Three.js scene only when visible — never eager-starts all mounts.
  * @param {"hero"|"orbit"|"lattice"|"systems"|"care"|"signal"|"process"|"rocket"|"planet"} variant
  * @param {"cream"|"forest"} tone
  */
@@ -40,7 +39,7 @@ export default function SceneCanvas({
             motif: variant,
             tone: tone || (variant === "process" || variant === "care" ? "forest" : "cream"),
             compact,
-            desktopOnly: false,
+            desktopOnly: true,
           });
         } else if (variant === "lattice") {
           dispose = mod.initLatticeScene(ref.current);
@@ -55,12 +54,6 @@ export default function SceneCanvas({
       }
     };
 
-    /* Start right away on wide screens; IO only used to pause off-screen */
-    const narrow = window.matchMedia("(max-width: 700px)").matches;
-    if (!narrow) {
-      start();
-    }
-
     const io = new IntersectionObserver(
       (entries) => {
         const visible = entries.some((e) => e.isIntersecting);
@@ -70,7 +63,7 @@ export default function SceneCanvas({
           setPaused(true);
         }
       },
-      { rootMargin: "25% 0px", threshold: 0.01 },
+      { rootMargin: "15% 0px", threshold: 0.05 },
     );
     io.observe(el);
 

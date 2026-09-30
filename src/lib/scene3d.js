@@ -8,22 +8,22 @@ function isNarrow() {
   return window.matchMedia("(max-width: 700px)").matches;
 }
 
-function makeRenderer(container) {
+function makeRenderer(container, { antialias = false, maxDpr = 1.25 } = {}) {
   try {
     const canvas = document.createElement("canvas");
     const probe =
-      canvas.getContext("webgl2", { alpha: true }) ||
-      canvas.getContext("webgl", { alpha: true }) ||
-      canvas.getContext("experimental-webgl", { alpha: true });
+      canvas.getContext("webgl2", { alpha: true, antialias }) ||
+      canvas.getContext("webgl", { alpha: true, antialias }) ||
+      canvas.getContext("experimental-webgl", { alpha: true, antialias });
     if (!probe) return null;
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: true,
+      antialias,
       powerPreference: "high-performance",
       canvas,
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
     Object.assign(renderer.domElement.style, {
@@ -515,12 +515,24 @@ const MOTIF_BUILDERS = {
 
 /**
  * Shared scene runner. Returns dispose. Controllers can call setPaused.
+ * When paused, the rAF loop fully stops (no idle CPU burn).
  */
-function runScene(container, { fov = 38, z = 4.2, pointer = 0.25, onFrame }) {
+function runScene(
+  container,
+  {
+    fov = 38,
+    z = 4.2,
+    pointer = 0.25,
+    onFrame,
+    antialias = false,
+    maxDpr = 1.25,
+    tick = 0.007,
+  } = {},
+) {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 80);
   camera.position.z = z;
-  const renderer = makeRenderer(container);
+  const renderer = makeRenderer(container, { antialias, maxDpr });
   if (!renderer) {
     return {
       dispose: () => {},
@@ -539,23 +551,49 @@ function runScene(container, { fov = 38, z = 4.2, pointer = 0.25, onFrame }) {
 
   let t = 0;
   let raf = 0;
-  let paused = false;
+  let userPaused = false;
+  let hidden = typeof document !== "undefined" && document.hidden;
   const target = { x: 0, y: 0 };
 
+  const isPaused = () => userPaused || hidden;
+
   const animate = () => {
+    if (isPaused()) {
+      raf = 0;
+      return;
+    }
     raf = requestAnimationFrame(animate);
-    if (paused) return;
-    t += 0.008;
+    t += tick;
     target.x += (mouse.x - target.x) * 0.035;
     target.y += (mouse.y - target.y) * 0.035;
     onFrame({ t, target, world, mouse });
     renderer.render(scene, camera);
   };
+
+  const startLoop = () => {
+    if (isPaused() || raf) return;
+    raf = requestAnimationFrame(animate);
+  };
+
+  const onVisibility = () => {
+    hidden = document.hidden;
+    if (hidden) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    } else {
+      startLoop();
+    }
+  };
+  document.addEventListener("visibilitychange", onVisibility);
+
   /* Defer first frame so callers can finish binding `world` after runScene returns */
-  raf = requestAnimationFrame(animate);
+  startLoop();
 
   const dispose = () => {
+    userPaused = true;
     cancelAnimationFrame(raf);
+    raf = 0;
+    document.removeEventListener("visibilitychange", onVisibility);
     unbindPointer();
     unbindResize();
     renderer.dispose();
@@ -565,7 +603,15 @@ function runScene(container, { fov = 38, z = 4.2, pointer = 0.25, onFrame }) {
   };
 
   dispose.setPaused = (v) => {
-    paused = Boolean(v);
+    const next = Boolean(v);
+    if (next === userPaused) return;
+    userPaused = next;
+    if (isPaused()) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    } else {
+      startLoop();
+    }
   };
   dispose.world = world;
   dispose.scene = scene;
@@ -589,32 +635,27 @@ export function initMotifScene(
     const colors = palette(tone);
     const builder = MOTIF_BUILDERS[motif] || buildSystems;
     const piece = builder(colors, compact ? 0.85 : 1);
-    const dustCount = compact ? 36 : 64;
-    const extras = { dust: null, ring: null };
+    const extras = { dust: null };
 
     const { dispose, world, renderer } = runScene(container, {
       fov: compact ? 36 : 38,
       z: compact ? 3.5 : 4.1,
-      pointer: 0.18,
+      pointer: 0.12,
+      antialias: false,
+      maxDpr: 1.25,
+      tick: 0.006,
       onFrame: ({ t, target, world: w }) => {
-        w.rotation.y = target.x * 0.28;
-        w.rotation.x = 0.06 + target.y * 0.18;
+        w.rotation.y = target.x * 0.22;
+        w.rotation.x = 0.06 + target.y * 0.14;
         piece.tick(t);
-        if (extras.dust) extras.dust.rotation.y = t * 0.08;
-        if (extras.ring) extras.ring.rotation.z = t * 0.18;
+        if (extras.dust) extras.dust.rotation.y = t * 0.06;
       },
     });
 
     if (!renderer || !world) return dispose || (() => {});
 
     world.add(piece.group);
-    extras.dust = makeParticles(world, dustCount, colors.soft, compact ? 1.7 : 2.2, 0.014, 0.38);
-    extras.ring = new THREE.Mesh(
-      new THREE.TorusGeometry(compact ? 1.35 : 1.55, 0.004, 8, 100),
-      new THREE.MeshBasicMaterial({ color: colors.primary, transparent: true, opacity: 0.2 }),
-    );
-    extras.ring.rotation.x = Math.PI / 2.6;
-    world.add(extras.ring);
+    extras.dust = makeParticles(world, compact ? 14 : 22, colors.soft, compact ? 1.7 : 2.2, 0.012, 0.3);
 
     return dispose;
   } catch {
@@ -623,7 +664,7 @@ export function initMotifScene(
 }
 
 /**
- * Hero — systems lattice + orbiting rocket + dust field.
+ * Hero — systems lattice + orbiting rocket (kept lean for scroll FPS).
  */
 export function initHeroScene(container) {
   if (!container || prefersReduced()) return () => {};
@@ -633,24 +674,23 @@ export function initHeroScene(container) {
     const colors = palette("forest");
     const systems = buildSystems(colors, 1.12);
     const rocket = buildRocket(colors, 0.42);
-    const signal = buildSignal(colors, 0.38);
 
     systems.group.position.set(1.45, 0.05, -0.15);
-    signal.group.position.set(-1.55, -0.55, -0.8);
 
-    const extras = { dust: null, dust2: null, ribbon: null };
+    const extras = { dust: null };
 
     const { dispose, world, renderer } = runScene(container, {
       fov: 36,
       z: 5.0,
-      pointer: 0.22,
+      pointer: 0.16,
+      antialias: true,
+      maxDpr: 1.5,
+      tick: 0.007,
       onFrame: ({ t, target, world: w }) => {
-        w.rotation.y = target.x * 0.22;
-        w.rotation.x = target.y * 0.14;
-        systems.tick(t * 0.78);
-        systems.group.position.y = 0.08 + Math.sin(t * 0.5) * 0.045;
-        signal.tick(t * 0.9);
-        signal.group.rotation.y = t * 0.35;
+        w.rotation.y = target.x * 0.18;
+        w.rotation.x = target.y * 0.12;
+        systems.tick(t * 0.72);
+        systems.group.position.y = 0.08 + Math.sin(t * 0.5) * 0.04;
 
         const a = t * 0.55;
         rocket.group.position.set(
@@ -660,22 +700,35 @@ export function initHeroScene(container) {
         );
         rocket.group.rotation.z = -0.9 + Math.sin(a) * 0.25;
         rocket.group.rotation.x = 0.35;
-        rocket.tick(t * 1.4, 1.1);
+        rocket.tick(t * 1.2, 1);
 
-        if (extras.dust) extras.dust.rotation.y = t * 0.06;
-        if (extras.dust2) extras.dust2.rotation.y = -t * 0.04;
-        if (extras.ribbon) extras.ribbon.rotation.y = t * 0.05;
+        if (extras.dust) extras.dust.rotation.y = t * 0.05;
       },
     });
 
     if (!renderer || !world) return dispose || (() => {});
 
-    world.add(systems.group, rocket.group, signal.group);
-    extras.dust = makeParticles(world, 56, colors.primary, 3.8, 0.012, 0.22);
-    extras.dust2 = makeParticles(world, 28, colors.soft, 4.4, 0.009, 0.14);
-    extras.ribbon = makeOrbitRibbon(world, colors.mid, 0.14);
+    world.add(systems.group, rocket.group);
+    extras.dust = makeParticles(world, 24, colors.primary, 3.6, 0.011, 0.18);
 
-    return dispose;
+    /* Pause when hero leaves the viewport */
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.some((e) => e.isIntersecting);
+        dispose.setPaused?.(!visible);
+      },
+      { rootMargin: "10% 0px", threshold: 0.01 },
+    );
+    io.observe(container);
+    const prevDispose = dispose;
+    const wrapped = () => {
+      io.disconnect();
+      prevDispose();
+    };
+    wrapped.setPaused = dispose.setPaused;
+    wrapped.world = dispose.world;
+    wrapped.scene = dispose.scene;
+    return wrapped;
   } catch {
     return () => {};
   }
@@ -692,7 +745,7 @@ export function initLatticeScene(container) {
 }
 
 /**
- * Intro loader — rocket launch + spinning flybys.
+ * Intro loader — rocket launch + a few flybys (short-lived; disposed after intro).
  */
 export function initIntroScene(container) {
   if (!container || prefersReduced()) return () => {};
@@ -703,49 +756,47 @@ export function initIntroScene(container) {
 
     const flyers = [];
     const flyerSpecs = [
-      { geo: () => new THREE.IcosahedronGeometry(0.22, 0), color: colors.primary, y: 1.35, z: -0.8, speed: 1.25, phase: 0.0, spin: 1.1 },
-      { geo: () => new THREE.OctahedronGeometry(0.2, 0), color: colors.soft, y: 0.85, z: -1.1, speed: 1.0, phase: 1.2, spin: 1.3 },
-      { geo: () => new THREE.BoxGeometry(0.28, 0.28, 0.28), color: colors.mid, y: -0.95, z: -0.6, speed: 1.15, phase: 2.1, spin: 0.85 },
-      { geo: () => new THREE.TetrahedronGeometry(0.24, 0), color: colors.primary, y: -1.35, z: -1.0, speed: 0.9, phase: 0.55, spin: 1.45 },
-      { geo: () => new THREE.DodecahedronGeometry(0.18, 0), color: colors.soft, y: 1.75, z: -1.4, speed: 1.35, phase: 2.8, spin: 1.0 },
-      { geo: () => new THREE.CapsuleGeometry(0.1, 0.22, 4, 8), color: colors.mid, y: -0.35, z: -1.3, speed: 1.05, phase: 1.7, spin: 1.15 },
+      { geo: () => new THREE.IcosahedronGeometry(0.22, 0), color: colors.primary, y: 1.2, z: -0.8, speed: 1.2, phase: 0.0, spin: 1.0 },
+      { geo: () => new THREE.OctahedronGeometry(0.2, 0), color: colors.soft, y: 0.7, z: -1.0, speed: 1.0, phase: 1.2, spin: 1.2 },
+      { geo: () => new THREE.TetrahedronGeometry(0.24, 0), color: colors.mid, y: -1.1, z: -0.7, speed: 0.95, phase: 2.1, spin: 0.9 },
     ];
 
-    const extras = { dust: null, dust2: null };
+    const extras = { dust: null };
     const tripSec = 2.05;
     const startedAt = performance.now();
 
     const { dispose, world, renderer } = runScene(container, {
       fov: 42,
       z: 7.0,
-      pointer: 0.16,
+      pointer: 0.1,
+      antialias: false,
+      maxDpr: 1.25,
+      tick: 0.008,
       onFrame: ({ t, target, world: w }) => {
-        w.rotation.y = target.x * 0.14;
-        w.rotation.x = target.y * 0.1;
+        w.rotation.y = target.x * 0.1;
+        w.rotation.x = target.y * 0.08;
 
         const elapsed = (performance.now() - startedAt) / 1000;
         const u = Math.min(1, Math.max(0, elapsed / tripSec));
         const ease = u * u * (3 - 2 * u);
 
-        /* Diagonal launch: bottom-left → upper-right */
         rocket.group.position.x = -4.2 + ease * 8.6;
         rocket.group.position.y = -2.4 + ease * 5.2;
         rocket.group.position.z = 0.3;
         rocket.group.rotation.z = -0.95 + ease * 0.35;
         rocket.group.rotation.x = 0.25;
-        rocket.tick(t * 1.6, 1.2 + ease);
+        rocket.tick(t * 1.4, 1.1 + ease);
 
         flyers.forEach((f) => {
-          const local = (elapsed * f.speed * 0.42 + f.phase) % 1.0;
+          const local = (elapsed * f.speed * 0.4 + f.phase) % 1.0;
           f.group.position.x = 5.0 - local * 10.2;
-          f.group.position.y = f.baseY + Math.sin(t * 1.1 + f.phase) * 0.16;
+          f.group.position.y = f.baseY + Math.sin(t * 1.0 + f.phase) * 0.14;
           f.group.position.z = f.baseZ;
           f.group.rotation.x = t * f.spin;
-          f.group.rotation.y = t * f.spin * 0.75;
+          f.group.rotation.y = t * f.spin * 0.7;
         });
 
-        if (extras.dust) extras.dust.rotation.y = t * 0.06;
-        if (extras.dust2) extras.dust2.rotation.y = -t * 0.045;
+        if (extras.dust) extras.dust.rotation.y = t * 0.05;
       },
     });
 
@@ -767,8 +818,7 @@ export function initIntroScene(container) {
       });
     });
 
-    extras.dust = makeParticles(world, 110, colors.primary, 6.4, 0.015, 0.26);
-    extras.dust2 = makeParticles(world, 50, colors.soft, 7.2, 0.011, 0.16);
+    extras.dust = makeParticles(world, 36, colors.primary, 6.0, 0.013, 0.22);
 
     return dispose;
   } catch {

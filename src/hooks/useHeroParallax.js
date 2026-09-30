@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 /**
- * Subtle hero depth — background shifts opposite cursor, foreground follows lightly.
+ * Subtle hero depth — only runs rAF while the cursor is moving / settling.
  */
 export function useHeroParallax(shellRef) {
   useEffect(() => {
@@ -26,22 +26,7 @@ export function useHeroParallax(shellRef) {
     let currentY = 0;
     let raf = 0;
 
-    const onMove = (e) => {
-      const rect = shell.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-      targetX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      targetY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    };
-
-    const onLeave = () => {
-      targetX = 0;
-      targetY = 0;
-    };
-
-    const tick = () => {
-      currentX += (targetX - currentX) * 0.07;
-      currentY += (targetY - currentY) * 0.07;
-
+    const apply = () => {
       const bgX = -currentX * 8;
       const bgY = -currentY * 6;
       const fgX = currentX * 4;
@@ -52,13 +37,45 @@ export function useHeroParallax(shellRef) {
       if (media) media.style.transform = `translate3d(${bgX}px, ${bgY}px, 0)`;
       if (content) content.style.transform = `translate3d(${fgX}px, ${fgY}px, 0)`;
       if (canvas) canvas.style.transform = `translate3d(${sceneX}px, ${sceneY}px, 0)`;
+    };
 
+    const tick = () => {
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
+      apply();
+
+      const settled =
+        Math.abs(targetX - currentX) < 0.002 && Math.abs(targetY - currentY) < 0.002;
+      if (settled) {
+        currentX = targetX;
+        currentY = targetY;
+        apply();
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(tick);
+    };
+
+    const kick = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+
+    const onMove = (e) => {
+      const rect = shell.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      targetX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      targetY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      kick();
+    };
+
+    const onLeave = () => {
+      targetX = 0;
+      targetY = 0;
+      kick();
     };
 
     shell.addEventListener("pointermove", onMove, { passive: true });
     shell.addEventListener("pointerleave", onLeave);
-    raf = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(raf);

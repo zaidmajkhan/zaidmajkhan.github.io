@@ -2,7 +2,6 @@ import { lazy, Suspense } from "react";
 import siteConfig from "../config/siteConfig.js";
 
 const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
-const RiveMark = lazy(() => import("./RiveMark.jsx"));
 
 const TAG_CLASS = {
   Shipped: "chip chip--shipped",
@@ -59,10 +58,6 @@ export default function Building() {
                   tone="forest"
                   compact
                   className="absolute inset-0 h-full w-full opacity-90"
-                />
-                <RiveMark
-                  src="/assets/vehicles.riv"
-                  className="absolute inset-0 h-full w-full opacity-28 mix-blend-screen"
                 />
               </Suspense>
             </div>

@@ -1,7 +1,3 @@
-import { lazy, Suspense } from "react";
-
-const SceneCanvas = lazy(() => import("./SceneCanvas.jsx"));
-
 const ITEMS = [
   {
     date: "Jul 2026 — Now",
@@ -44,17 +40,6 @@ const ITEMS = [
 export default function Experience() {
   return (
     <section id="experience" className="section band-forest scroll-mt-24 relative overflow-hidden">
-      <div
-        className="motif-bleed pointer-events-none absolute inset-y-0 right-0 hidden w-[min(32vw,22rem)] opacity-55 lg:block"
-        aria-hidden="true"
-      >
-        <div className="scene-mount absolute inset-0">
-          <Suspense fallback={null}>
-            <SceneCanvas variant="care" tone="forest" className="h-full w-full" />
-          </Suspense>
-        </div>
-      </div>
-
       <div className="wrap relative z-10">
         <div className="grid gap-5 md:grid-cols-[1.15fr_0.85fr] md:items-end">
           <div>
