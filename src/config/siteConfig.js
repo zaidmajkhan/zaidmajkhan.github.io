@@ -2,8 +2,8 @@
 const siteConfig = {
   url: "https://zaidmajkhan.github.io",
   plausibleDomain: "zaidmajkhan.github.io",
-  /** Place the PDF at public/assets/ with this exact filename before deploy. */
-  resumeUrl: "/assets/Zaid Khan - Main Resume.pdf",
+  /** File lives at public/assets/Zaid Khan - Main Resume.pdf */
+  resumeUrl: "/assets/Zaid%20Khan%20-%20Main%20Resume.pdf",
   resumeDownloadName: "Zaid Khan - Main Resume.pdf",
   contactEmail: "zaidmajkhan@gmail.com",
   /**
