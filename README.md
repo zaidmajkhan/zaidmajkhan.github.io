@@ -4,15 +4,16 @@ Personal portfolio for **Zaid Khan** — ISEN @ Texas A&M (4.0). Research labs, 
 
 **Live:** https://zaidmajkhan.github.io
 
+## Experience
+
+Interactive **Destiny Director–inspired** star map: destinations open portfolio panels (Origin, Labs, Systems, Triumph, Signal). Same idea as a themed world hub — navigate by selecting nodes, not scrolling a long page.
+
 ## Stack
 
 - React 19 + Vite 6 + Tailwind CSS v4
-- **Lenis** — smooth scroll
-- **GSAP + ScrollTrigger** — scroll / entrance animations
-- **Three.js** — hero 3D wireframe
-- **Rive** — vector motion (swap `.riv` files in `public/assets/`)
-- Syne + Space Grotesk typography
-- Neutral dark base + electric green accent
+- Canvas starfield + SVG orbital HUD
+- Oxanium + Rajdhani typography
+- Deep-space Director palette (cyan / violet accents)
 
 ## Develop
 
@@ -24,8 +25,4 @@ npm run build
 
 ## Config
 
-Edit [`src/config/siteConfig.js`](src/config/siteConfig.js).
-
-Replace Rive files:
-- `public/assets/motion.riv` — hero mark
-- `public/assets/vehicles.riv` — building section showcase
+Edit [`src/config/siteConfig.js`](src/config/siteConfig.js) and [`src/config/destinations.js`](src/config/destinations.js).
