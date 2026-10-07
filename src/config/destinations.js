@@ -58,7 +58,7 @@ export const DESTINATIONS = [
     label: "DOSSIER",
     subtitle: "Resume PDF",
     x: 50,
-    y: 78,
+    y: 72,
     size: "sm",
     accent: "steel",
     status: "PDF",
