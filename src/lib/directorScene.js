@@ -7,8 +7,8 @@ import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 const SIZE_R = { lg: 0.95, md: 0.58, sm: 0.42 };
 
 function pctToWorld(x, y, z = 0) {
-  // Match Destiny Destinations framing: wide map, planets mid-field
-  return new THREE.Vector3(((x - 50) / 50) * 10.5, -((y - 42) / 50) * 5.8 + 0.6, z);
+  // Destiny Destinations: planets float in the upper/mid starfield above Earth
+  return new THREE.Vector3(((x - 50) / 50) * 10.5, -((y - 42) / 50) * 5.2 + 2.4, z);
 }
 
 function makeRenderer(container) {
@@ -148,7 +148,7 @@ export function initDirectorScene(container, destinations, handlers = {}) {
 
   // —— Earth horizon (hero of Destiny Destinations) ——
   const earthGroup = new THREE.Group();
-  earthGroup.position.set(0, -14.8, -2);
+  earthGroup.position.set(0, -16.2, -1.5);
   const earthGeo = new THREE.SphereGeometry(16.5, 96, 64);
   const earthMat = new THREE.MeshStandardMaterial({
     color: 0x8899aa,
