@@ -1,30 +1,29 @@
-const SIZE = {
-  lg: "node--lg",
-  md: "node--md",
-  sm: "node--sm",
-};
+/**
+ * HTML label + hit assist over projected 3D planet positions.
+ * Visual orb is rendered in Three.js; this is the Destiny-style caption.
+ */
+export default function DestinationNode({ dest, selected, projected, onSelect, dimmed }) {
+  if (!projected?.visible) return null;
 
-export default function DestinationNode({ dest, selected, onSelect }) {
+  const hit = Math.max(52, (projected.r || 0.7) * 62);
   const style = {
-    left: `${dest.x}%`,
-    top: `${dest.y}%`,
+    left: `${projected.x}px`,
+    top: `${projected.y}px`,
+    "--hit": `${hit}px`,
   };
 
   return (
     <button
       type="button"
-      className={`dest-node ${SIZE[dest.size] || "node--md"} accent-${dest.accent} ${
+      className={`dest-node dest-node--label accent-${dest.accent} ${
         dest.featured ? "is-featured" : ""
-      } ${selected ? "is-selected" : ""}`}
+      } ${selected ? "is-selected" : ""} ${dimmed ? "is-dimmed" : ""}`}
       style={style}
       onClick={() => onSelect(dest)}
       aria-label={`${dest.label}: ${dest.subtitle}`}
       aria-pressed={selected}
     >
-      <span className="dest-node__ring" aria-hidden="true" />
-      <span className="dest-node__core" aria-hidden="true">
-        <span className="dest-node__orb" />
-      </span>
+      <span className="dest-node__hit" aria-hidden="true" />
       <span className="dest-node__meta">
         <span className="dest-node__label">{dest.label}</span>
         <span className="dest-node__sub">{dest.subtitle}</span>
