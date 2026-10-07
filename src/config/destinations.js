@@ -66,7 +66,7 @@ export const DESTINATIONS = [
     label: "DOSSIER",
     subtitle: "Resume PDF",
     x: 50,
-    y: 58,
+    y: 48,
     size: "sm",
     texture: "/assets/planets/steel.png",
     glow: "#c5d4e8",
