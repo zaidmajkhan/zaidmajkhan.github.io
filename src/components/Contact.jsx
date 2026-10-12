@@ -87,7 +87,7 @@ export default function Contact() {
               email: formEmail,
               inquiry_type: topic,
               message,
-              _subject: "New inquiry from zaidmajkhan.github.io",
+              _subject: "New inquiry from zaidmajkhan.dev",
               _captcha: "false",
             }),
           },

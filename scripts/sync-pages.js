@@ -29,4 +29,11 @@ for (const name of readdirSync(join(dist, "assets"))) {
 }
 
 cpSync(join(dist, "index.html"), join(root, "index.html"));
-console.log("Synced dist → root index.html + assets/ for GitHub Pages");
+for (const name of ["robots.txt", "sitemap.xml"]) {
+  try {
+    cpSync(join(dist, name), join(root, name));
+  } catch {
+    /* optional static files */
+  }
+}
+console.log("Synced dist → root index.html + assets/ (+ robots/sitemap) for GitHub Pages");
