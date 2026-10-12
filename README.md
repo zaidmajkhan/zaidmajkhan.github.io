@@ -2,7 +2,7 @@
 
 Personal portfolio for **Zaid Khan** — ISEN @ Texas A&M (4.0). Research labs, shipped Python agents, and pharmacy-floor systems work.
 
-**Live:** https://zaidmajkhan.github.io
+**Live:** https://zaidmajkhan.dev
 
 ## Stack
 

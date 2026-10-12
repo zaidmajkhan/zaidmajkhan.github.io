@@ -1,7 +1,7 @@
 /** Site-wide URLs and third-party IDs — update when connecting services. */
 const siteConfig = {
-  url: "https://zaidmajkhan.github.io",
-  plausibleDomain: "zaidmajkhan.github.io",
+  url: "https://zaidmajkhan.dev",
+  plausibleDomain: "zaidmajkhan.dev",
   /** File lives at public/assets/Zaid Khan - Main Resume.pdf */
   resumeUrl: "/assets/Zaid%20Khan%20-%20Main%20Resume.pdf",
   resumeDownloadName: "Zaid Khan - Main Resume.pdf",
