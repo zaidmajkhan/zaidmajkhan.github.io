@@ -24,7 +24,7 @@ const ITEMS = [
     body: "Write persona-grounded finance prompts that stress-test frontier models against synthetic financial workspace data. Build and score grading rubrics (Critical Elements, Failure Justifications, Golden Trajectory) for accuracy and reasoning quality.",
   },
   {
-    date: "2025 — Dec 2028",
+    date: "2025 — May 2029",
     type: "Education",
     title: "Texas A&M — B.S. Industrial & Systems Engineering",
     body: "4.0 GPA. Coursework includes CSCE 111, ISEN 210, STAT 211, Java. Sole winner of the TAMU Engineering Academies Resume Challenge across 13 Academy campuses.",

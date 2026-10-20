@@ -29,18 +29,6 @@ const CREDS = [
     badge: "Active",
     desc: "Frontier model evaluation: finance prompts and grading rubrics.",
   },
-  {
-    year: "2023–25",
-    title: "Wharton Global Investment Competition",
-    badge: "Top 6%",
-    desc: "Investment Club · Founders Classical Academy · ~4,000 teams.",
-  },
-  {
-    year: "2024–25",
-    title: "Senior Thesis — The Rise and Fall of Empires",
-    badge: "Published",
-    desc: "40-page interdisciplinary analysis of systemic collapse.",
-  },
 ];
 
 export default function Credentials() {
@@ -57,7 +45,7 @@ export default function Credentials() {
             {[
               { val: "4.0", label: "GPA", count: "4", decimals: "1" },
               { val: "47%", label: "Wait ↓ CVS", count: "47", suffix: "%" },
-              { val: "Top 6%", label: "Wharton", count: null },
+              { val: "Winner", label: "Resume Ch.", count: null },
               { val: "CPhT", label: "Licensed", count: null },
             ].map((s, i) => (
               <div

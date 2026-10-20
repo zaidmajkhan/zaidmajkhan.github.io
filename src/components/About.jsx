@@ -1,5 +1,5 @@
 const CURRENTLY = [
-  ["Studying", "ISEN @ Texas A&M", "4.0 GPA · Dec 2028"],
+  ["Studying", "ISEN @ Texas A&M", "4.0 GPA · May 2029"],
   [
     "Researching",
     "ACE Lab + HFCS Lab",
@@ -44,7 +44,8 @@ export default function About() {
               I grew up watching my family navigate a healthcare system that felt designed to lose
               people in the cracks. An engineer looks at that and sees fixable problems — and the
               toolkit is software as much as operations: Python agents, human-centered research,
-              and pharmacy-floor process design.
+              and pharmacy-floor process design. Long term, I want to build technology that helps
+              people with disabilities live more independently.
             </p>
           </div>
 
