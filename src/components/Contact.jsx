@@ -135,7 +135,7 @@ export default function Contact() {
                 <span className="text-green">and what&apos;s next.</span>
               </h2>
               <p className="reveal body mt-4 max-w-md text-cream/70">
-                Open to Summer & Fall 2026 — software engineering, applied AI, and ISE roles.
+                Summer 2027 — applied AI + operations, with SWE and ISE roles.
                 Recruiters — LinkedIn is fastest. Weekday replies within 24h.
               </p>
 

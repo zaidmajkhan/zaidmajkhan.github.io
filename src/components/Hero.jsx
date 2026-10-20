@@ -35,7 +35,7 @@ export default function Hero() {
         <div className="hero-shell-content flex min-h-[min(32rem,calc(100dvh-6rem))] flex-col justify-between p-5 sm:p-7 md:min-h-[min(34rem,calc(100dvh-5.5rem))] md:p-9 lg:min-h-[min(36rem,calc(100dvh-5.25rem))] lg:p-11">
           <div className="relative z-10 flex shrink-0 items-start justify-between gap-4">
             <p className="hero-eyebrow eyebrow text-lime">
-              Open to SWE · applied AI · ISE · Summer & Fall 2026
+              Applied AI + Operations · SWE · ISE · Summer 2027
             </p>
           </div>
 
