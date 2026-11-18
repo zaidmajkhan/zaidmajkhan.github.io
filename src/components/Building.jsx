@@ -42,9 +42,10 @@ export default function Building() {
         <div className="surface mx-auto overflow-hidden p-5 md:p-8 lg:p-10">
           <div className="grid items-end gap-6 lg:grid-cols-[1.15fr_0.85fr]">
             <div>
-              <p className="eyebrow reveal text-green">03 — Building</p>
-              <h2 className="pin-title display-lg mt-3 text-forest">
-                Projects, labs, pharmacy floor.
+              <p className="eyebrow reveal text-green">• Building</p>
+              <h2 className="pin-title elevate-display-lg mt-3 text-forest">
+                Projects, labs,{" "}
+                <em className="elevate-italic text-green">pharmacy floor.</em>
               </h2>
               <p className="body reveal mt-4 max-w-lg text-mute">
                 A shipped Python agent, human-centered lab research, and process work under real

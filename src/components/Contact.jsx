@@ -128,11 +128,11 @@ export default function Contact() {
         <div className="surface band-forest relative overflow-hidden p-6 sm:p-8 lg:p-10">
           <div className="relative z-10 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:items-start">
             <aside>
-              <p className="eyebrow reveal text-lime">06 — Contact</p>
-              <h2 className="pin-title display-lg mt-3 text-cream">
+              <p className="eyebrow reveal text-lime">• Contact</p>
+              <h2 className="pin-title elevate-display-lg mt-3 text-cream">
                 Let&apos;s talk internships
                 <br />
-                <span className="text-green">and what&apos;s next.</span>
+                <em className="elevate-italic text-lime">and what&apos;s next.</em>
               </h2>
               <p className="reveal body mt-4 max-w-md text-cream/70">
                 Summer 2027 — applied AI + operations, with SWE and ISE roles.

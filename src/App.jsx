@@ -8,6 +8,7 @@ import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
 import Hero from "./components/Hero.jsx";
 import IntroOverlay from "./components/IntroOverlay.jsx";
+import Marquee from "./components/Marquee.jsx";
 import MobileNav from "./components/MobileNav.jsx";
 import PlanetBackdrop from "./components/PlanetBackdrop.jsx";
 import Projects from "./components/Projects.jsx";
@@ -98,6 +99,7 @@ export default function App() {
       <MobileNav mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <main id="main-content">
         <Hero />
+        <Marquee />
         <About />
         <Experience />
         <Building />

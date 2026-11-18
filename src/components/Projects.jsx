@@ -58,8 +58,10 @@ export default function Projects() {
       <div className="wrap relative z-10">
         <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow reveal text-green">04 — Work</p>
-            <h2 className="pin-title display-lg mt-3 text-forest">Selected index</h2>
+            <p className="eyebrow reveal text-green">• Work</p>
+            <h2 className="pin-title elevate-display-lg mt-3 text-forest">
+              Selected <em className="elevate-italic text-green">index.</em>
+            </h2>
           </div>
           <p className="reveal body max-w-sm text-mute md:text-right">
             Shipped agent, lab research, pharmacy process redesign.

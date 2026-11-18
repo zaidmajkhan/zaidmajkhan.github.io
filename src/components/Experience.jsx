@@ -43,9 +43,10 @@ export default function Experience() {
       <div className="wrap relative z-10">
         <div className="grid gap-5 md:grid-cols-[1.15fr_0.85fr] md:items-end">
           <div>
-            <p className="eyebrow reveal text-lime">02 — Experience</p>
-            <h2 className="pin-title display-lg mt-3 text-cream">
-              Research labs, pharmacy floors, shipped software.
+            <p className="eyebrow reveal text-lime">• Experience</p>
+            <h2 className="pin-title elevate-display-lg mt-3 text-cream">
+              Research labs. Pharmacy floors.{" "}
+              <em className="elevate-italic text-lime">Shipped software.</em>
             </h2>
           </div>
           <p className="reveal body max-w-md text-cream/65 md:justify-self-end md:text-right">
