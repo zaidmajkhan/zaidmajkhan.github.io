@@ -13,28 +13,34 @@ export default function Header({ mobileOpen, setMobileOpen }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-5 md:pt-4">
-      <div
-        className={`wrap flex items-center justify-between rounded-2xl px-3 py-2 transition-[background,box-shadow,border-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:px-4 ${
-          scrolled
-            ? "border border-forest/10 bg-cream/95 shadow-[0_10px_36px_rgba(0,40,0,0.08)] backdrop-blur-xl"
-            : "border border-transparent bg-transparent shadow-none"
-        }`}
-      >
-        <a href="#hero" className="font-display text-[1.7rem] leading-none tracking-[-0.02em] text-forest">
-          ZK
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-[background,box-shadow,border-color] duration-400 ${
+        scrolled
+          ? "border-b border-forest/10 bg-cream/95 shadow-[0_8px_28px_rgba(0,40,0,0.06)] backdrop-blur-xl"
+          : "border-b border-transparent bg-cream/80 backdrop-blur-md"
+      }`}
+    >
+      <div className="wrap flex h-[3.6rem] items-center justify-between md:h-[4.1rem]">
+        <a href="#hero" className="elevate-wordmark text-forest">
+          <span className="elevate-wordmark-mark" aria-hidden="true">
+            ZK
+          </span>
+          <span className="elevate-wordmark-text">
+            Zaid Khan
+            <small>Applied AI + Operations</small>
+          </span>
         </a>
 
-        <nav className="nav-pill" aria-label="Primary">
+        <nav className="nav-elevate" aria-label="Primary">
           {NAV.map((item) => (
-            <a key={item.href} href={item.href} data-nav className="nav-link">
+            <a key={item.href} href={item.href} data-nav className="nav-elevate-link">
               {item.label}
             </a>
           ))}
@@ -49,8 +55,8 @@ export default function Header({ mobileOpen, setMobileOpen }) {
           >
             Resume
           </a>
-          <a href="#contact" className="btn btn-green track-cta" data-track="Contact Header">
-            Contact
+          <a href="#contact" className="btn btn-ink track-cta" data-track="Contact Header">
+            Contact →
           </a>
         </div>
 

@@ -7,13 +7,13 @@ export default function Footer() {
       <div className="wrap py-8 md:py-9">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow text-green">Next</p>
+            <p className="eyebrow text-green">• Next</p>
             <a
               href="#contact"
-              className="mt-2 block font-display text-[clamp(1.85rem,4vw,2.75rem)] leading-[1.15] tracking-[-0.025em] text-forest track-cta"
+              className="elevate-display-lg mt-2 block text-forest track-cta"
               data-track="Footer CTA"
             >
-              Let&apos;s work <span className="text-green">together ↗</span>
+              Let&apos;s work <em className="elevate-italic text-green">together.</em>
             </a>
           </div>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold text-forest">

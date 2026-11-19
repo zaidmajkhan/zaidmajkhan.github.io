@@ -36,8 +36,10 @@ export default function Credentials() {
     <section id="credentials" className="section section-quiet scroll-mt-24 relative overflow-hidden">
       <div className="wrap relative z-10">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow reveal text-green">05 — Proof</p>
-          <h2 className="pin-title display-lg mt-3 text-forest">Proof, not posture.</h2>
+          <p className="eyebrow reveal text-green">• Proof</p>
+          <h2 className="pin-title elevate-display-lg mt-3 text-forest">
+            Proof, not <em className="elevate-italic text-green">posture.</em>
+          </h2>
         </div>
 
         <div className="surface depth-card mx-auto mt-8 max-w-4xl overflow-hidden">
