@@ -18,9 +18,9 @@
   --color-green-lit: #c8d86a;
   --color-lime: #c8d86a;
   --color-void: #f3efe6;
-  --font-display: "Plus Jakarta Sans", "Figtree", ui-sans-serif, system-ui, sans-serif;
-  --font-accent: "Newsreader", "Instrument Serif", Georgia, serif;
-  --font-sans: "Figtree", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Times New Roman", Times, "Tinos", Georgia, serif;
+  --font-accent: "Times New Roman", Times, "Tinos", Georgia, serif;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
   --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-hover: cubic-bezier(0.65, 0, 0.35, 1);
   --duration-major: 0.5s;
@@ -83,56 +83,55 @@
   .elevate-display {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.045em;
-    line-height: 0.95;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
     text-transform: none;
-    font-size: clamp(3.4rem, 9.5vw, 6.25rem);
+    font-size: clamp(3.5rem, 10vw, 6.5rem);
   }
 
   .display-lg,
   .elevate-display-lg {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
+    letter-spacing: -0.015em;
+    line-height: 1.12;
     text-transform: none;
-    font-size: clamp(2rem, 4.8vw, 3.35rem);
+    font-size: clamp(2.1rem, 5vw, 3.5rem);
   }
 
   .elevate-display-sm {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
     text-transform: none;
-    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    font-size: clamp(1.25rem, 2.1vw, 1.65rem);
   }
 
   .elevate-italic {
     font-family: var(--font-accent);
     font-style: italic;
-    font-weight: 500;
+    font-weight: 400;
     text-transform: none;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.015em;
   }
   .elevate-display .elevate-italic {
     display: inline-block;
-    font-size: 0.92em;
+    font-size: 0.96em;
     line-height: 1;
-    letter-spacing: -0.03em;
   }
   .elevate-display-lg .elevate-italic {
-    font-size: 0.92em;
+    font-size: 0.96em;
     line-height: 1;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   .elevate-stat {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(1.65rem, 3.2vw, 2.2rem);
+    font-size: clamp(1.75rem, 3.4vw, 2.35rem);
     line-height: 1;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
 
   /* Soft Lesse-style lines — never clip glyphs */
@@ -438,14 +437,14 @@
     display: none;
     flex-direction: column;
     font-family: var(--font-display);
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     font-weight: 700;
     line-height: 1.05;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.015em;
     text-transform: none;
   }
   .elevate-wordmark-text small {
-    margin-top: 0.15rem;
+    margin-top: 0.2rem;
     font-family: var(--font-sans);
     font-size: 0.58rem;
     font-weight: 700;
@@ -551,58 +550,125 @@
     transition: transform 0.12s linear;
   }
 
-  /* —— Saturn logo — big, floats around while tracking scroll —— */
-  .planet-backdrop {
+  /* —— Mountain atmosphere (engineering-firm photography) —— */
+  .mountain-backdrop {
     position: fixed;
-    top: 0;
-    right: 0;
-    width: min(56vw, 34rem);
-    height: min(39vw, 24rem);
-    z-index: 1;
+    inset: 0;
+    z-index: 0;
     pointer-events: none;
     opacity: 0;
-    color: var(--color-forest);
-    transform: translate3d(var(--planet-x, 0px), var(--planet-y, 8vh), 0)
-      scale(var(--planet-scale, 1));
-    will-change: transform;
-    transition: opacity 0.8s var(--ease-enter);
-    /* Soft fade at edges so the roaming mark doesn't clip hard */
-    mask-image: radial-gradient(ellipse 72% 68% at 58% 48%, #000 42%, transparent 90%);
-    -webkit-mask-image: radial-gradient(ellipse 72% 68% at 58% 48%, #000 42%, transparent 90%);
+    transition: opacity 0.9s var(--ease-enter);
+    overflow: hidden;
   }
-  .planet-backdrop.is-on {
-    opacity: 0.3;
+  .mountain-backdrop.is-on {
+    opacity: 1;
   }
-  .planet-logo {
+  .mountain-backdrop-img {
+    position: absolute;
+    inset: -4% 0 auto;
+    width: 100%;
+    height: 58vh;
+    object-fit: cover;
+    object-position: center 45%;
+    opacity: 0.22;
+    filter: saturate(0.75) contrast(1.05);
+    transform: scale(1.04);
+  }
+  .mountain-backdrop-wash {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(243, 239, 230, 0.55) 0%, rgba(243, 239, 230, 0.92) 42%, var(--color-cream) 68%),
+      radial-gradient(ellipse 70% 40% at 80% 18%, rgba(200, 216, 106, 0.12), transparent 60%);
+  }
+  @media (max-width: 900px) {
+    .mountain-backdrop-img {
+      height: 42vh;
+      opacity: 0.18;
+    }
+  }
+
+  .field-notes-grid {
+    display: grid;
+    gap: 0.85rem;
+  }
+  @media (min-width: 860px) {
+    .field-notes-grid {
+      grid-template-columns: 1.15fr 0.95fr 0.95fr;
+      gap: 1rem;
+    }
+  }
+  .field-note {
+    margin: 0;
+  }
+  .field-note-media {
+    overflow: hidden;
+    border-radius: 1rem;
+    background: var(--color-forest);
+    aspect-ratio: 4 / 3;
+  }
+  .field-note:first-child .field-note-media {
+    aspect-ratio: 5 / 4;
+  }
+  @media (min-width: 860px) {
+    .field-note:first-child .field-note-media {
+      aspect-ratio: 4 / 5;
+      min-height: 100%;
+    }
+  }
+  .field-note-media img {
     display: block;
     width: 100%;
     height: 100%;
-    animation: planet-spin 36s linear infinite;
-    filter: drop-shadow(0 12px 28px rgba(0, 40, 0, 0.12));
+    object-fit: cover;
+    transition: transform 0.7s var(--ease-enter);
   }
-  @keyframes planet-spin {
-    to {
-      transform: rotate(360deg);
-    }
+  .field-note:hover .field-note-media img {
+    transform: scale(1.03);
   }
-  @media (max-width: 900px) {
-    .planet-backdrop {
-      right: -8vw;
-      width: min(62vw, 18rem);
-      height: min(44vw, 12.5rem);
-      z-index: 0;
-    }
-    .planet-backdrop.is-on {
-      opacity: 0.16;
-    }
-    .motif-bleed {
-      display: none !important;
-    }
+  .field-note figcaption {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.65rem;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .planet-logo {
-      animation: none;
-      filter: drop-shadow(0 12px 28px rgba(0, 40, 0, 0.12));
+  .field-note-caption {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--color-forest);
+  }
+
+  .horizon-band {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.15rem;
+    min-height: 12rem;
+  }
+  .horizon-band img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+  }
+  .horizon-band-copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 12rem;
+    padding: 1.25rem 1.35rem;
+    color: var(--color-cream);
+    background: linear-gradient(180deg, transparent 10%, rgba(12, 22, 18, 0.72) 100%);
+  }
+  @media (min-width: 768px) {
+    .horizon-band,
+    .horizon-band-copy {
+      min-height: 14rem;
     }
   }
 
@@ -647,9 +713,20 @@
     font-weight: 700;
     font-size: clamp(3.5rem, 12vw, 7.5rem);
     line-height: 1;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.02em;
     opacity: 0;
     animation: intro-mark-in 0.5s var(--ease-enter) 0.06s forwards;
+  }
+  /* Keep page content above mountain atmosphere */
+  header,
+  main,
+  footer,
+  .intro-overlay {
+    position: relative;
+    z-index: 2;
+  }
+  header {
+    z-index: 50;
   }
   .intro-chips {
     position: absolute;

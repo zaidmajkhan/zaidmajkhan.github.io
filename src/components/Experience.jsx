@@ -41,6 +41,22 @@ export default function Experience() {
   return (
     <section id="experience" className="section band-forest scroll-mt-24 relative overflow-hidden">
       <div className="wrap relative z-10">
+        <div className="horizon-band reveal mb-7">
+          <img
+            src="/assets/engineer-mountains.jpg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="horizon-band-copy">
+            <p className="eyebrow text-lime">• Horizon</p>
+            <p className="elevate-display-sm mt-2 max-w-xl text-cream">
+              Map the system. Then move the mountain.
+            </p>
+          </div>
+        </div>
+
         <div className="grid gap-5 md:grid-cols-[1.15fr_0.85fr] md:items-end">
           <div>
             <p className="eyebrow reveal text-lime">• Experience</p>
