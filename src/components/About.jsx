@@ -52,14 +52,14 @@ export default function About() {
   return (
     <section id="about" className="section section-quiet scroll-mt-24 relative overflow-hidden">
       <div className="wrap relative z-10">
-        <div className="grid items-end gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
+        <div className="grid items-end gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
             <p className="eyebrow reveal text-green">• About the builder</p>
-            <h2 className="pin-title elevate-display-lg mt-4 text-forest">
+            <h2 className="pin-title elevate-display-lg mt-3 text-forest">
               Systems that lose people.{" "}
               <em className="elevate-italic text-green">Deserve better.</em>
             </h2>
-            <p className="body reveal mt-5 text-mute">
+            <p className="body reveal mt-4 text-mute">
               I grew up watching my family navigate a healthcare system that felt designed to lose
               people in the cracks. An engineer looks at that and sees fixable problems — and the
               toolkit is software as much as operations: Python agents, human-centered research,
@@ -68,18 +68,18 @@ export default function About() {
             </p>
             <a
               href="#experience"
-              className="btn btn-green mt-6 track-cta"
+              className="btn btn-green mt-5 track-cta"
               data-track="About to Experience"
             >
               Meet the work →
             </a>
           </div>
 
-          <figure className="reveal relative mx-auto w-full max-w-md overflow-hidden rounded-[1.25rem] lg:mx-0 lg:max-w-none">
+          <figure className="reveal relative mx-auto w-full max-w-md overflow-hidden rounded-[1.1rem] lg:mx-0 lg:max-w-none">
             <img
               src="/assets/og-image.jpg"
               alt="Workspace flat-lay — laptop, notebook, and forest-green desk setup"
-              className="about-still block h-56 w-full object-cover object-[center_35%] sm:h-64 lg:h-72"
+              className="about-still block h-52 w-full object-cover object-[center_35%] sm:h-56 lg:h-64"
               loading="lazy"
               decoding="async"
             />
@@ -89,21 +89,21 @@ export default function About() {
           </figure>
         </div>
 
-        <div className="stagger-children mt-12 grid gap-6 border-y border-forest/12 py-8 md:grid-cols-3 md:gap-0">
+        <div className="stagger-children mt-8 grid gap-5 border-y border-forest/12 py-6 md:grid-cols-3 md:gap-0">
           {PILLARS.map((p, i) => (
             <article
               key={p.num}
-              className={`md:px-6 ${i > 0 ? "md:border-l md:border-forest/12" : ""} ${i === 0 ? "md:pl-0" : ""} ${i === 2 ? "md:pr-0" : ""}`}
+              className={`md:px-5 ${i > 0 ? "md:border-l md:border-forest/12" : ""} ${i === 0 ? "md:pl-0" : ""} ${i === 2 ? "md:pr-0" : ""}`}
             >
               <p className="text-[0.68rem] font-extrabold tracking-[0.16em] text-green uppercase">
                 {p.num} / {p.title}
               </p>
-              <p className="mt-3 text-sm leading-relaxed text-mute">{p.body}</p>
+              <p className="mt-2 text-sm leading-relaxed text-mute">{p.body}</p>
             </article>
           ))}
         </div>
 
-        <div className="mx-auto mt-10 flex max-w-2xl items-center gap-3 text-green lg:mx-0 lg:max-w-none">
+        <div className="mx-auto mt-8 flex max-w-2xl items-center gap-3 text-green lg:mx-0 lg:max-w-none">
           <span className="rule-grow h-px flex-1 origin-left bg-green/30" />
           <span className="text-[0.65rem] font-extrabold tracking-[0.16em] uppercase">Currently</span>
           <span className="rule-grow h-px flex-1 origin-left bg-green/30" />
